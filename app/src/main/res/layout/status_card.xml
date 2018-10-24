@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:elevation="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="5dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/status"
+            >
+        <TextView
+            android:id="@+id/status_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hospital Name :"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center_vertical|left"
+            />
+        <TextView
+            android:layout_toRightOf="@+id/status_lable"
+            android:id="@+id/hospital_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hospital Name1"
+            android:gravity="center_vertical|left"
+            />
+        </RelativeLayout>
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content"
+            android:text="Pending"
+            />
+
+
+    </RelativeLayout>
+<View
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    android:background="@color/line"
+    />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        >
+        <RelativeLayout
+            android:id="@+id/side_lay"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/coupn_lay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Coupon Code"
+                   android:textColor="@color/colorPrimaryDark"
+                   />
+                <TextView
+                    android:id="@+id/coupn_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                      android:text="No Code "
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/action_lay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+               <TextView
+                   android:layout_margin="5dp"
+                   android:paddingLeft="10dp"
+                   android:paddingRight="10dp"
+                   android:paddingBottom="5dp"
+                   android:paddingTop="5dp"
+                   android:id="@+id/accept"
+                   android:textStyle="bold"
+                   android:textColor="@android:color/white"
+                   android:gravity="center"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/accept_btn_bg"
+                   android:text="Accept"
+                   />
+                <TextView
+                    android:layout_margin="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:id="@+id/reject"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Reject"
+                    android:background="@drawable/reject_btn_bg"
+                    />
+
+
+                </LinearLayout>
+
+        </RelativeLayout>
+<RelativeLayout
+    android:layout_toLeftOf="@+id/side_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|left"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/time"
+                android:layout_margin="2dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Slot Time:"
+                android:textStyle="bold"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+            <TextView
+                android:id="@+id/time_slot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10:30 pm"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|left"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/doc"
+                android:layout_margin="2dp"
+
+                />
+            <TextView
+                android:id="@+id/dept_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Department Name"
+                android:paddingLeft="2dp"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|left"
+            >
+            <ImageView
+                android:layout_gravity="left|top"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="2dp"
+                />
+            <TextView
+                android:layout_gravity="top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="Specialist :"
+                />
+            <TextView
+                android:layout_gravity="top"
+                android:id="@+id/spl_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="specialist name"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|left"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/address"
+                android:layout_margin="2dp"
+                android:layout_gravity="left|top"
+                />
+            <TextView
+                android:layout_gravity="top"
+                android:id="@+id/address"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>
+</android.support.v7.widget.CardView>

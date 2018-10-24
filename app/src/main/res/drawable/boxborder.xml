@@ -1,0 +1,30 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+
+            <item android:bottom="0dp" android:left="0dp">
+                <shape>
+
+                    <!-- View background color -->
+                    <solid
+                        android:color="@color/colorPrimary" >
+                    </solid>
+
+                    <!-- View border color and width -->
+                    <stroke
+                        android:width="2dp"
+                        android:color="@color/colorWhite" >
+                    </stroke>
+
+                    <!-- The radius makes the corners rounded -->
+                    <corners
+                        android:radius="6dp"   >
+                    </corners>
+
+
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+</selector>

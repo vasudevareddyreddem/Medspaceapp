@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Home" />
+    </group>
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/op_app"
+            android:icon="@drawable/appointment_toogle"
+            android:title="Op Appointment" />
+    </group>
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/lab_app"
+            android:icon="@drawable/lab"
+            android:title="Lab Appointment" />
+    </group>
+    <group
+        android:id="@+id/group4"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/pharmacy"
+            android:icon="@drawable/pharama"
+            android:title="Pharmacy" />
+    </group>
+
+    <group
+        android:id="@+id/group8"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/healthcard"
+            android:icon="@drawable/cardnew"
+            android:title="Get a Health Card" />
+    </group>
+    <group
+        android:id="@+id/group5"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/status"
+            android:icon="@drawable/status"
+            android:title="Status" />
+    </group>
+
+    <group
+        android:id="@+id/group9"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/healthreport"
+            android:icon="@drawable/reportnew"
+            android:title="My health reports" />
+    </group>
+    <group
+        android:id="@+id/group6"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/history"
+            android:icon="@drawable/histroy"
+            android:title="History" />
+    </group>
+    <group
+        android:id="@+id/group7"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/signout"
+            android:icon="@drawable/signout"
+            android:title="Signout" />
+    </group>
+    <group
+        android:id="@+id/group_"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/empty"
+            android:title="@null" />
+    </group>
+
+</menu>

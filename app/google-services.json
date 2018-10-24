@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "444517026627",
+    "firebase_url": "https://hospital-appointment-5ff43.firebaseio.com",
+    "project_id": "hospital-appointment-5ff43",
+    "storage_bucket": "hospital-appointment-5ff43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444517026627:android:3aca1732b2c39520",
+        "android_client_info": {
+          "package_name": "com.medspaceit.appointment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444517026627-dj8nhe1qlu49qbdaiertsulh6led0vrb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbxQ1-YfbUkwHy8LpznhCQZdGyFxBN5Y4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
