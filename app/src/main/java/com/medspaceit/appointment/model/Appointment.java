@@ -12,16 +12,21 @@ public class Appointment {
         @SerializedName("city")
         @Expose
         private String city;
-        @SerializedName("department_name")
+        @SerializedName("hos_id")
+        @Expose
+        private String hospital;
+        @SerializedName("department_id")
         @Expose
         private String departmentName;
-        @SerializedName("specialist_name")
+        @SerializedName("specialist_id")
         @Expose
         private String specialistName;
-        @SerializedName("hos_ids")
+
+        @SerializedName("doctor_id")
         @Expose
-        private String hosIds;
-        @SerializedName("patient_age")
+        private String doctor_id;
+
+        @SerializedName("age")
         @Expose
         private String patientAge;
         @SerializedName("date")
@@ -30,6 +35,10 @@ public class Appointment {
         @SerializedName("time")
         @Expose
         private String time;
+
+        @SerializedName("name")
+        @Expose
+        private String name;
 
         public String getAUId() {
         return aUId;
@@ -63,13 +72,7 @@ public class Appointment {
         this.specialistName = specialistName;
     }
 
-        public String getHosIds() {
-        return hosIds;
-    }
 
-        public void setHosIds(String hosIds) {
-        this.hosIds = hosIds;
-    }
 
         public String getPatientAge() {
         return patientAge;
@@ -94,20 +97,21 @@ public class Appointment {
         public void setTime(String time) {
         this.time = time;
     }
-       public void addHos(List<Hospital> hospital){
-        StringBuilder builder=new StringBuilder();
-        for (Hospital hosid:hospital
-             ) {
-            if (builder.length()==0){
-                builder.append(hosid.getId());
-            }else {
-                builder.append(",");
-                builder.append(hosid.getId());
-            }
 
-        }
 
-    hosIds=builder.toString();
+    public String getHospital() {
+        return hospital;
     }
 
+    public void setHospital(String hospital) {
+        this.hospital = hospital;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDoctorName(String doctor_id) {
+        this.doctor_id = doctor_id;
+    }
 }

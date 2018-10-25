@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.medspaceit.appointment.model.Appointment;
 import com.medspaceit.appointment.model.CityList;
 import com.medspaceit.appointment.model.DepartmentList;
+import com.medspaceit.appointment.model.Doctorlists;
 import com.medspaceit.appointment.model.HospitalList;
 import com.medspaceit.appointment.model.Login;
 import com.medspaceit.appointment.model.LoginResult;
@@ -67,13 +68,15 @@ public interface MyService {
     Call<DepartmentList> getDepts(@Body JsonObject s, @Header("content-type") String contenttype);
     @POST(ApiUrl.splist)
     Call<Specialists> getSpecialists(@Body JsonObject s, @Header("content-type") String contenttype);
+    @POST(ApiUrl.doctorlist)
+    Call<Doctorlists> getDocterlists(@Body JsonObject s, @Header("content-type") String contenttype);
     @POST(ApiUrl.hoslist)
     Call<HospitalList> getHospitals(@Body JsonObject s, @Header("content-type") String contenttype);
     @POST(ApiUrl.appointment)
     Call<RegResult> addAppointments(@Body Appointment appointment, @Header("content-type") String contenttype);
     @POST(ApiUrl.profileUpdate)
     Call<RegResult> updateProfile(@Body Profile profile, @Header("content-type") String contenttype);
-    @POST(ApiUrl.appList)
+    @POST(ApiUrl.statuslist)
     Call<StatusData> appList(@Body JsonObject uid, @Header("content-type") String contenttype);
     @POST(ApiUrl.history)
     Call<StatusData> appHistoryList(@Body JsonObject uid, @Header("content-type") String contenttype);

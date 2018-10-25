@@ -12,8 +12,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.medspaceit.appointment.R;
@@ -24,6 +26,8 @@ import com.medspaceit.appointment.model.City;
 import com.medspaceit.appointment.model.CityList;
 import com.medspaceit.appointment.model.Department;
 import com.medspaceit.appointment.model.DepartmentList;
+import com.medspaceit.appointment.model.Doctorlist;
+import com.medspaceit.appointment.model.Doctorlists;
 import com.medspaceit.appointment.model.Formatter;
 import com.medspaceit.appointment.model.Hospital;
 import com.medspaceit.appointment.model.HospitalList;
@@ -53,6 +57,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
     @BindView(R.id.age)
     EditText edt_age;
 
+    @BindView(R.id.name)
+    EditText edt_name;
+
 
     @BindView(R.id.back)
     ImageView back;
@@ -69,23 +76,26 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
     @BindView(R.id.hos_txt)
     TextView hos_txt;
 
+    @BindView(R.id.doctor_txt)
+    TextView doctor_txt;
+
     @BindView(R.id.time_txt)
     TextView time_txt;
 
-    @BindView(R.id.selected_tag_view)
-    RecyclerView recyclerView_tags;
+
 
     @BindView(R.id.hos_lay)
-    RelativeLayout layout;
+    LinearLayout layout;
 
     @BindView(R.id.btn_add_op)
     Button addOp;
     List<City> cities=null;
     List<Department> departments=null;
     List<Specialist> specialists=null;
+    List<Doctorlist> doctorlists=null;
     List<Hospital> hospitals=null;
     List<TimeSlot> timeSlots=null;
-    String city,dept,spl,time;
+    String city,dept,spl,doct,time,hospital,hos_id,dept_id,spl_id,doct_id;
     TagsAdapter tagsAdapter;
 
     @Override
@@ -103,12 +113,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
           MessageToast.showToastMethod(this,"No Internet");
 
           setTimeSlots();
-        recyclerView_tags.setLayoutManager(
-                new StaggeredGridLayoutManager(2,
-                        StaggeredGridLayoutManager.VERTICAL));
-        tagsAdapter=new TagsAdapter(out);
-           tagsAdapter.setOnRemoveListener(this);
-        recyclerView_tags.setAdapter(tagsAdapter);
+
 
 
     }
@@ -142,30 +147,54 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             case 1:
                 city=cities.get(position).getValue();
                 city_txt.setText(city);
-                FetchDepatments(city);
+                FetchHospitals(city);
                 dept=null;
                 dept_txt.setText("Select Department");
                 spl=null;
                 spl_txt.setText("Select Specialties");
                 specialists=null;
                 hospitals=null;
+                doctorlists=null;
                 hos_txt.setText("Select Hospitals");
                 break;
             case 2:
-                dept=departments.get(position).getValue();
-                dept_txt.setText(dept);
-                FetchSpecialists(dept,city);
+                hospital=hospitals.get(position).getValue();
+                hos_id=hospitals.get(position).getId();
+                hos_txt.setText(hospital);
+                FetchDepatments(hos_id);
                 spl=null;
                 spl_txt.setText("Select Specialties");
-                hospitals=null;
-                hos_txt.setText("Select Hospitals");
+                dept=null;
+                dept_txt.setText("Select Department");
+                doct=null;
+                doctor_txt.setText("Select Doctors");
                 break;
             case 3:
-                spl=specialists.get(position).getValue();
-                spl_txt.setText(spl);
-                FetchHospitals(spl,city);
-                hos_txt.setText("Select Hospitals");
+                dept=departments.get(position).getValue();
+                dept_txt.setText(dept);
+                hos_id=hospitals.get(position).getId();
+                dept_id=departments.get(position).getDepartment_id();
+                FetchSpecialists(hos_id,dept_id);
+                spl=null;
+                spl_txt.setText("Select Specialties");
+                doct=null;
+                doctor_txt.setText("Select Doctors");
+
                 break;
+            case 4:
+                spl=specialists.get(position).getValue();
+                spl_id=specialists.get(position).getSpecialist_id();
+                spl_txt.setText(spl);
+                hos_id=hospitals.get(position).getId();
+                FetchDoctors(hos_id,spl_id);
+                doct=null;
+                doctor_txt.setText("Select Doctors");
+
+                break;
+            case 5:
+                doct=doctorlists.get(position).getValue();
+                doct_id=doctorlists.get(position).getDoctor_id();
+                doctor_txt.setText(doct);
             case 0:
                 time=timeSlots.get(position).getValue();
                 time_txt.setText(time);
@@ -174,9 +203,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
         }
 
     }
-    private void FetchHospitals(String specialist,String  city) {
+    private void FetchHospitals(String  city) {
         JsonObject object=new JsonObject();
-        object.addProperty("specialist_name",specialist);
+
         object.addProperty("city",city);
         Call<HospitalList> call= service.getHospitals(object, ApiUrl.content_type);
         showDialog();
@@ -197,6 +226,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                     if(detps.getStatus()==1)
                     {
                         hospitals=detps.getHospital();
+
                     }else {
                         hos_txt.setText("No Hospitals");
                         showToast(detps.getMessage());
@@ -213,10 +243,12 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
 
         });
     }
-    private void FetchSpecialists(String deptname,String city) {
+    private void FetchSpecialists(String hos_id,String department_id) {
         JsonObject object=new JsonObject();
-        object.addProperty("department_name",deptname);
-        object.addProperty("city",city);
+        object.addProperty("hos_id",hos_id);
+        object.addProperty("department_id",department_id);
+
+
         Call<Specialists> call= service.getSpecialists(object, ApiUrl.content_type);
 
         showDialog();
@@ -255,9 +287,56 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
         });
     }
 
-    private void FetchDepatments(String city) {
+
+
+    private void FetchDoctors(String hos_id,String specialist_id) {
         JsonObject object=new JsonObject();
-        object.addProperty("city",city);
+        object.addProperty("hos_id",hos_id);
+        object.addProperty("specialist_id",specialist_id);
+
+
+        Call<Doctorlists> call= service.getDocterlists(object, ApiUrl.content_type);
+
+        showDialog();
+        call.enqueue(new Callback<Doctorlists>() {
+            @Override
+            public void onResponse(Call<Doctorlists> call, Response<Doctorlists> response) {
+                hideDialog();
+
+                if(!response.isSuccessful())
+                {
+                    showToast("Server side error");
+                    return;
+                }
+                Doctorlists doc=response.body();
+
+                if(doc!=null)
+                {
+
+                    if(doc.getStatus()==1)
+                    {
+                        doctorlists=doc.getDoctorlist();
+                    }else {
+                      spl=null;
+                      spl_txt.setText("No Specialties");
+                        showToast(doc.getMessage());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Doctorlists> call, Throwable t) {
+                hideDialog();
+            }
+
+        });
+    }
+
+    private void FetchDepatments(String hos_id) {
+        JsonObject object=new JsonObject();
+
+        object.addProperty("hos_id",hos_id);
         Call<DepartmentList> call= service.getDepts(object, ApiUrl.content_type);
 
         showDialog();
@@ -335,12 +414,17 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             }
         });
     }
+
+
     private void addAppointmentApi() {
         if(city==null||city.isEmpty()){
             showToast("no city is selected");
             return;
         }
-        if(dept==null||dept.isEmpty()){
+        if(hospital==null||hospital.isEmpty()){
+            showToast("no Hospital is selected");
+            return;
+        }if(dept==null||dept.isEmpty()){
             showToast("no department is selected");
             return;
         }
@@ -348,8 +432,14 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             showToast("no Specialist is selcted");
             return;
         }
-        if(out.size()==0){
-            showToast("No Hospital selected");
+        if(doct==null||doct.isEmpty()){
+            showToast("no Doctor is selcted");
+            return;
+        }
+        String name=edt_name.getText().toString();
+        if(name==null||name.isEmpty())
+        {
+            edt_name.setError("Please enter Name");
             return;
         }
 
@@ -371,14 +461,18 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
 
 
         Appointment appointment=new Appointment();
-        appointment.setPatientAge(edt_age.getText().toString());
         appointment.setAUId(manager.getSingleField(SessionManager.KEY_ID));
         appointment.setCity(city);
-        appointment.setDepartmentName(dept);
+        appointment.setHospital(hos_id);
+        appointment.setDepartmentName(dept_id);
+        appointment.setSpecialistName(spl_id);
+        appointment.setDoctorName(doct_id);
+
+        appointment.setName(edt_name.getText().toString());
+        appointment.setPatientAge(edt_age.getText().toString());
         appointment.setDate(dateOfReg.getText().toString());
-        appointment.setSpecialistName(spl);
         appointment.setTime(time);
-        appointment.addHos(out);
+
         Call<RegResult> call= service.addAppointments(appointment, ApiUrl.content_type);
         showDialog();
         call.enqueue(new Callback<RegResult>() {
@@ -394,7 +488,11 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
 
                 RegResult regResult=response.body();
                 if(regResult.getStatus()==1)
-                   finish();
+
+                {   Toast.makeText(OpRegistrationActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+
+                    finish();}
+
                 else
                    showToast(regResult.getMessage());
             }
@@ -437,8 +535,10 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
 
         DatePickerDialog mDatePicker = new DatePickerDialog(OpRegistrationActivity.this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+
                 Calendar myCalendar = Calendar.getInstance();
                 try {
+
                     myCalendar.set(Calendar.YEAR, selectedyear);
                     myCalendar.set(Calendar.MONTH, selectedmonth);
                     myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
@@ -446,6 +546,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                     SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
                     Date date=myCalendar.getTime();
                     String sDate=sdf.format(date);
+
                     dateOfReg.setText(sDate);
                 }
            catch (Exception e){
@@ -457,6 +558,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             }
         }, mYear, mMonth, mDay);
         //mDatePicker.setTitle("Select date");
+
+        mDatePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
         mDatePicker.show();
     }
     private void addAppointment() {
@@ -477,15 +581,26 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 title="Select City";
                 data_type=1;
                 break;
+            case R.id.hos_lay:
+                title="Select Hospital";
+                list=hospitals;
+                data_type=2;
+                break;
+
             case R.id.dept_lay:
                 title="Select Department";
                 list=departments;
-                data_type=2;
+                data_type=3;
                 break;
             case R.id.spl_lay:
                 title="Select Specialties";
                 list=specialists;
-                data_type=3;
+                data_type=4;
+                break;
+                case R.id.doctor_lay:
+                title="Select Doctors";
+                list=doctorlists;
+                data_type=5;
                 break;
             case R.id.time_lay:
                 title="Select time";
@@ -513,6 +628,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
         }
     }
      ArrayList<Hospital> out=new ArrayList<>();
+
+
+
     public void openDialog(View view) {
         if(hospitals!=null) {
             final String[] items = getStringArray(hospitals);
@@ -590,4 +708,6 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             layout.setVisibility(View.GONE);
         }
     }
+
+
 }

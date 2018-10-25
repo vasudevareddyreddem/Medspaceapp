@@ -5,37 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.OpRegistrationActivity">
+
     <android.support.v7.widget.CardView
         android:id="@+id/toolbar"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="0dp"
-        >
+        android:layout_alignParentTop="true"
+        app:cardCornerRadius="0dp">
+
         <RelativeLayout
 
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            >
+            android:background="@color/colorPrimary">
+
             <ImageView
                 android:id="@+id/back"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/back"
-                android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/back" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/op_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textColor="@color/colorWhite"
-                />
+                android:text="@string/op_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorWhite" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
@@ -43,9 +43,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+        android:scrollbars="none"
         android:layout_above="@+id/btn_add_op_lay"
-        >
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,14 +54,13 @@
 
             <LinearLayout
                 android:id="@+id/city_lay"
-                android:onClick="openSingleChoice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_space"
                 android:background="@drawable/sign_text_shape"
-                android:padding="10dp"
+                android:onClick="openSingleChoice"
                 android:orientation="horizontal"
-                >
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/city_txt"
@@ -73,101 +72,24 @@
                     android:gravity="left"
                     android:text="Select City"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:padding="8dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/dropdown_icon"
-                    />
+                    android:padding="8dp"
+                    android:src="@drawable/dropdown_icon" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/dept_lay"
-                android:onClick="openSingleChoice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_space"
-                android:background="@drawable/sign_text_shape"
-                android:padding="10dp"
-                android:orientation="horizontal"
-                >
 
-                <TextView
-                    android:id="@+id/dept_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:text="Select Department"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:padding="8dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/dropdown_icon"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/spl_lay"
-                android:onClick="openSingleChoice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_space"
-                android:background="@drawable/sign_text_shape"
-                android:padding="10dp"
-                android:orientation="horizontal"
-                >
-
-                <TextView
-                    android:id="@+id/spl_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:text="Select Specialist"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:padding="8dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/dropdown_icon"
-                    />
-            </LinearLayout>
-
-
-            <RelativeLayout
                 android:id="@+id/hos_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_space"
                 android:background="@drawable/sign_text_shape"
-                android:padding="10dp"
-                android:visibility="gone">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/selected_tag_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    >
-                </android.support.v7.widget.RecyclerView>
-
-            </RelativeLayout>
-            <LinearLayout
-
-                android:onClick="openDialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:onClick="openSingleChoice"
                 android:orientation="horizontal"
-                android:layout_margin="@dimen/margin_space"
-                android:background="@drawable/sign_text_shape"
                 android:padding="10dp">
 
                 <TextView
@@ -180,14 +102,126 @@
                     android:gravity="left"
                     android:text="Select Hospitals"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:padding="8dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/dropdown_icon"
-                    />
+                    android:padding="8dp"
+                    android:src="@drawable/dropdown_icon" />
             </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/dept_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_space"
+                android:background="@drawable/sign_text_shape"
+                android:onClick="openSingleChoice"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/dept_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Select Department"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="8dp"
+                    android:src="@drawable/dropdown_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/spl_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_space"
+                android:background="@drawable/sign_text_shape"
+                android:onClick="openSingleChoice"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/spl_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Select Specialist"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="8dp"
+                    android:src="@drawable/dropdown_icon" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/doctor_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_space"
+                android:background="@drawable/sign_text_shape"
+                android:onClick="openSingleChoice"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/doctor_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Select Doctor"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="8dp"
+                    android:src="@drawable/dropdown_icon" />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_space"
+                android:background="@drawable/sign_text_shape"
+                android:padding="12dp">
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite"
+                    android:gravity="left"
+                    android:maxLength="30"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+            </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -199,16 +233,18 @@
                     android:id="@+id/age"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:hint="Age"
-                    android:inputType="number"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
+                    android:background="@color/colorWhite"
                     android:gravity="left"
+                    android:maxLength="3"
+                    android:hint="Age"
+                    android:inputType="number"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -220,25 +256,23 @@
                     android:id="@+id/date_of_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:hint="Date of Appointment"
                     android:layout_marginLeft="10dp"
-                    android:focusableInTouchMode="false"
+                    android:background="@color/colorWhite"
                     android:clickable="true"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    />
+                    android:focusableInTouchMode="false"
+                    android:hint="Date of Appointment"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
             </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/time_lay"
-                android:onClick="openSingleChoice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_space"
                 android:background="@drawable/sign_text_shape"
-                android:padding="10dp"
+                android:onClick="openSingleChoice"
                 android:orientation="horizontal"
-                >
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/time_txt"
@@ -250,37 +284,37 @@
                     android:gravity="left"
                     android:text="Select Time"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:padding="8dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/dropdown_icon"
-                    />
+                    android:padding="8dp"
+                    android:src="@drawable/dropdown_icon" />
             </LinearLayout>
 
 
         </LinearLayout>
     </ScrollView>
+
     <RelativeLayout
         android:id="@+id/btn_add_op_lay"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_space"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_space"
-        >
+        android:padding="@dimen/margin_space">
+
         <Button
             android:id="@+id/btn_add_op"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="@string/add_op"
+            android:background="@drawable/sign_button_shape"
             android:gravity="center"
+            android:text="@string/add_op"
             android:textAllCaps="true"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/sign_button_shape"
-            />
+            android:textColor="@color/colorWhite" />
 
     </RelativeLayout>
 

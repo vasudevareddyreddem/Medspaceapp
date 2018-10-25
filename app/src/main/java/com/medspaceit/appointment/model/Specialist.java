@@ -11,12 +11,24 @@ public class Specialist implements Formatter
     @Expose
     private String specialistName;
 
+    @SerializedName("specialist_id")
+    @Expose
+    private String specialist_id;
+
     public String getSpecialistName() {
         return specialistName;
     }
 
     public void setSpecialistName(String specialistName) {
         this.specialistName = specialistName;
+    }
+
+    public String getSpecialist_id() {
+        return specialist_id;
+    }
+
+    public void setSpecialist_id(String specialist_id) {
+        this.specialist_id = specialist_id;
     }
 
     @Override

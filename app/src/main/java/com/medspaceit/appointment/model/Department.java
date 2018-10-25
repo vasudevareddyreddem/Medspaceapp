@@ -10,12 +10,25 @@ public class Department implements Formatter{
     @Expose
     private String departmentName;
 
+
+  @SerializedName("department_id")
+    @Expose
+    private String department_id;
+
     public String getDepartmentName() {
         return departmentName;
     }
 
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
+    }
+
+    public String getDepartment_id() {
+        return department_id;
+    }
+
+    public void setDepartment_id(String department_id) {
+        this.department_id = department_id;
     }
 
     @Override
