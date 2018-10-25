@@ -10,10 +10,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 import com.medspaceit.appointment.R;
+import com.medspaceit.appointment.apis.ApiUrl;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.RequestBody;
 
 public class Get_Health_Card extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.Submit_card)
@@ -56,6 +68,7 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
     RadioButton others;
 
     String gender="";
+    String Cardnumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +81,8 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
         Submit_card.setOnClickListener(this);
         RadioGroup rg = (RadioGroup) findViewById(R.id.radio_group);
 
+
+        getCaedNumber();
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -90,6 +105,45 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
 
             }
         });
+    }
+
+    private void getCaedNumber() {
+        if(isConnected())
+        {
+            showDialog();
+
+            apiCall();
+        }
+        else showToast("No Internet");
+
+
+
+    }
+
+    private void apiCall() {
+        final StringRequest request = new StringRequest(Request.Method.POST,ApiUrl.BaseUrl + ApiUrl.cardgenerator, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                hideDialog();
+                JSONObject  jsonObject= null;
+                try {
+                    jsonObject = new JSONObject(response);
+                    Cardnumber=  jsonObject.getString("Cardnumber");
+                    heaith_card_no.setText(Cardnumber);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideDialog();
+
+            }
+        });
+        RequestQueue queue= Volley.newRequestQueue(this);
+    queue.add(request);
     }
 
     @Override

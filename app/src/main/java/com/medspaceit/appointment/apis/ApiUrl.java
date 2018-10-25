@@ -22,9 +22,10 @@ public class ApiUrl {
     final public static String profileUpdate="appointment_userprofile";
     final public static String statuslist="statu_list";
     final public static String accept="appointment_user_statu_accept";
-    final public static String history="appointment_list";
+    final public static String history="list";
     final public static String imageUplode="uploadpic";
     final public static String updateToken="update_token";
+    final public static String cardgenerator="card_number_generator";
 
 
 }

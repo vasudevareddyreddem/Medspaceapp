@@ -53,6 +53,10 @@ public class AppStatus implements Comparable<AppStatus>{
     @SerializedName("department")
     @Expose
     private String department;
+
+    @SerializedName("doctor_name")
+    @Expose
+    private String doctor_name;
     @SerializedName("specialist_name")
     @Expose
     private String specialistName;
@@ -234,6 +238,14 @@ public class AppStatus implements Comparable<AppStatus>{
 
     public void setSpecialistName(String specialistName) {
         this.specialistName = specialistName;
+    }
+
+    public String getDoctor_name() {
+        return doctor_name;
+    }
+
+    public void setDoctor_name(String doctor_name) {
+        this.doctor_name = doctor_name;
     }
 
     public String getAddress()

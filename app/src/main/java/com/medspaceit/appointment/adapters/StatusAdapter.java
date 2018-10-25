@@ -71,6 +71,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             statusHolder.hos_name.setText(status.getHosName());
             statusHolder.spl_name.setText(status.getSpecialistName());
             statusHolder.dept_name.setText(status.getDepartment());
+            statusHolder.doct_name.setText(status.getDoctor_name());
             statusHolder.time_slot.setText(status.getTime());
 
             setStatus(status.getStatus(),statusHolder.status_txt);
@@ -134,6 +135,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView accept;
         TextView reject;
         TextView coupnCode;
+        TextView doct_name;
 
         public StatusHolder(View itemView) {
             super(itemView);
@@ -148,6 +150,7 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             coupnCode=itemView.findViewById(R.id.coupn_code);
             accept=itemView.findViewById(R.id.accept);
             reject=itemView.findViewById(R.id.reject);
+            doct_name=itemView.findViewById(R.id.doct_name);
         }
     }
 

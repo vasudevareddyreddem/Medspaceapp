@@ -184,6 +184,39 @@
             android:orientation="horizontal"
             android:padding="2dp"
             android:layout_gravity="center"
+            android:gravity="center_vertical|left">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/doc"
+                android:layout_margin="2dp"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="Doctor Name :"
+                />
+            <TextView
+                android:id="@+id/doct_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doctor Name"
+                android:paddingLeft="2dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:layout_gravity="center"
             android:gravity="center_vertical|left"
             >
             <ImageView

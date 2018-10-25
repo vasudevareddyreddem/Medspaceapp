@@ -87,4 +87,6 @@ public interface MyService {
     Call<RegResult> uploadFile(@Part MultipartBody.Part file, @Part("a_u_id") RequestBody id);
     @POST(ApiUrl.updateToken)
     Call<RegResult> updateToken(@Body JsonObject uid, @Header("content-type") String contenttype);
+    @POST(ApiUrl.cardgenerator)
+    Call<String> cardgenerator(@Body String body,@Header("content-type") String contenttype);
 }
