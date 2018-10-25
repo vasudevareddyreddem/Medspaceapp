@@ -43,6 +43,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="bottom|center"
                 android:layout_margin="5dp"
+
                 android:background="@drawable/healthcard"
                 android:gravity="bottom|center"
                 android:orientation="vertical">
@@ -51,7 +52,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="bhupi sahu"
                     android:id="@+id/card_holder_name"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="344 343 876 322"
-                    android:id="@+id/card_number"
+                    android:id="@+id/health_card_number"
                     android:gravity="center"
 
                     android:layout_gravity="center"

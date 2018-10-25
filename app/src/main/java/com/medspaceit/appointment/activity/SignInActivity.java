@@ -72,7 +72,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.img_forgot_password:
                 startActivity(new Intent(SignInActivity.this, ForgotPasswordActivity.class));
-//                finish();
+                finish();
                 break;
 
 
@@ -87,7 +87,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         if(validate(number,passworg))
         {
             Login login=new Login();
-            login.setEmail(number);
+            login.setMobile(number);
             login.setPassword(passworg);
             if(isConnected())
             {
@@ -114,7 +114,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
         if(passworg.length()<6)
        {
-           edt_password.setError("please check password");
+           edt_password.setError("password should be 6 character");
            return false;
        }
 

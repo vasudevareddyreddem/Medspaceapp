@@ -47,7 +47,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     Button signup;
     @BindView(R.id.txt_sign_in)
     TextView sign_in;
-    private boolean lock;
+    static final Pattern CODE_PATTERN = Pattern.compile("([0-9]{0,4})|([0-9]{4}-)+|([0-9]{4}-[0-9]{0,4})+");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,31 +56,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         ButterKnife.bind(this);
         signup.setOnClickListener(this);
         sign_in.setOnClickListener(this);
-
-        edt_cardno.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (lock || s.length() > 16) {
-                    return;
-                }
-                lock = true;
-                for (int i = 4; i < s.length(); i += 5) {
-                    if (s.toString().charAt(i) != ' ') {
-                        s.insert(i, " ");
-                    }
-                }
-                lock = false;}
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                      }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-
-        });
 
 
     }
@@ -102,15 +78,15 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
 
 
-        String cardNo=edt_cardno.getText().toString();
-        if(cardNo==null||cardNo.isEmpty()){
-            edt_cardno.setError("Plase enter cardNo");
-            return;
-        }
-        if(cardNo.length()<12) {
-            edt_cardno.setError("Plase enter valid card no.");
-            return;
-        }
+//        String cardNo=edt_cardno.getText().toString();
+//        if(cardNo==null||cardNo.isEmpty()){
+//            edt_cardno.setError("Plase enter cardNo");
+//            return;
+//        }
+//        if(cardNo.length()<12) {
+//            edt_cardno.setError("Plase enter valid card no.");
+//            return;
+//        }
 
         String user_name=edt_user_name.getText().toString();
         if(user_name==null||user_name.isEmpty()){
@@ -122,6 +98,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         if(user_email==null||user_email.isEmpty()){
             edt_user_email.setError("Please Enter username");
             return;
+        }
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(user_email).matches()){
+            edt_user_email.setError("enter a valid email address");
+            return ;
         }
         String mobile_number=edt_mobile_num.getText().toString();
         if(mobile_number==null||mobile_number.isEmpty()){
@@ -159,9 +139,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         final Registration registration=new Registration();
         registration.setName(user_name);
-        registration.setName(user_email);
+        registration.setEmail(user_email);
         registration.setMobile(mobile_number);
-        registration.setCardno(cardNo);
+       // registration.setCardno(cardNo);
         registration.setPassword(password);
         registration.setConfirmpassword(conform_password);
         String token=getToken();

@@ -123,8 +123,8 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.card_holder_name)
             TextView card_holder_name;
 
-    @BindView(R.id.card_number)
-            TextView card_number;
+    @BindView(R.id.health_card_number)
+            TextView health_card_number;
 
     @BindView(R.id.title_home)
             TextView title_home;
@@ -226,35 +226,35 @@ public class HomeActivity extends BaseActivity
         }
         return true;
     }
-    private void askForGPS() {
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(30 * 1000);
-        mLocationRequest.setFastestInterval(5 * 1000);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
-        builder.setAlwaysShow(true);
-        result = LocationServices.SettingsApi.checkLocationSettings(client, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(LocationSettingsResult result) {
-                final Status status = result.getStatus();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-//                        Log.e("onSuccess","on success");
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        try {
-                            status.startResolutionForResult(HomeActivity.this, GPS_SETTINGS);
-                        } catch (IntentSender.SendIntentException e) {
-
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        break;
-                }
-            }
-        });
-    }
+//    private void askForGPS() {
+//        mLocationRequest = LocationRequest.create();
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        mLocationRequest.setInterval(30 * 1000);
+//        mLocationRequest.setFastestInterval(5 * 1000);
+//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
+//        builder.setAlwaysShow(true);
+//        result = LocationServices.SettingsApi.checkLocationSettings(client, builder.build());
+//        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+//            @Override
+//            public void onResult(LocationSettingsResult result) {
+//                final Status status = result.getStatus();
+//                switch (status.getStatusCode()) {
+//                    case LocationSettingsStatusCodes.SUCCESS:
+////                        Log.e("onSuccess","on success");
+//                        break;
+//                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+//                        try {
+//                            status.startResolutionForResult(HomeActivity.this, GPS_SETTINGS);
+//                        } catch (IntentSender.SendIntentException e) {
+//
+//                        }
+//                        break;
+//                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+//                        break;
+//                }
+//            }
+//        });
+//    }
 
 
     @Override

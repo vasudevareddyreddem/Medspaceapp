@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Registration{
 
-    @SerializedName("cardno")
-    @Expose
-    private String cardno;
+//    @SerializedName("cardno")
+//    @Expose
+//    private String cardno;
     @SerializedName("name")
     @Expose
     private String name;
@@ -75,11 +75,11 @@ public class Registration{
         this.confirmpassword = confirmpassword;
     }
 
-    public String getCardno() {
-        return cardno;
-    }
-
-    public void setCardno(String cardno) {
-        this.cardno = cardno;
-    }
+//    public String getCardno() {
+//        return cardno;
+//    }
+//
+//    public void setCardno(String cardno) {
+//        this.cardno = cardno;
+//    }
 }

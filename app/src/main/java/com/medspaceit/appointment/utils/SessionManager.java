@@ -33,17 +33,17 @@ public class SessionManager {
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String KEY_REMEMBER_ME = "remember_me";
     // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "firstname";
-    public static final String KEY_ID = "id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_ID = "a_u_id";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD="password";
     public static final String KEY_IMAGEURI = "noImage";
-    public static final String KEY_NUMBER = "Number";
+    public static final String KEY_NUMBER = "mobile";
     public static final String KEY_CARDNO = "Cardnumber";
     public static final String TAG = "tag";
 
-    public static final String PROFILE_IMG_URL = "profile_img_url";
-    public static final String PROFILE_IMG_PATH = "profile_img_url_path";
+    public static final String PROFILE_IMG_URL = "pic_path";
+    public static final String PROFILE_IMG_PATH = "profile_pic";
 
     // Constructor
     public SessionManager(Context context) {
@@ -88,7 +88,7 @@ public class SessionManager {
         editor.putString(KEY_EMAIL, registration.getEmail());
         editor.putString(KEY_NAME, registration.getName());
         editor.putString(KEY_NUMBER,registration.getMobile());
-        editor.putString(KEY_CARDNO,registration.getCardno());
+        //editor.putString(KEY_CARDNO,registration.getCardno());
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
         editor.commit();

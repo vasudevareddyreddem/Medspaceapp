@@ -46,6 +46,9 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.back:
+                Intent intent=new Intent(ForgotPasswordActivity.this, SignInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
                 finish();
                 break;
             case R.id.submit:
@@ -53,9 +56,9 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
                 break;
             case R.id.txt_sign_in:
-                Intent intent=new Intent(ForgotPasswordActivity.this, SignInActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
+                Intent i=new Intent(ForgotPasswordActivity.this, SignInActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
                 finish();
                 break;
 
@@ -67,9 +70,13 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     private void submit() {
         String email=edt_mail.getText().toString();
         if(email==null||email.isEmpty()){
-           edt_mail.setError("please provide email");
+           edt_mail.setError("please enter email id");
 
             return;
+        }
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            edt_mail.setError("enter a valid email address");
+            return ;
         }
         if(isConnected())
         {
@@ -108,5 +115,14 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(ForgotPasswordActivity.this, SignInActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(i);
+        finish();
     }
 }
