@@ -308,7 +308,7 @@ public class HomeActivity extends BaseActivity
         }else if (id == R.id.healthcard) {
             startActivity(new Intent(HomeActivity.this, Get_Health_Card.class));
         }else if (id == R.id.healthreport) {
-            startActivity(new Intent(HomeActivity.this, ComingSoon.class));
+            startActivity(new Intent(HomeActivity.this, HealthReports.class));
         }
         else if (id == R.id.status) {
             Intent intent=new Intent(HomeActivity.this,StatusActivity.class);
@@ -400,6 +400,7 @@ public class HomeActivity extends BaseActivity
     private void hambergerAction() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         }else {
             drawer.openDrawer(GravityCompat.START);
         }

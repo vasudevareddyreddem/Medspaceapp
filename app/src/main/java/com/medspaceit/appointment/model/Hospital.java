@@ -14,6 +14,10 @@ public class Hospital implements Formatter{
     @Expose
     private String id;
 
+    @SerializedName("consultationfee")
+    @Expose
+    private String consultationfee;
+
     public String getName() {
         return name;
     }
@@ -28,6 +32,14 @@ public class Hospital implements Formatter{
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getConsultationfee() {
+        return consultationfee;
+    }
+
+    public void setConsultationfee(String consultationfee) {
+        this.consultationfee = consultationfee;
     }
 
     @Override

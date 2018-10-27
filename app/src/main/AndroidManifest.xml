@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -51,8 +52,8 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activity.HomeActivity"
-            android:label="@string/title_activity_home"
             android:exported="true"
+            android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
@@ -80,6 +81,10 @@
             android:name=".activity.ComingSoon"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_FMROR38S2ObKGw" />
         <!-- [START fcm_default_icon] -->
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -116,7 +121,14 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.Get_Health_Card"></activity>
+        <activity
+            android:name=".activity.Get_Health_Card"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CheckoutActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.FinalScreen" />
+        <activity android:name=".activity.HealthReports"></activity>
     </application>
 
 </manifest>

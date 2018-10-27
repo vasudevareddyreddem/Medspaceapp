@@ -26,6 +26,8 @@ public class ApiUrl {
     final public static String imageUplode="uploadpic";
     final public static String updateToken="update_token";
     final public static String cardgenerator="card_number_generator";
+    final public static String takecardnumber="take_cardnumber";
+    final public static String payment="cardnumber_payment";
 
 
 }

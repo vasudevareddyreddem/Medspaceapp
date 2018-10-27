@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.volley:volley:1.1.1'
-
+    compile 'com.razorpay:checkout:1.4.5'
     compile 'com.github.d-max:spots-dialog:0.4@aar'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
