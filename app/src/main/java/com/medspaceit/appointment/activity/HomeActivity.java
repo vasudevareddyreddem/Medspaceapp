@@ -199,7 +199,7 @@ public class HomeActivity extends BaseActivity
                 .load(profile)
                 .error(R.drawable.dummy_user)
                 .into(profile_pic);
-
+        //Toast.makeText(this, manager.getSingleField(SessionManager.KEY_ID), Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onStart() {

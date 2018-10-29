@@ -19,15 +19,17 @@ public class ApiUrl {
     final public static String doctorlist="doctors_list";
     final public static String appointment="add";
     final public static String changePsw="changepassword";
-    final public static String profileUpdate="appointment_userprofile";
+    final public static String profileUpdate="userprofile";
     final public static String statuslist="statu_list";
-    final public static String accept="appointment_user_statu_accept";
+    final public static String accept="user_statu_accept";
     final public static String history="list";
     final public static String imageUplode="uploadpic";
     final public static String updateToken="update_token";
     final public static String cardgenerator="card_number_generator";
     final public static String takecardnumber="take_cardnumber";
     final public static String payment="cardnumber_payment";
+    final public static String prescriptionlist="prescription_list";
+    final public static String acceptstatuslist="statu_list";
 
 
 }
