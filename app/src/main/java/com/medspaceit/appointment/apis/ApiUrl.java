@@ -19,7 +19,7 @@ public class ApiUrl {
     final public static String doctorlist="doctors_list";
     final public static String appointment="add";
     final public static String changePsw="changepassword";
-    final public static String profileUpdate="userprofile";
+    final public static String profileUpdate="profile";
     final public static String statuslist="statu_list";
     final public static String accept="user_statu_accept";
     final public static String history="list";
@@ -30,6 +30,7 @@ public class ApiUrl {
     final public static String payment="cardnumber_payment";
     final public static String prescriptionlist="prescription_list";
     final public static String acceptstatuslist="statu_list";
+    final public static String uploadprescription="uploadprescription";
 
 
 }

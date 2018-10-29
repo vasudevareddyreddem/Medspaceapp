@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -94,7 +95,7 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
         back.setOnClickListener(this);
         Submit_card.setOnClickListener(this);
         RadioGroup rg = (RadioGroup) findViewById(R.id.radio_group);
-
+        hideSoftKeyboard();
         heaith_card_no.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
             private boolean backspacingFlag = false;
             private boolean editedFlag = false;
@@ -202,6 +203,7 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.back:
                 onBackPressed();
+                hideSoftKeyboard();
                 break;
             case R.id.Submit_card:
                 validate();
@@ -361,5 +363,11 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
         }
 
 
+    }
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

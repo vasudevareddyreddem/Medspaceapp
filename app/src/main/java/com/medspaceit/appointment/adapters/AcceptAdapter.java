@@ -1,6 +1,7 @@
 package com.medspaceit.appointment.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.medspaceit.appointment.R;
-import com.medspaceit.appointment.activity.HealthReports;
+import com.medspaceit.appointment.activity.MyReportDownload;
+import com.medspaceit.appointment.apis.ApiUrl;
 import com.medspaceit.appointment.model.AcceptListPJ;
-import com.medspaceit.appointment.model.AppStatus;
 
 import java.util.List;
 
@@ -50,15 +51,18 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             acceptholder.btn_my_rescription.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Prescription", Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent(context,MyReportDownload. class);
+                    context.startActivity(i);
                 }
             });
-            acceptholder.btn_lab_reports.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "reports", Toast.LENGTH_SHORT).show();
-                }
-            });
+//            acceptholder.btn_lab_reports.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent i=new Intent(context,MyReportDownload. class);
+//                    i.putExtra("URL", ApiUrl.prescriptionlist);
+//                    context.startActivity(i);
+//                }
+//            });
     }}
 
     @Override

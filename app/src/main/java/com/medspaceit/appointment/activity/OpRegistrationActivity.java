@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -517,6 +518,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
         switch (v.getId()) {
             case R.id.back:
                 finish();
+                hideSoftKeyboard();
                 break;
             case R.id.btn_add_op:
                 addAppointment();
@@ -726,6 +728,12 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             txt_consultationfee.setVisibility(View.INVISIBLE);
             addOp.setBackgroundResource(R.drawable.disable_burtton_shape);
             addOp.setEnabled(false);
+        }
+    }
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
 }

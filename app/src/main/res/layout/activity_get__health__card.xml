@@ -76,6 +76,8 @@
                     android:textColorHint="#111"
                     android:cursorVisible="false"
                     android:textColor="#111"
+                    android:focusable="false"
+
                     android:hint="@string/card_no"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
