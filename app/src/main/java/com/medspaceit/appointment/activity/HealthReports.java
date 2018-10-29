@@ -77,8 +77,8 @@ public class HealthReports extends BaseActivity {
     Button uploadReport;
 
     List<AcceptListPJ> acceptList;
-     int SELECT_FILE = 100;
-     int REQUEST_CAMERA = 200;
+     int SELECT_FILE = 1;
+     int REQUEST_CAMERA = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -353,6 +353,10 @@ public class HealthReports extends BaseActivity {
         if(filePath!=null||!filePath.isEmpty()){
             final File file=new File(filePath);
             if(file.exists()) {
+                RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+                final MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("profile_pic", file.getName(), mFile);
+
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiUrl.BaseUrl+ApiUrl.uploadprescription,
                         new Response.Listener<String>() {
                             @Override
@@ -369,7 +373,7 @@ public class HealthReports extends BaseActivity {
                     @Override
                     protected Map<String,String> getParams(){
                         Map<String,String> params = new HashMap<String, String>();
-                        params.put("prescription",filePath);
+                        params.put("prescription ", fileToUpload.toString());
                         //params.put("prescription",file.toString());
                         params.put("a_u_id",manager.getSingleField(SessionManager.KEY_ID));
 

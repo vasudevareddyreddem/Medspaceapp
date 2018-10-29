@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/dialog_shape"
     android:layout_margin="5dp"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     android:orientation="horizontal"
     android:weightSum="2">
 
@@ -13,11 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:text="Doc"
+        android:text="Document"
 
         android:layout_margin="10dp"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/tv_download"
@@ -29,6 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/sign_text_shape"
-        android:text="Doc"
-        android:textSize="18sp" />
+        android:text="Download"
+        android:textSize="17sp" />
 </LinearLayout>

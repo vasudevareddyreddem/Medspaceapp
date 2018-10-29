@@ -55,14 +55,6 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     context.startActivity(i);
                 }
             });
-//            acceptholder.btn_lab_reports.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent i=new Intent(context,MyReportDownload. class);
-//                    i.putExtra("URL", ApiUrl.prescriptionlist);
-//                    context.startActivity(i);
-//                }
-//            });
     }}
 
     @Override
