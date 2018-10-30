@@ -271,7 +271,7 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
         String json = "";
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("a_u_id", manager.getSingleField(SessionManager.KEY_NAME));
+            jsonObject.put("a_u_id", manager.getSingleField(SessionManager.KEY_ID));
             jsonObject.put("card_number", heaith_card_no.getText().toString());
             jsonObject.put("patient_name", pt_name.getText().toString());
             jsonObject.put("mobile_num", molibe_number.getText().toString());

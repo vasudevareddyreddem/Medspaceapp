@@ -31,6 +31,7 @@ public class ApiUrl {
     final public static String prescriptionlist="prescription_list";
     final public static String acceptstatuslist="statu_list";
     final public static String uploadprescription="uploadprescription";
+    final public static String allcards="card_list_details";
 
 
 }

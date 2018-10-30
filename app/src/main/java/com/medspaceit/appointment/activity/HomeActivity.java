@@ -22,6 +22,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -33,7 +34,13 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -45,9 +52,18 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.medspaceit.appointment.R;
+import com.medspaceit.appointment.adapters.AcceptAdapter;
+import com.medspaceit.appointment.adapters.MyAllCardAdapter;
+import com.medspaceit.appointment.apis.ApiUrl;
+import com.medspaceit.appointment.model.AcceptListPJ;
+import com.medspaceit.appointment.model.AllCardPJ;
 import com.medspaceit.appointment.model.RegResult;
 import com.medspaceit.appointment.utils.MessageToast;
 import com.medspaceit.appointment.utils.SessionManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,41 +87,41 @@ import retrofit2.Response;
 //import android.util.Log;
 
 public class HomeActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
     static int SELECT_FILE = 1;
     static int REQUEST_CAMERA = 2;
 
-      @BindView(R.id.maps)
+    @BindView(R.id.maps)
     ImageView maps;
 
-  //  @BindView(R.id.hamberger)
+    //  @BindView(R.id.hamberger)
     ImageView hamberger;
 
     //@BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
-//    @BindView(R.id.notification_lay)
+    //    @BindView(R.id.notification_lay)
     RelativeLayout notifications;
 
-//    @BindView(R.id.message_lay)
+    //    @BindView(R.id.message_lay)
     RelativeLayout messages;
 
-//    @BindView(R.id.profile_lay)
+    //    @BindView(R.id.profile_lay)
     RelativeLayout profile_settings_lay;
 
-//    @BindView(R.id.profile_settings)
+    //    @BindView(R.id.profile_settings)
     ImageView profileSettings;
 
-//    @BindView(R.id.camera_icon)
+    //    @BindView(R.id.camera_icon)
     ImageView camera_open;
 
-//    @BindView(R.id.nav_view)
+    //    @BindView(R.id.nav_view)
     NavigationView navigationView;
 
-//    @BindView(R.id.profile_pic)
+    //    @BindView(R.id.profile_pic)
     CircleImageView profile_pic;
 
-//    @BindView(R.id.user_name)
+    //    @BindView(R.id.user_name)
     TextView user_name;
 
     @BindView(R.id.op_app_card)
@@ -120,21 +136,21 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.lab_app_card)
     CardView lab_card;
 
-    @BindView(R.id.card_holder_name)
-            TextView card_holder_name;
-
-    @BindView(R.id.health_card_number)
-            TextView health_card_number;
 
     @BindView(R.id.title_home)
-            TextView title_home;
+    TextView title_home;
+@BindView(R.id.no_card_text)
+    TextView no_card_text;
 
-//    @BindView(R.id.notification_count)
+    @BindView(R.id.pager)
+    ViewPager cardPager;
+
+    //    @BindView(R.id.notification_count)
 //    TextView notification_count;
     String[] permissions = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA};//,
-//            Manifest.permission.ACCESS_COARSE_LOCATION,
+    //            Manifest.permission.ACCESS_COARSE_LOCATION,
 //            Manifest.permission.ACCESS_FINE_LOCATION
 //            };
     GoogleApiClient client;
@@ -143,13 +159,12 @@ public class HomeActivity extends BaseActivity
     public static final int MULTIPLE_PERMISSIONS = 10;
     static final Integer GPS_SETTINGS = 0x7;
 
-
-
+    ArrayList<AllCardPJ> allCardList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-            ButterKnife.bind(this);
+        ButterKnife.bind(this);
 //        Toast.makeText(this, ""+        manager.getSingleField(SessionManager.KEY_ID)
 //                , Toast.LENGTH_SHORT).show();
 //         int no_count= manager.getNotification();
@@ -164,20 +179,21 @@ public class HomeActivity extends BaseActivity
                 .addApi(LocationServices.API)
                 .build();
 
-         checkPermissions();
-         hamberger=findViewById(R.id.hamberger);
-         drawer=findViewById(R.id.drawer_layout);
-         notifications=findViewById(R.id.notification_lay);
-         messages=findViewById(R.id.message_lay);
-         profile_settings_lay=findViewById(R.id.profile_lay);
-         camera_open=findViewById(R.id.camera_icon);;
+        checkPermissions();
+        hamberger = findViewById(R.id.hamberger);
+        drawer = findViewById(R.id.drawer_layout);
+        notifications = findViewById(R.id.notification_lay);
+        messages = findViewById(R.id.message_lay);
+        profile_settings_lay = findViewById(R.id.profile_lay);
+        camera_open = findViewById(R.id.camera_icon);
+        ;
 
-        navigationView=findViewById(R.id.nav_view);
-        View header=navigationView.getHeaderView(0);
-        profileSettings=header.findViewById(R.id.profile_settings);
-        camera_open=header.findViewById(R.id.camera_icon);
-        user_name=header.findViewById(R.id.user_name);
-        profile_pic=header.findViewById(R.id.profile_pic);
+        navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        profileSettings = header.findViewById(R.id.profile_settings);
+        camera_open = header.findViewById(R.id.camera_icon);
+        user_name = header.findViewById(R.id.user_name);
+        profile_pic = header.findViewById(R.id.profile_pic);
         ///setting profile details
 
         hamberger.setOnClickListener(this);
@@ -194,13 +210,95 @@ public class HomeActivity extends BaseActivity
         maps.setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         updateProfile();
-       String profile=manager.getSingleField(SessionManager.PROFILE_IMG_URL)+manager.getSingleField(SessionManager.PROFILE_IMG_PATH);
+        String profile = manager.getSingleField(SessionManager.PROFILE_IMG_URL) + manager.getSingleField(SessionManager.PROFILE_IMG_PATH);
         Glide.with(this)
                 .load(profile)
                 .error(R.drawable.dummy_user)
                 .into(profile_pic);
-        //Toast.makeText(this, manager.getSingleField(SessionManager.KEY_ID), Toast.LENGTH_SHORT).show();
+        getAllCards();
     }
+
+    private void getAllCards() {
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("a_u_id", manager.getSingleField(SessionManager.KEY_ID));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.BaseUrl + ApiUrl.allcards, new JSONObject(json),
+                    new com.android.volley.Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            hideDialog();
+                            allCardList = new ArrayList();
+                            try {
+                                JSONObject job = new JSONObject(String.valueOf(response));
+
+                                String status = job.getString("status");
+
+                                if (status.equals("1")) {
+
+                                    no_card_text.setVisibility(View.GONE);
+                                    cardPager.setVisibility(View.VISIBLE);
+
+
+                                    JSONArray jsonArray = job.getJSONArray("details");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject js = jsonArray.getJSONObject(i);
+                                        String card_number = js.getString("card_number");
+                                        String mobile_num = js.getString("mobile_num");
+                                        String name = js.getString("name");
+                                        AllCardPJ acp = new AllCardPJ(card_number, mobile_num, name);
+                                        allCardList.add(acp);
+                                    }
+
+                                    MyAllCardAdapter adapter=new MyAllCardAdapter(HomeActivity.this,allCardList);
+                                    cardPager.setAdapter(adapter);
+
+
+                                }
+                                else {
+                                    no_card_text.setVisibility(View.VISIBLE);
+                                    cardPager.setVisibility(View.GONE);
+                                    no_card_text.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            startActivity(new Intent(HomeActivity.this, Get_Health_Card.class));
+                                        }
+                                    });
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    hideDialog();
+
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -211,6 +309,7 @@ public class HomeActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         updateProfile();
+        getAllCards();
     }
 
     @Override
@@ -218,6 +317,7 @@ public class HomeActivity extends BaseActivity
         super.onStop();
         client.disconnect();
     }
+
     private boolean checkPermissions() {
         int result;
         List<String> listPermissionsNeeded = new ArrayList<>();
@@ -311,23 +411,20 @@ public class HomeActivity extends BaseActivity
             startActivity(new Intent(HomeActivity.this, ComingSoon.class));
         } else if (id == R.id.pharmacy) {
             startActivity(new Intent(HomeActivity.this, ComingSoon.class));
-        }else if (id == R.id.healthcard) {
+        } else if (id == R.id.healthcard) {
             startActivity(new Intent(HomeActivity.this, Get_Health_Card.class));
-        }else if (id == R.id.healthreport) {
+        } else if (id == R.id.healthreport) {
             startActivity(new Intent(HomeActivity.this, HealthReports.class));
-        }
-        else if (id == R.id.status) {
-            Intent intent=new Intent(HomeActivity.this,StatusActivity.class);
+        } else if (id == R.id.status) {
+            Intent intent = new Intent(HomeActivity.this, StatusActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.history) {
-            Intent intent=new Intent(HomeActivity.this,StatusActivity.class);
-            intent.putExtra("title","History");
-           startActivity(intent);
-        }
-         else if (id == R.id.signout) {
+        } else if (id == R.id.history) {
+            Intent intent = new Intent(HomeActivity.this, StatusActivity.class);
+            intent.putExtra("title", "History");
+            startActivity(intent);
+        } else if (id == R.id.signout) {
             manager.logoutUser();
-            Intent intent=new Intent(HomeActivity.this,SignInActivity.class);
+            Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -338,7 +435,7 @@ public class HomeActivity extends BaseActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.hamberger:
                 hambergerAction();
                 break;
@@ -350,14 +447,14 @@ public class HomeActivity extends BaseActivity
 //                break;
             case R.id.find_doc_card:
             case R.id.lab_app_card:
-            case  R.id.maps:
+            case R.id.maps:
                 startActivity(new Intent(HomeActivity.this, ComingSoon.class));
                 break;
-            case  R.id.notification_lay:
+            case R.id.notification_lay:
                 startActivity(new Intent(HomeActivity.this, StatusActivity.class));
                 break;
             case R.id.message_lay:
-                Intent intent=new Intent(HomeActivity.this,HealthReports.class);
+                Intent intent = new Intent(HomeActivity.this, HealthReports.class);
                 startActivity(intent);
                 break;
             case R.id.profile_lay:
@@ -367,7 +464,7 @@ public class HomeActivity extends BaseActivity
                 openProfilesettingDialog(v);
                 break;
             case R.id.profile_pic:
-             selectImage();
+                selectImage();
                 break;
 
         }
@@ -375,8 +472,7 @@ public class HomeActivity extends BaseActivity
     }
 
 
-
-    public void openProfilesettingDialog(View view){
+    public void openProfilesettingDialog(View view) {
 
         PopupMenu pm = new PopupMenu(HomeActivity.this, view);
 
@@ -384,9 +480,9 @@ public class HomeActivity extends BaseActivity
         pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.edit_profile:
-                      startActivityForResult(new Intent(HomeActivity.this, ProfileActivity.class),100);
+                        startActivityForResult(new Intent(HomeActivity.this, ProfileActivity.class), 100);
                         return true;
 
                     case R.id.change_password:
@@ -406,25 +502,21 @@ public class HomeActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
-        }else {
+        } else {
             drawer.openDrawer(GravityCompat.START);
         }
     }
 
 
-
-
-
-
     private void updateProfile() {
-        String username=manager.getSingleField(SessionManager.KEY_NAME);
-        if(username!=null&&!username.isEmpty()){
+        String username = manager.getSingleField(SessionManager.KEY_NAME);
+        if (username != null && !username.isEmpty()) {
             user_name.setText(username);
-            title_home.setText("Hello "+username);
-            card_holder_name.setText(username);
+            title_home.setText("Hello " + username);
 
         }
     }
+
     private void selectImage() {
         final CharSequence[] items = {"take Photos", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
@@ -432,7 +524,7 @@ public class HomeActivity extends BaseActivity
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                switch (item){
+                switch (item) {
                     case 0:
                         cameraIntent();
                         break;
@@ -446,11 +538,11 @@ public class HomeActivity extends BaseActivity
                 }
 
 
-
             }
         });
         builder.show();
     }
+
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
@@ -473,7 +565,7 @@ public class HomeActivity extends BaseActivity
             else if (requestCode == REQUEST_CAMERA)
                 uploadImage(onCaptureImageResult(data));
 
-            else if(requestCode==100)
+            else if (requestCode == 100)
                 updateProfile();
 
 
@@ -481,10 +573,9 @@ public class HomeActivity extends BaseActivity
     }
 
 
-
     @SuppressWarnings("deprecation")
     private String onSelectFromGalleryResult(Intent data) {
-        String picturePath=null;
+        String picturePath = null;
         Bitmap bm = null;
         if (data != null) {
             try {
@@ -504,7 +595,7 @@ public class HomeActivity extends BaseActivity
                 e.printStackTrace();
             }
         }
-      return picturePath;
+        return picturePath;
     }
 
     private String onCaptureImageResult(Intent data) {
@@ -513,7 +604,7 @@ public class HomeActivity extends BaseActivity
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
         FileOutputStream fo;
-        String picturePath=null;
+        String picturePath = null;
         try {
             destination.createNewFile();
             fo = new FileOutputStream(destination);
@@ -593,33 +684,33 @@ public class HomeActivity extends BaseActivity
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
     private void uploadImage(final String filePath) {
-        if(filePath!=null||!filePath.isEmpty()){
-            final File file=new File(filePath);
-            if(file.exists()){
-                MessageToast.showToastMethod(this,file.getAbsolutePath());
+        if (filePath != null || !filePath.isEmpty()) {
+            final File file = new File(filePath);
+            if (file.exists()) {
+                MessageToast.showToastMethod(this, file.getAbsolutePath());
                 RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 //                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
                 MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("profile_pic", file.getName(), mFile);
 
-                RequestBody filename = RequestBody.create(MediaType.parse("text/plain"),manager.getSingleField(SessionManager.KEY_ID));
+                RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), manager.getSingleField(SessionManager.KEY_ID));
                 Call<RegResult> call = service.uploadFile(fileToUpload, filename);
                 showDialog();
                 call.enqueue(new Callback<RegResult>() {
                     @Override
                     public void onResponse(Call<RegResult> call, Response<RegResult> response) {
                         hideDialog();
-                        if(!response.isSuccessful())
-                        {
+                        if (!response.isSuccessful()) {
                             showToast("Server side error");
                             return;
                         }
 
 
-                        RegResult result=response.body();
+                        RegResult result = response.body();
                         showToast(result.getMessage());
-                        if(result.getStatus()==1){
-                            manager.profileImageUrl("",filePath);
+                        if (result.getStatus() == 1) {
+                            manager.profileImageUrl("", filePath);
                             Glide.with(HomeActivity.this)
                                     .load(file)
                                     .error(R.drawable.dummy_user)
@@ -630,7 +721,7 @@ public class HomeActivity extends BaseActivity
 
                     @Override
                     public void onFailure(Call<RegResult> call, Throwable t) {
-                       hideDialog();
+                        hideDialog();
                     }
                 });
 
