@@ -85,6 +85,7 @@ public interface MyService {
     @Multipart
     @POST(ApiUrl.imageUplode)
     Call<RegResult> uploadFile(@Part MultipartBody.Part file, @Part("a_u_id") RequestBody id);
+    @Multipart
    @POST(ApiUrl.uploadprescription)
     Call<RegResult> uploadPrescription(@Part MultipartBody.Part file, @Part("a_u_id") RequestBody id);
     @POST(ApiUrl.updateToken)

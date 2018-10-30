@@ -349,40 +349,45 @@ public class HealthReports extends BaseActivity {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
+
     private void uploadImage(final String filePath) {
         if(filePath!=null||!filePath.isEmpty()){
             final File file=new File(filePath);
-            if(file.exists()) {
+            if(file.exists()){
+                MessageToast.showToastMethod(this,file.getAbsolutePath());
                 RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 //                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-                final MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("profile_pic", file.getName(), mFile);
+                MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("prescription", file.getName(), mFile);
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, ApiUrl.BaseUrl+ApiUrl.uploadprescription,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(HealthReports.this,response,Toast.LENGTH_LONG).show();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(HealthReports.this,error.toString(),Toast.LENGTH_LONG).show();
-                            }
-                        }){
+                RequestBody filename = RequestBody.create(MediaType.parse("text/plain"),manager.getSingleField(SessionManager.KEY_ID));
+                Call<RegResult> call = service.uploadPrescription(fileToUpload, filename);
+                showDialog();
+                call.enqueue(new Callback<RegResult>() {
                     @Override
-                    protected Map<String,String> getParams(){
-                        Map<String,String> params = new HashMap<String, String>();
-                        params.put("prescription ", fileToUpload.toString());
-                        //params.put("prescription",file.toString());
-                        params.put("a_u_id",manager.getSingleField(SessionManager.KEY_ID));
+                    public void onResponse(Call<RegResult> call, retrofit2.Response<RegResult> response) {
+                        hideDialog();
+                        if(!response.isSuccessful())
+                        {
+                            showToast("Server side error");
+                            return;
+                        }
 
-                        return params;
+
+                        RegResult result=response.body();
+                        showToast(result.getMessage());
+
+
                     }
 
-                };
-                RequestQueue requestQueue=Volley.newRequestQueue(this);
-                requestQueue.add(stringRequest);
+                    @Override
+                    public void onFailure(Call<RegResult> call, Throwable t) {
+                        hideDialog();
+                    }
+                });
 
-            }}}
+            }
+        }
+    }
+
 }

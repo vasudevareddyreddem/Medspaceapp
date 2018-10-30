@@ -136,36 +136,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     public boolean validate() {
        String name=userName.getText().toString();
-       String mobile=mobileNumber.getText().toString();
-       String mail=mailId.getText().toString();
+
         if(name==null||name.isEmpty())
         {
             userName.setError("Enter name");
             return false;
         }
-        if(mobile==null||mobile.isEmpty())
-        {
-            mobileNumber.setError("Enter number");
-            return false;
-        }
-        if(mobile.length()<10)
-        {
-            mobileNumber.setError("Must 10 numbers");
-            return false;
-        }
-        if(mail==null||mail.isEmpty())
-        {
-            mailId.setError("Enter mail");
-            return false;
-        }
-        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(mail).matches()){
-            mailId.setError("enter a valid email address");
-            return false;
-        }
+
 
         profile.setName(userName.getText().toString());
-        profile.setMobile(mobileNumber.getText().toString());
-        profile.setMail(mailId.getText().toString());
+
 
         return true;
     }

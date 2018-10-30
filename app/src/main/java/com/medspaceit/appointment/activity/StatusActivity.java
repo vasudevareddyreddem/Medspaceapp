@@ -54,7 +54,9 @@ public class StatusActivity extends BaseActivity implements StatusAdapter.Status
         statusList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         if (getIntent().hasExtra("title")) {
             title.setText(getIntent().getStringExtra("title"));
-            fetchAppList(historyListApi);
+
+            //TODO:remoce comment for history
+            //fetchAppList(historyListApi);
         } else {
 
             fetchAppList(stausListApi);

@@ -179,7 +179,7 @@ public class HomeActivity extends BaseActivity
         user_name=header.findViewById(R.id.user_name);
         profile_pic=header.findViewById(R.id.profile_pic);
         ///setting profile details
-             updateProfile();
+
         hamberger.setOnClickListener(this);
         notifications.setOnClickListener(this);
         messages.setOnClickListener(this);
@@ -193,7 +193,7 @@ public class HomeActivity extends BaseActivity
         profile_pic.setOnClickListener(this);
         maps.setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
-
+        updateProfile();
        String profile=manager.getSingleField(SessionManager.PROFILE_IMG_URL)+manager.getSingleField(SessionManager.PROFILE_IMG_PATH);
         Glide.with(this)
                 .load(profile)
@@ -205,6 +205,12 @@ public class HomeActivity extends BaseActivity
     public void onStart() {
         super.onStart();
         client.connect();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateProfile();
     }
 
     @Override
@@ -351,8 +357,7 @@ public class HomeActivity extends BaseActivity
                 startActivity(new Intent(HomeActivity.this, StatusActivity.class));
                 break;
             case R.id.message_lay:
-                Intent intent=new Intent(HomeActivity.this,StatusActivity.class);
-                intent.putExtra("title","History");
+                Intent intent=new Intent(HomeActivity.this,HealthReports.class);
                 startActivity(intent);
                 break;
             case R.id.profile_lay:

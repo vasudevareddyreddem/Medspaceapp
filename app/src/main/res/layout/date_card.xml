@@ -9,7 +9,6 @@
     android:id="@+id/date"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="19-07-2018"
     android:gravity="center"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"

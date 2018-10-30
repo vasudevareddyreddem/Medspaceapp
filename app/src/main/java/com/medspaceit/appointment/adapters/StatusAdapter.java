@@ -77,7 +77,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             setStatus(status.getStatus(),statusHolder.status_txt);
             if(adapterType== StatusActivity.stausListApi){
             if(Integer.valueOf(status.getStatus())==1){
-                statusHolder.action_layout.setVisibility(View.VISIBLE);
+                //TODO: if u want accept and reject button visible change Gone to visible
+                statusHolder.action_layout.setVisibility(View.GONE);
                 statusHolder.accept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
