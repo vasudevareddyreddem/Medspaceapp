@@ -173,7 +173,6 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 hos_txt.setText(hospital);
                 txt_consultationfee.setText("Consultation fee :" + hospitals.get(position).getConsultationfee());
                 FetchDepatments(hos_id);
-                Toast.makeText(this, "" + hospitals.get(position).getConsultationfee(), Toast.LENGTH_SHORT).show();
                 spl = null;
                 spl_txt.setText("Select Specialties");
                 dept = null;
@@ -187,7 +186,6 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             case 3:
                 dept = departments.get(position).getValue();
                 dept_txt.setText(dept);
-                hos_id = hospitals.get(position).getId();
                 dept_id = departments.get(position).getDepartment_id();
                 FetchSpecialists(hos_id, dept_id);
                 spl = null;
