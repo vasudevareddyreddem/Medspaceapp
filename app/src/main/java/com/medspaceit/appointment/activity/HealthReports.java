@@ -73,8 +73,7 @@ public class HealthReports extends BaseActivity {
     @BindView(R.id.back)
     ImageView back;
 
-    @BindView(R.id.uploadReport)
-    Button uploadReport;
+
 
     List<AcceptListPJ> acceptList;
      int SELECT_FILE = 1;
@@ -85,7 +84,7 @@ public class HealthReports extends BaseActivity {
         setContentView(R.layout.activity_health_reports);
         ButterKnife.bind(this);
         back.setOnClickListener(this);
-        uploadReport.setOnClickListener(this);
+
         acceptListRcView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         if (isConnected()) {
             showDialog();
@@ -121,6 +120,7 @@ public class HealthReports extends BaseActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             hideDialog();
+                            Log.e("4444444",response.toString());
                             acceptList=new ArrayList();
                             try {
                                 JSONObject job=new JSONObject(String.valueOf(response));
@@ -135,13 +135,14 @@ public class HealthReports extends BaseActivity {
                                          JSONObject js=jsonArray.getJSONObject(i);
                                          String date=js.getString("date");
                                          String time =js.getString("time");
+                                         String hos_id =js.getString("hos_id");
                                          String department =js.getString("department");
                                          String hospitalName =js.getString("hos_bas_name");
-                                         AcceptListPJ acceptListPJ=new AcceptListPJ(date,time,department,hospitalName);
+                                         AcceptListPJ acceptListPJ=new AcceptListPJ(date,time,department,hospitalName,hos_id);
                                          acceptList.add(acceptListPJ);
                                      }
 
-                                     AcceptAdapter acceptAdapter=new AcceptAdapter(HealthReports.this,acceptList);
+                                     AcceptAdapter acceptAdapter=new AcceptAdapter(HealthReports.this,acceptList,manager,service);
                                      acceptListRcView.setAdapter(acceptAdapter);
                                  }
                             } catch (JSONException e) {
@@ -176,16 +177,14 @@ public class HealthReports extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.uploadReport:
 
-                selectImage();
-                break;
+
             case R.id.back:
                 finish();
                 break;
         }
     }
-    private void selectImage() {
+/*    private void selectImage() {
         final CharSequence[] items = {"take Photos", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(HealthReports.this);
         builder.setTitle("Add photos !");
@@ -218,7 +217,7 @@ public class HealthReports extends BaseActivity {
 
     private void galleryIntent() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image*//*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
@@ -357,7 +356,7 @@ public class HealthReports extends BaseActivity {
             if(file.exists()){
                 MessageToast.showToastMethod(this,file.getAbsolutePath());
                 RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-//                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+//                RequestBody mFile = RequestBody.create(MediaType.parse("image*//*"), file);
                 MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("prescription", file.getName(), mFile);
 
                 RequestBody filename = RequestBody.create(MediaType.parse("text/plain"),manager.getSingleField(SessionManager.KEY_ID));
@@ -388,6 +387,6 @@ public class HealthReports extends BaseActivity {
 
             }
         }
-    }
+    }*/
 
 }

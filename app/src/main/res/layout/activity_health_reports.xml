@@ -42,15 +42,7 @@
     </android.support.v7.widget.CardView>
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/uploadReport"
-        android:layout_margin="10dp"
-        android:text="Upload Your Prescription / Lab Reports"
-        android:layout_gravity="center"
-        android:textColor="@color/colorWhite"
-        android:background="@drawable/sign_button_shape"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/acceptListRcView"
         android:layout_width="match_parent"

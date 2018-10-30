@@ -9,11 +9,13 @@ public class AcceptListPJ {
     String time;
     String department;
     String hospitalName;
-    public AcceptListPJ(String date, String time, String department, String hospitalName) {
+    String hos_id;
+    public AcceptListPJ(String date, String time, String department, String hospitalName, String hos_id) {
     this.date=date;
     this.time=time;
     this.department=department;
     this.hospitalName=hospitalName;
+    this.hos_id=hos_id;
     }
 
     public String getDate() {
@@ -42,6 +44,14 @@ public class AcceptListPJ {
 
     public String getHospitalName() {
         return hospitalName;
+    }
+
+    public String getHos_id() {
+        return hos_id;
+    }
+
+    public void setHos_id(String hos_id) {
+        this.hos_id = hos_id;
     }
 
     public void setHospitalName(String hospitalName) {

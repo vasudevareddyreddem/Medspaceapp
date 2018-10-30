@@ -1,11 +1,14 @@
 package com.medspaceit.appointment.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,7 +39,7 @@ public class MyReportDownload  extends BaseActivity {
     @BindView(R.id.back)
     ImageView back;
 
-
+String hos_id;
 
     List<DownloadListPJ> downloadList;
     @Override
@@ -46,6 +49,9 @@ public class MyReportDownload  extends BaseActivity {
 
         ButterKnife.bind(this);
         back.setOnClickListener(this);
+        Intent i=getIntent();
+        Bundle b=i.getExtras();
+        hos_id=b.getString("hos_id");
         downloadListRcView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         if (isConnected()) {
             showDialog();
@@ -62,6 +68,7 @@ public class MyReportDownload  extends BaseActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("a_u_id", manager.getSingleField(SessionManager.KEY_ID));
+            jsonObject.put("hos_id", hos_id);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -81,17 +88,17 @@ public class MyReportDownload  extends BaseActivity {
                         public void onResponse(JSONObject response) {
                             hideDialog();
                             downloadList=new ArrayList();
+
                             try {
                                 JSONObject job=new JSONObject(String.valueOf(response));
 
                                 String status=job.getString("status");
                                 String message=job.getString("message");
-                                String path=job.getString("path");
+
 
                                 if(status.equals("1"))
                                 {
-
-
+                                    String path=job.getString("path");
                                     JSONArray jsonArray=job.getJSONArray("list");
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject js=jsonArray.getJSONObject(i);
@@ -107,9 +114,6 @@ public class MyReportDownload  extends BaseActivity {
                                 }
                                 else {
                                     showToast(message);
-                                    {
-
-                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

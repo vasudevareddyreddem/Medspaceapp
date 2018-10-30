@@ -1,4 +1,4 @@
-package com.medspaceit.appointment.adapters;
+package com.medspaceit.appointment.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,24 +13,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.medspaceit.appointment.R;
-import com.medspaceit.appointment.activity.BaseActivity;
-import com.medspaceit.appointment.activity.HealthReports;
-import com.medspaceit.appointment.activity.MyReportDownload;
-import com.medspaceit.appointment.activity.MyReportUpload;
-import com.medspaceit.appointment.apis.ApiUrl;
-import com.medspaceit.appointment.apis.MyService;
-import com.medspaceit.appointment.model.AcceptListPJ;
 import com.medspaceit.appointment.model.RegResult;
 import com.medspaceit.appointment.utils.MessageToast;
 import com.medspaceit.appointment.utils.SessionManager;
@@ -41,7 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -49,94 +37,31 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-/**
- * Created by Bhupi on 29-Oct-18.
- */
-
-public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    List<AcceptListPJ> acceptList;
+public class MyReportUpload extends BaseActivity {
+    String hos_ids;
     int SELECT_FILE = 1;
     int REQUEST_CAMERA = 2;
-    SessionManager manager;
-    MyService service;
-    int hos_id_position;
-    public AcceptAdapter(Context context, List<AcceptListPJ> acceptList, SessionManager manager, MyService service) {
-  this.acceptList=acceptList;
-  this.context=context;
-  this.manager=manager;
-  this.service=service;
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.accept_list_card, parent, false);
-        return new AcceptHolder(view);
-    }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_report_upload);
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        hos_ids = b.getString("hos_id");
 
-
-        if (holder instanceof AcceptHolder){
-            AcceptHolder acceptholder= (AcceptHolder) holder;
-            acceptholder.tv_date.setText(acceptList.get(position).getDate());
-            acceptholder.tv_hospital_name.setText(acceptList.get(position).getHospitalName());
-            acceptholder.tv_time_slot.setText(acceptList.get(position).getTime());
-            acceptholder.tv_dpt_name.setText(acceptList.get(position).getDepartment());
-            acceptholder.btn_my_rescription.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i=new Intent(context,MyReportDownload. class);
-                    i.putExtra("hos_id",acceptList.get(position).getHos_id());
-                    context.startActivity(i);
-                }
-            });
-
-            acceptholder.uploadReport.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent i=new Intent(context,MyReportUpload. class);
-                    i.putExtra("hos_id",acceptList.get(position).getHos_id());
-                    context.startActivity(i);
-
-                }
-            });
-    }}
-
-    @Override
-    public int getItemCount() {
-        return acceptList.size();
+        selectImage();
     }
-
-    public class AcceptHolder extends RecyclerView.ViewHolder{
-        TextView tv_date,tv_dpt_name,tv_time_slot,tv_hospital_name;
-        Button btn_my_rescription,uploadReport;
-        public AcceptHolder(View itemView) {
-            super(itemView);
-            tv_date= itemView.findViewById(R.id.tv_date);
-            tv_dpt_name= itemView.findViewById(R.id.tv_dpt_name);
-            tv_hospital_name= itemView.findViewById(R.id.tv_hospital_name);
-            tv_time_slot= itemView.findViewById(R.id.tv_time_slot);
-            btn_my_rescription= itemView.findViewById(R.id.btn_my_rescription);
-            uploadReport= itemView.findViewById(R.id.upload_report);
-
-
-        }
-    }
-
-
 
     private void selectImage() {
         final CharSequence[] items = {"take Photos", "Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add photos !");
+        builder.setCancelable(false);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                switch (item){
+                switch (item) {
                     case 0:
                         cameraIntent();
                         break;
@@ -145,26 +70,27 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         break;
                     case 2:
                         dialog.dismiss();
+                        finish();
                         break;
 
                 }
-
 
 
             }
         });
         builder.show();
     }
+
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        ((Activity)context).startActivityForResult(intent, REQUEST_CAMERA);
+        ((Activity) this).startActivityForResult(intent, REQUEST_CAMERA);
     }
 
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        ((Activity)context).startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+        ((Activity) this).startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
 
@@ -177,24 +103,22 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 uploadImage(onCaptureImageResult(data));
 
 
-
-
         }
     }
 
     private String onSelectFromGalleryResult(Intent data) {
-        String picturePath=null;
+        String picturePath = null;
         Bitmap bm = null;
         if (data != null) {
             try {
-                bm = MediaStore.Images.Media.getBitmap(context.getApplicationContext().getContentResolver(), data.getData());
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = context.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                Cursor cursor = this.getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 try {
-                    picturePath = getFilePath(context, selectedImage);
+                    picturePath = getFilePath(MyReportUpload.this, selectedImage);
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
@@ -212,7 +136,7 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
         FileOutputStream fo;
-        String picturePath=null;
+        String picturePath = null;
         try {
             destination.createNewFile();
             fo = new FileOutputStream(destination);
@@ -295,33 +219,31 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     private void uploadImage(final String filePath) {
-        if(filePath!=null||!filePath.isEmpty()){
-            final File file=new File(filePath);
-            if(file.exists()){
-                MessageToast.showToastMethod(context,file.getAbsolutePath());
+        if (filePath != null || !filePath.isEmpty()) {
+            final File file = new File(filePath);
+            if (file.exists()) {
+                MessageToast.showToastMethod(this, file.getAbsolutePath());
                 RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 //                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
                 MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("prescription", file.getName(), mFile);
 
                 RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), manager.getSingleField(SessionManager.KEY_ID));
-                RequestBody hos_id = RequestBody.create(MediaType.parse("text/plain"), acceptList.get(hos_id_position).getHos_id());
-                Toast.makeText(context, hos_id+" *****", Toast.LENGTH_SHORT).show();
-                Call<RegResult> call = service.uploadPrescription(fileToUpload, filename,hos_id);
+                RequestBody hos_id = RequestBody.create(MediaType.parse("text/plain"), hos_ids);
+                Call<RegResult> call = service.uploadPrescription(fileToUpload, filename, hos_id);
 
                 call.enqueue(new Callback<RegResult>() {
                     @Override
                     public void onResponse(Call<RegResult> call, retrofit2.Response<RegResult> response) {
 
-                        if(!response.isSuccessful())
-                        {
+                        if (!response.isSuccessful()) {
 
                         }
 
 
-                        RegResult result=response.body();
-                        Toast.makeText(context, ""+result.getMessage(), Toast.LENGTH_SHORT).show();
+                        RegResult result = response.body();
+                        Toast.makeText(MyReportUpload.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
 
-
+                        finish();
                     }
 
                     @Override
@@ -334,6 +256,14 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
-
-
