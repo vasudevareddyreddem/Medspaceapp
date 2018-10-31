@@ -79,22 +79,27 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(Integer.valueOf(status.getStatus())==1){
                 //TODO: if u want accept and reject button visible change Gone to visible
                 statusHolder.action_layout.setVisibility(View.GONE);
-                statusHolder.accept.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        list.remove(position);
-                        notifyDataSetChanged();
-                        action.accept(status);
-                    }
-                });
-                statusHolder.reject.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        list.get(position).setStatus("2");
-                        notifyDataSetChanged();
-                        action.reject(status);
-                    }
-                });
+                statusHolder.coupon_layout.setVisibility(View.VISIBLE);
+                statusHolder.tv_coupon.setText(status.getCouponCode());
+
+
+
+//                statusHolder.accept.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        list.remove(position);
+//                        notifyDataSetChanged();
+//                        action.accept(status);
+//                    }
+//                });
+//                statusHolder.reject.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        list.get(position).setStatus("2");
+//                        notifyDataSetChanged();
+//                        action.reject(status);
+//                    }
+//                });
             }else {
                 statusHolder.action_layout.setVisibility(View.GONE);
             }
@@ -137,6 +142,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView reject;
         TextView coupnCode;
         TextView doct_name;
+        TextView tv_coupon;
+        LinearLayout coupon_layout;
 
         public StatusHolder(View itemView) {
             super(itemView);
@@ -152,6 +159,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             accept=itemView.findViewById(R.id.accept);
             reject=itemView.findViewById(R.id.reject);
             doct_name=itemView.findViewById(R.id.doct_name);
+            tv_coupon=itemView.findViewById(R.id.tv_coupon);
+            coupon_layout=itemView.findViewById(R.id.coupon_layout);
         }
     }
 

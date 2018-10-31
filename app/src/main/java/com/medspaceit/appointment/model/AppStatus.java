@@ -118,7 +118,7 @@ public class AppStatus implements Comparable<AppStatus>{
     @Expose
 
     private String zipcode;
-    @SerializedName("coupon_code")
+    @SerializedName("couponcodes")
     @Expose
     private String couponCode;
     public String getCouponCode() {

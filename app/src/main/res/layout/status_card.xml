@@ -286,8 +286,44 @@
                 android:layout_gravity="left|top"
                 />
             <TextView
-                android:layout_gravity="top"
                 android:id="@+id/address"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:id="@+id/coupon_layout"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|left"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/cardnumber"
+                android:layout_margin="2dp"
+                android:layout_gravity="left|top"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="Coupon Codes :"
+                />
+            <TextView
+                android:id="@+id/tv_coupon"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
