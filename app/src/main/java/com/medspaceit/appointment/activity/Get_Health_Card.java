@@ -3,6 +3,7 @@ package com.medspaceit.appointment.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -29,6 +31,8 @@ import com.medspaceit.appointment.R;
 import com.medspaceit.appointment.apis.ApiUrl;
 import com.medspaceit.appointment.utils.MessageToast;
 import com.medspaceit.appointment.utils.SessionManager;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +43,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.RequestBody;
 
-public class Get_Health_Card extends BaseActivity implements View.OnClickListener {
+public class Get_Health_Card extends BaseActivity implements View.OnClickListener, PaymentResultListener {
     @BindView(R.id.Submit_card)
     Button Submit_card;
+
+    @BindView(R.id.pleaseWaitLayout)
+    LinearLayout pleaseWaitLayout;
+
+    @BindView(R.id.mainLayoutGHC)
+    LinearLayout mainLayoutGHC;
 
     @BindView(R.id.back)
     ImageView back;
@@ -82,14 +92,18 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
     String gender = "";
     String Cardnumber;
 
-    static final Pattern CODE_PATTERN = Pattern.compile("([0-9]{0,4})|([0-9]{4}-)+|([0-9]{0,4})+");
+    String amount;
+    String card_assign_number;
+    double total;
+
+    public static Activity ghc;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get__health__card);
-
+        ghc = this;
         ButterKnife.bind(this);
 
         back.setOnClickListener(this);
@@ -131,8 +145,8 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
                     // masked: (999) 999-999
                     if (phone.length() >= 12 && !backspacingFlag) {
                         editedFlag = true;
-                        String ans = phone.substring(0, 4) + " " + phone.substring(4, 8) + " " + phone.substring(8, 12) ;
-                                heaith_card_no.setText(ans);
+                        String ans = phone.substring(0, 4) + " " + phone.substring(4, 8) + " " + phone.substring(8, 12);
+                        heaith_card_no.setText(ans);
                         heaith_card_no.setSelection(heaith_card_no.getText().length() - cursorComplement);
 
                     }
@@ -166,9 +180,36 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
             showDialog();
 
             apiCall();
+            apiGetCardAmount();
         } else showToast("No Internet");
 
 
+    }
+
+    private void apiGetCardAmount() {
+        final StringRequest request = new StringRequest(Request.Method.POST, ApiUrl.BaseUrl + ApiUrl.cardamount, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+                    amount = jsonObject.getString("amount");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        });
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
     }
 
     private void apiCall() {
@@ -289,37 +330,43 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
         try {
 
             jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    ApiUrl.BaseUrl+ApiUrl.takecardnumber, new JSONObject(json),
+                    ApiUrl.BaseUrl + ApiUrl.takecardnumber, new JSONObject(json),
                     new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
                             hideDialog();
-                            String card_assign_number;
 
-                           // {"status":1,"card_assign_number":21,"a_u_id":"mn2","message":"Card Number successfully added"}
+                            // {"status":1,"card_assign_number":21,"a_u_id":"mn2","message":"Card Number successfully added"}
                             try {
-                                JSONObject job=new JSONObject(String.valueOf(response));
-                                String message=job.getString("message");
-                                String status=job.getString("status");
-                                if(status.equals("0"))
-                                {
-                                    MessageToast.showToastMethod(Get_Health_Card.this,message);
+                                JSONObject job = new JSONObject(String.valueOf(response));
+                                String message = job.getString("message");
+                                String status = job.getString("status");
+                                if (status.equals("0")) {
+                                    MessageToast.showToastMethod(Get_Health_Card.this, message);
 
-                                }
-                                else{
-                                    finish();
-                                    card_assign_number=job.getString("card_assign_number");
+                                } else {
+                                    hideSoftKeyboard();
+                                    card_assign_number = job.getString("card_assign_number");
+                                    mainLayoutGHC.setVisibility(View.GONE);
+                                    pleaseWaitLayout.setVisibility(View.VISIBLE);
+                                    Toast.makeText(Get_Health_Card.this, message, Toast.LENGTH_SHORT).show();
 
-                                    MessageToast.showToastMethod(Get_Health_Card.this,message);
+//                                    Intent intent=new Intent(Get_Health_Card.this,CheckoutActivity.class);
+//                                    intent.putExtra("email",email.getText().toString());
+//                                    intent.putExtra("name",pt_name.getText().toString());
+//                                    intent.putExtra("phone",molibe_number.getText().toString());
+//                                    intent.putExtra("card_assign_number",card_assign_number);
+//                                    intent.putExtra("heaith_card_no",heaith_card_no.getText().toString());
+//                                    startActivity(intent);
 
-                                    Intent intent=new Intent(Get_Health_Card.this,CheckoutActivity.class);
-                                    intent.putExtra("email",email.getText().toString());
-                                    intent.putExtra("name",pt_name.getText().toString());
-                                    intent.putExtra("phone",molibe_number.getText().toString());
-                                    intent.putExtra("card_assign_number",card_assign_number);
-                                    intent.putExtra("heaith_card_no",heaith_card_no.getText().toString());
-                                    startActivity(intent);
+                                    if (isConnected()) {
+
+                                        startPayment();
+                                        // finish();
+                                    } else showToast("No Internet");
+
+
                                 }
 
                             } catch (JSONException e) {
@@ -343,7 +390,7 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
         }
     }
 
-        @Override
+    @Override
     public void onBackPressed() {
         setResult(Activity.RESULT_OK);
         super.onBackPressed();
@@ -364,10 +411,134 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
 
 
     }
+
     public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
+        if (getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+    public void startPayment() {
+        /**
+         * You need to pass current activity in order to let Razorpay create CheckoutActivity
+         */
+        final Activity activity = this;
+
+        final Checkout co = new Checkout();
+
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", pt_name.getText().toString());
+            options.put("description", "Health Card Charges");
+            //You can omit the image option to fetch the image from dashboard
+            options.put("image", "https://rzp-mobile.s3.amazonaws.com/images/rzp.png");
+            options.put("currency", "INR");
+
+
+            total = Double.parseDouble(amount);
+            total = total * 100;
+            options.put("amount", total);
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", email.getText().toString());
+            preFill.put("contact", molibe_number.getText().toString());
+
+            options.put("prefill", preFill);
+
+            co.open(activity, options);
+        } catch (Exception e) {
+            mainLayoutGHC.setVisibility(View.VISIBLE);
+            pleaseWaitLayout.setVisibility(View.GONE);
+            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPaymentSuccess(String razorpayPaymentID) {
+
+        Toast.makeText(this, "Payment successfully done! " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
+//
+        CallApi(razorpayPaymentID);
+    }
+
+    private void CallApi(String razorpayPaymentID) {
+
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("a_u_id", manager.getSingleField(SessionManager.KEY_NAME));
+            jsonObject.put("razorpay_payment_id", razorpayPaymentID);
+            jsonObject.put("card_assign_number", card_assign_number);
+            jsonObject.put("amount", total);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.BaseUrl + ApiUrl.payment, new JSONObject(json),
+                    new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            hideDialog();
+                            try {
+                                JSONObject job = new JSONObject(String.valueOf(response));
+                                Log.i("payment response====", response.toString());
+                                String message = job.getString("message");
+                                Toast.makeText(Get_Health_Card.this, message, Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(Get_Health_Card.this, FinalScreen.class);
+                                intent.putExtra("name", pt_name.getText().toString());
+                                intent.putExtra("phone", molibe_number.getText().toString());
+                                intent.putExtra("heaith_card_no", heaith_card_no.getText().toString());
+                                startActivity(intent);
+                                heaith_card_no.setText("");
+                                molibe_number.setText("");
+                                pt_city.setText("");
+                                whatsapp_number.setText("");
+                                email.setText("");
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+//
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    hideDialog();
+                    Toast.makeText(Get_Health_Card.this, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onPaymentError(int code, String response) {
+        mainLayoutGHC.setVisibility(View.VISIBLE);
+        pleaseWaitLayout.setVisibility(View.GONE);
+        try {
+            Toast.makeText(this, "Payment error please try again", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("OnPaymentError", "Exception in onPaymentError", e);
+        }
+    }
+
 }

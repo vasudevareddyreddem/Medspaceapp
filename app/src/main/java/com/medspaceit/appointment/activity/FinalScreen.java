@@ -2,6 +2,7 @@ package com.medspaceit.appointment.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -25,6 +26,8 @@ EditText card_no,card_No;
 
         phone=b.getString("phone");
         heaith_card_no=b.getString("heaith_card_no");
+
+
         holder_name=findViewById(R.id.holder_name);
         phone_no=findViewById(R.id.phone_no);
         card_no=findViewById(R.id.card_no);
@@ -127,5 +130,13 @@ EditText card_no,card_No;
         card_No.setText(heaith_card_no);
         holder_name.setText(name);
         phone_no.setText(phone);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Get_Health_Card.ghc.finish();
+        finish();
+
     }
 }
