@@ -1,9 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.medspaceit.appointment.activity.MyReportUpload">
+    <android.support.v7.widget.CardView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        >
+        <RelativeLayout
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            >
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/back"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Report"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                />
 
-</android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_marginTop="70dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginBottom="70dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/take_frm_cam"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/sign_text_shape"
+        android:gravity="center"
+        android:text="Take pic from Camera"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/take_frm_gal"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/sign_text_shape"
+        android:gravity="center"
+        android:text="Choose pic from Gallery"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/sign_button_shape"
+        android:gravity="center"
+
+        android:text="Cancel"
+        android:textColor="@color/colorWhite"
+        android:textSize="17sp" />
+
+
+</LinearLayout>
+
+
+</RelativeLayout>

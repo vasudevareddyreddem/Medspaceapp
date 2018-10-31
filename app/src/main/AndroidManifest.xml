@@ -85,7 +85,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_FMROR38S2ObKGw" />
+            android:value="rzp_live_8oTwGtVqjBWSSb" />
         <!-- [START fcm_default_icon] -->
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -127,11 +127,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CheckoutActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.FinalScreen"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.HealthReports"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.MyReportDownload"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.MyReportUpload"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.FinalScreen" />
-        <activity android:name=".activity.HealthReports" />
-        <activity android:name=".activity.MyReportDownload" />
-        <activity android:name=".activity.MyReportUpload"></activity>
     </application>
 
 </manifest>

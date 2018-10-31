@@ -100,6 +100,7 @@ public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                     Intent i=new Intent(context,MyReportUpload. class);
                     i.putExtra("hos_id",acceptList.get(position).getHos_id());
+
                     context.startActivity(i);
 
                 }

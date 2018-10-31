@@ -3,6 +3,7 @@ package com.medspaceit.appointment.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -87,7 +88,6 @@ public class StatusActivity extends BaseActivity implements StatusAdapter.Status
                 StatusData data = response.body();
 
                 if (data != null) {
-
 
                     if (data.getStatus() == 1) {
                         appStatuses = data.getList();

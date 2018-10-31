@@ -17,6 +17,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.medspaceit.appointment.R;
@@ -31,6 +33,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -38,6 +42,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class MyReportUpload extends BaseActivity {
+
+    @BindView(R.id.take_frm_gal)
+    TextView take_frm_gal;
+    @BindView(R.id.take_frm_cam)
+    TextView take_frm_cam;
+    @BindView(R.id.cancel)
+    TextView cancel;
+
+    @BindView(R.id.back)
+    ImageView back;
+
     String hos_ids;
     int SELECT_FILE = 1;
     int REQUEST_CAMERA = 2;
@@ -49,41 +64,38 @@ public class MyReportUpload extends BaseActivity {
         Intent i = getIntent();
         Bundle b = i.getExtras();
         hos_ids = b.getString("hos_id");
+        ButterKnife.bind(this);
 
-        selectImage();
+        take_frm_gal.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        take_frm_cam.setOnClickListener(this);
+        back.setOnClickListener(this);
+
     }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.take_frm_cam:
+                cameraIntent();
+                break;
+            case R.id.take_frm_gal:
+                galleryIntent();
+                break;
+            case R.id.cancel:
+                finish();
+                break;
+                case R.id.back:
+                finish();
+                break;
+        }
 
-    private void selectImage() {
-        final CharSequence[] items = {"take Photos", "Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add photos !");
-        builder.setCancelable(false);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                switch (item) {
-                    case 0:
-                        cameraIntent();
-                        break;
-                    case 1:
-                        galleryIntent();
-                        break;
-                    case 2:
-                        dialog.dismiss();
-                        finish();
-                        break;
+        }
 
-                }
-
-
-            }
-        });
-        builder.show();
-    }
 
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         ((Activity) this).startActivityForResult(intent, REQUEST_CAMERA);
+
     }
 
     private void galleryIntent() {
@@ -91,6 +103,7 @@ public class MyReportUpload extends BaseActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         ((Activity) this).startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+
     }
 
 
@@ -242,7 +255,6 @@ public class MyReportUpload extends BaseActivity {
 
                         RegResult result = response.body();
                         Toast.makeText(MyReportUpload.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
-
                         finish();
                     }
 
@@ -256,14 +268,13 @@ public class MyReportUpload extends BaseActivity {
         }
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+       this.finish();
     }
+
+
 }
