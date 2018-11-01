@@ -160,6 +160,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 specialists = null;
                 hospitals = null;
                 doctorlists = null;
+                departments=null;
                 hos_txt.setText("Select Hospitals");
                 doct = null;
                 doctor_txt.setText("Select Doctors");
@@ -173,6 +174,10 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 hos_txt.setText(hospital);
                 txt_consultationfee.setText("Consultation fee :" + hospitals.get(position).getConsultationfee());
                 FetchDepatments(hos_id);
+                departments=null;
+                specialists = null;
+                doctorlists = null;
+
                 spl = null;
                 spl_txt.setText("Select Specialties");
                 dept = null;
@@ -188,6 +193,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 dept_txt.setText(dept);
                 dept_id = departments.get(position).getDepartment_id();
                 FetchSpecialists(hos_id, dept_id);
+                specialists = null;
+                doctorlists = null;
+
                 spl = null;
                 spl_txt.setText("Select Specialties");
                 doct = null;
@@ -200,8 +208,10 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 spl = specialists.get(position).getValue();
                 spl_id = specialists.get(position).getSpecialist_id();
                 spl_txt.setText(spl);
-                hos_id = hospitals.get(position).getId();
+                doctorlists = null;
                 FetchDoctors(hos_id, spl_id);
+
+
                 doct = null;
                 doctor_txt.setText("Select Doctors");
                 checkboxfee.setEnabled(false);

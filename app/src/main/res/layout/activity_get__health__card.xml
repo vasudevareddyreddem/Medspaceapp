@@ -84,7 +84,7 @@
                         android:focusable="false"
 
                         android:hint="@string/card_no"
-                        android:inputType="textEmailAddress"
+                        android:inputType="number"
                         android:maxLines="1"
                         android:singleLine="true" />
 
