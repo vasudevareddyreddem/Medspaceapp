@@ -16,6 +16,7 @@ import com.medspaceit.appointment.model.RegResult;
 import com.medspaceit.appointment.model.Registration;
 import com.medspaceit.appointment.model.Specialists;
 import com.medspaceit.appointment.model.StatusData;
+import com.medspaceit.appointment.model.TimeSlotlists;
 
 import java.util.concurrent.TimeUnit;
 
@@ -72,6 +73,9 @@ public interface MyService {
     Call<Doctorlists> getDocterlists(@Body JsonObject s, @Header("content-type") String contenttype);
     @POST(ApiUrl.hoslist)
     Call<HospitalList> getHospitals(@Body JsonObject s, @Header("content-type") String contenttype);
+    @POST(ApiUrl.timelist)
+    Call<TimeSlotlists> getTimeSlots(@Body JsonObject s, @Header("content-type") String contenttype);
+
     @POST(ApiUrl.appointment)
     Call<RegResult> addAppointments(@Body Appointment appointment, @Header("content-type") String contenttype);
     @POST(ApiUrl.profileUpdate)

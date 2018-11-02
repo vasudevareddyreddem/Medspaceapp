@@ -1,17 +1,24 @@
 package com.medspaceit.appointment.model;
 
-public class TimeSlot implements Formatter {
-    String value="";
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public TimeSlot(String value) {
-        this.value = value;
+public class TimeSlot implements Formatter{
+
+    @SerializedName("timeslot")
+    @Expose
+    private String stime;
+
+    public String getStime() {
+        return stime;
     }
 
-    public void setValue(String value){
-        this.value=value;
+    public void setStime(String stime) {
+        this.stime = stime;
     }
+
     @Override
     public String getValue() {
-        return this.value;
+        return getStime();
     }
 }

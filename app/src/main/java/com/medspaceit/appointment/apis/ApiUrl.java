@@ -33,6 +33,7 @@ public class ApiUrl {
     final public static String uploadprescription="uploadprescription";
     final public static String allcards="card_list_details";
     final public static String cardamount="cardamount";
+    final public static String timelist="doctors_time_slot";
 
 
 }

@@ -169,11 +169,11 @@
                                 android:layout_height="35dp"
                                 android:id="@+id/upload_report"
                                 android:layout_weight="1"
-                                android:text="Upload Your Lab Reports"
+                                android:text="Upload Your Health Reports"
                                 android:layout_gravity="center"
                                 android:textColor="@color/colorWhite"
                                 android:textAllCaps="false"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:layout_margin="2dp"
                                 android:background="@drawable/sign_button_shape"/>
                             <Button
@@ -188,7 +188,7 @@
                                 android:background="@drawable/sign_text_shape"
                                 android:text="Download Report"
                                 android:textAllCaps="false"
-                                android:textSize="12sp" />
+                                android:textSize="11sp" />
 
                             <Button
                                 android:id="@+id/btn_lab_reports"

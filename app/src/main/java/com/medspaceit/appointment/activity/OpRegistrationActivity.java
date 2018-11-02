@@ -37,6 +37,7 @@ import com.medspaceit.appointment.model.RegResult;
 import com.medspaceit.appointment.model.Specialist;
 import com.medspaceit.appointment.model.Specialists;
 import com.medspaceit.appointment.model.TimeSlot;
+import com.medspaceit.appointment.model.TimeSlotlists;
 import com.medspaceit.appointment.utils.MessageToast;
 import com.medspaceit.appointment.utils.SessionManager;
 
@@ -119,33 +120,33 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
         } else
             MessageToast.showToastMethod(this, "No Internet");
 
-        setTimeSlots();
+       // setTimeSlots();
 
 
     }
 
-    private void setTimeSlots() {
-        timeSlots = new ArrayList<TimeSlot>();
-//        timeSlots.add(new TimeSlot("12:00 am"));
-//        timeSlots.add(new TimeSlot("12:30 am"));
-        for (int i = 8; i <= 22; i++) {
-            int time = i % 12;
-            if (i < 12) {
-                String temp = String.format("%02d", i);
-                timeSlots.add(new TimeSlot(temp + ":00 am"));
-                timeSlots.add(new TimeSlot(temp + ":30 am"));
-            } else if (i == 12) {
-                timeSlots.add(new TimeSlot(12 + ":00 pm"));
-                timeSlots.add(new TimeSlot(12 + ":30 pm"));
-            } else {
-                String temp = String.format("%02d", time);
-                timeSlots.add(new TimeSlot(temp + ":00 pm"));
-                timeSlots.add(new TimeSlot(temp + ":30 pm"));
-            }
+//    private void setTimeSlots() {
+//        timeSlots = new ArrayList<TimeSlot>();
+////        timeSlots.add(new TimeSlot("12:00 am"));
+////        timeSlots.add(new TimeSlot("12:30 am"));
+//        for (int i = 8; i <= 22; i++) {
+//            int time = i % 12;
+//            if (i < 12) {
+//                String temp = String.format("%02d", i);
+//                timeSlots.add(new TimeSlot(temp + ":00 am"));
+//                timeSlots.add(new TimeSlot(temp + ":30 am"));
+//            } else if (i == 12) {
+//                timeSlots.add(new TimeSlot(12 + ":00 pm"));
+//                timeSlots.add(new TimeSlot(12 + ":30 pm"));
+//            } else {
+//                String temp = String.format("%02d", time);
+//                timeSlots.add(new TimeSlot(temp + ":00 pm"));
+//                timeSlots.add(new TimeSlot(temp + ":30 pm"));
+//            }
+//
+//        }
 
-        }
-
-    }
+   // }
 
     private void fetchData(int data_type, int position) {
         switch (data_type) {
@@ -154,6 +155,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 city_txt.setText(city);
                 FetchHospitals(city);
                 dept = null;
+
                 dept_txt.setText("Select Department");
                 spl = null;
                 spl_txt.setText("Select Specialties");
@@ -161,9 +163,12 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 hospitals = null;
                 doctorlists = null;
                 departments=null;
+                timeSlots=null;
                 hos_txt.setText("Select Hospitals");
                 doct = null;
                 doctor_txt.setText("Select Doctors");
+                time = null;
+                time_txt.setText("Select time");
                 checkboxfee.setEnabled(false);
 
                 txt_consultationfee.setVisibility(View.INVISIBLE);
@@ -177,13 +182,16 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 departments=null;
                 specialists = null;
                 doctorlists = null;
-
+                timeSlots = null;
+                time = null;
+                time_txt.setText("Select time");
                 spl = null;
                 spl_txt.setText("Select Specialties");
                 dept = null;
                 dept_txt.setText("Select Department");
                 doct = null;
                 doctor_txt.setText("Select Doctors");
+                time_txt.setText("Select time");
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
                 txt_consultationfee.setVisibility(View.INVISIBLE);
@@ -195,7 +203,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 FetchSpecialists(hos_id, dept_id);
                 specialists = null;
                 doctorlists = null;
-
+                timeSlots = null;
+                time = null;
+                time_txt.setText("Select time");
                 spl = null;
                 spl_txt.setText("Select Specialties");
                 doct = null;
@@ -211,8 +221,10 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 doctorlists = null;
                 FetchDoctors(hos_id, spl_id);
 
-
+                time = null;
+                time_txt.setText("Select time");
                 doct = null;
+                timeSlots = null;
                 doctor_txt.setText("Select Doctors");
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
@@ -223,16 +235,62 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 doct = doctorlists.get(position).getValue();
                 doct_id = doctorlists.get(position).getDoctor_id();
                 doctor_txt.setText(doct);
+               FetchDoctorTimeSlot(hos_id, doct_id);
                 checkboxfee.setEnabled(true);
-
-
-            case 0:
-                time = timeSlots.get(position).getValue();
-                time_txt.setText(time);
+                timeSlots = null;
+                time = null;
+                time_txt.setText("Select time");
                 break;
+
+            case 6:
+                time = timeSlots.get(position).getStime();
+                time_txt.setText(time.toString());
+
 
         }
 
+    }
+
+    private void FetchDoctorTimeSlot(String hos_id, String doct_id) {
+
+        JsonObject object = new JsonObject();
+        object.addProperty("hos_id", hos_id);
+        object.addProperty("doctor_id", doct_id);
+
+
+        Call<TimeSlotlists> call = service.getTimeSlots(object, ApiUrl.content_type);
+
+        showDialog();
+        call.enqueue(new Callback<TimeSlotlists>() {
+            @Override
+            public void onResponse(Call<TimeSlotlists> call, Response<TimeSlotlists> response) {
+                hideDialog();
+
+                if (!response.isSuccessful()) {
+                    showToast("Server side error");
+                    return;
+                }
+                TimeSlotlists detps = response.body();
+
+                if (detps != null) {
+
+                    if (detps.getStatus() == 1) {
+                        timeSlots = detps.getList();
+                    } else {
+                        doct = null;
+                        doctor_txt.setText("No Doctor");
+                        showToast(detps.getMessage());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<TimeSlotlists> call, Throwable t) {
+                hideDialog();
+            }
+
+        });
     }
 
     private void FetchHospitals(String city) {
@@ -622,6 +680,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             case R.id.time_lay:
                 title = "Select time";
                 list = timeSlots;
+                data_type = 6;
                 break;
         }
         if (list != null) {
@@ -648,65 +707,6 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
     ArrayList<Hospital> out = new ArrayList<>();
 
 
-    public void openDialog(View view) {
-        if (hospitals != null) {
-            final String[] items = getStringArray(hospitals);
-            final boolean[] selected = new boolean[items.length];
-            ArrayList<Integer> list = new ArrayList<>();
-            if (!out.isEmpty()) {
-                for (Hospital hospital : out) {
-                    if (hospitals.contains(hospital)) {
-                        list.add(hospitals.indexOf(hospital));
-                    }
-                }
-            }
-            for (int i = 0; i < selected.length; i++) {
-                if (list.contains(i))
-                    selected[i] = true;
-                else
-                    selected[i] = false;
-            }
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-            View view1 = getLayoutInflater().inflate(R.layout.spinner_item, null);
-            TextView mTitle = view1.findViewById(R.id.txt_item);
-            mTitle.setText("Select Hospitals");
-            builder.setCustomTitle(view1)
-                    .setMultiChoiceItems(items, selected, new DialogInterface.OnMultiChoiceClickListener() {
-                        public void onClick(DialogInterface dialogInterface, int item, boolean b) {
-                            Log.d("Myactivity", String.format("%s: %s", items[item], selected[item]));
-
-                        }
-                    });
-            builder.setCancelable(true).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    out.clear();
-                    for (int i = 0; i < selected.length; i++) {
-                        if (selected[i]) {
-                            out.add(hospitals.get(i));
-                            if (!out.contains(hospitals.get(i)))
-                                out.add(hospitals.get(i));
-                        }
-                    }
-                    if (out != null && out.size() > 0) {
-                        layout.setVisibility(View.VISIBLE);
-                        tagsAdapter.setList(out);
-                    } else {
-                        layout.setVisibility(View.GONE);
-                        tagsAdapter.setList(out);
-                    }
-                    dialog.dismiss();
-                }
-            });
-
-            builder.create().show();
-        }
-    }
 
     private String[] getStringArray(List formatters) {
         String[] strings = new String[formatters.size()];
