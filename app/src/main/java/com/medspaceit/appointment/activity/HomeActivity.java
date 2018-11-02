@@ -430,6 +430,7 @@ public class HomeActivity extends BaseActivity
             startActivity(intent);
         } else if (id == R.id.signout) {
             manager.logoutUser();
+            Toast.makeText(this, "Sign Out Successfully", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

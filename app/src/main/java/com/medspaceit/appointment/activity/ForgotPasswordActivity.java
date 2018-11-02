@@ -104,7 +104,19 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
 
                 RegResult result=response.body();
-                showToast(result.getMessage());
+                if(result.getStatus()==1)
+                {
+                    showToast(result.getMessage());
+                    edt_mail.setText("");
+                    Intent intent=new Intent(ForgotPasswordActivity.this, SignInActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    showToast(result.getMessage());
+                }
+
 
             }
 

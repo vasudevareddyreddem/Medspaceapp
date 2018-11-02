@@ -216,7 +216,7 @@
                     android:background="@color/colorWhite"
                     android:gravity="left"
                     android:maxLength="30"
-                    android:hint="Name"
+                    android:hint="Patient Name"
                     android:inputType="textPersonName"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
@@ -301,7 +301,7 @@
                 android:enabled="false"
                 android:onClick="showConsultationFee"
                 android:id="@+id/check_fee_box"
-                android:text="Consultation Fee before confirmation. Check once consultation fee"
+                android:text="Check consultation fee before confirmation."
                 android:layout_height="wrap_content" />
 
      <TextView

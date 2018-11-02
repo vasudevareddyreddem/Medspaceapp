@@ -66,9 +66,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setValues() {
         profile=manager.getProfile();
         if(profile!=null){
+
         mailId.setText(profile.getMail());
         mobileNumber.setText(profile.getMobile());
         userName.setText(profile.getName());
+
+            int position = profile.getName().length();
+            userName.setSelection(position);
+
         }
 
 

@@ -147,7 +147,7 @@
                 android:layout_weight="1"
               android:textColor="@color/colorBlack"
                 android:gravity="end|center"
-                android:text="Forget Password"
+                android:text="Forgot Password"
                 android:textSize="15sp" />
 
         </LinearLayout>

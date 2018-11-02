@@ -135,8 +135,9 @@ EditText card_no,card_No;
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Get_Health_Card.ghc.finish();
+
         finish();
+        Get_Health_Card.ghc.finish();
 
     }
 }

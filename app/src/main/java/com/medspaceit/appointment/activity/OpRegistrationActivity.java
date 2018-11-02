@@ -158,15 +158,15 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
 
                 dept_txt.setText("Select Department");
                 spl = null;
-                spl_txt.setText("Select Specialties");
+                spl_txt.setText("Select Speciality");
                 specialists = null;
                 hospitals = null;
                 doctorlists = null;
                 departments=null;
                 timeSlots=null;
-                hos_txt.setText("Select Hospitals");
+                hos_txt.setText("Select Hospital");
                 doct = null;
-                doctor_txt.setText("Select Doctors");
+                doctor_txt.setText("Select Doctor");
                 time = null;
                 time_txt.setText("Select time");
                 checkboxfee.setEnabled(false);
@@ -186,11 +186,11 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 time = null;
                 time_txt.setText("Select time");
                 spl = null;
-                spl_txt.setText("Select Specialties");
+                spl_txt.setText("Select Speciality");
                 dept = null;
                 dept_txt.setText("Select Department");
                 doct = null;
-                doctor_txt.setText("Select Doctors");
+                doctor_txt.setText("Select Doctor");
                 time_txt.setText("Select time");
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
@@ -207,9 +207,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 time = null;
                 time_txt.setText("Select time");
                 spl = null;
-                spl_txt.setText("Select Specialties");
+                spl_txt.setText("Select Speciality");
                 doct = null;
-                doctor_txt.setText("Select Doctors");
+                doctor_txt.setText("Select Doctor");
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
                 txt_consultationfee.setVisibility(View.INVISIBLE);
@@ -225,7 +225,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                 time_txt.setText("Select time");
                 doct = null;
                 timeSlots = null;
-                doctor_txt.setText("Select Doctors");
+                doctor_txt.setText("Select Doctor");
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
                 txt_consultationfee.setVisibility(View.INVISIBLE);
@@ -315,7 +315,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                         hospitals = detps.getHospital();
 
                     } else {
-                        hos_txt.setText("No Hospitals");
+                        hos_txt.setText("No Hospital");
                         showToast(detps.getMessage());
 
                     }
@@ -399,7 +399,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                         doctorlists = doc.getDoctorlist();
                     } else {
                         spl = null;
-                        spl_txt.setText("No Specialties");
+                        spl_txt.setText("No Speciality");
                         showToast(doc.getMessage());
                     }
                 }
@@ -441,7 +441,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
                     } else {
                         showToast(detps.getMessage());
                         dept = null;
-                        dept_txt.setText("No DePartments");
+                        dept_txt.setText("No Department");
                     }
 
                 }
