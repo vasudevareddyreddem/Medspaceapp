@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -145,6 +146,13 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.pager)
     ViewPager cardPager;
 
+    private Handler handler;
+    int currentPage=0;
+    private int delay = 5000; //milliseconds
+    private int page = 0;
+    MyAllCardAdapter adapter;
+
+
     //    @BindView(R.id.notification_count)
 //    TextView notification_count;
     String[] permissions = new String[]{
@@ -263,10 +271,8 @@ public class HomeActivity extends BaseActivity
                                         allCardList.add(acp);
                                     }
 
-                                    MyAllCardAdapter adapter=new MyAllCardAdapter(HomeActivity.this,allCardList);
+                                     adapter=new MyAllCardAdapter(HomeActivity.this,allCardList);
                                     cardPager.setAdapter(adapter);
-
-
                                 }
                                 else {
                                     no_card_text.setVisibility(View.VISIBLE);

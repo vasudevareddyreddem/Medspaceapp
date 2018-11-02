@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Timer;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -55,6 +56,7 @@ import retrofit2.Callback;
 
 public class AcceptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
+
     List<AcceptListPJ> acceptList;
     int SELECT_FILE = 1;
     int REQUEST_CAMERA = 2;

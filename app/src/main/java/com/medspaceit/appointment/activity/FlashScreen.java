@@ -56,11 +56,11 @@ public class FlashScreen extends BaseActivity {
         return false;
     }
     private void startAhandler() {
-        showDialog();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                hideDialog();
+
                 if(!isConnected()){
                     MessageToast.showToastMethod(FlashScreen.this,"No Internet");
                        triagain.setVisibility(View.VISIBLE);
