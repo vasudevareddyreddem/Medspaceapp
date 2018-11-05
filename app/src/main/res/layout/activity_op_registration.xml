@@ -230,6 +230,29 @@
                 android:padding="12dp">
 
                 <EditText
+                    android:id="@+id/cardNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite"
+                    android:gravity="left"
+                    android:maxLength="15"
+                    android:hint="Card Number"
+                    android:inputType="number"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_space"
+                android:background="@drawable/sign_text_shape"
+                android:padding="12dp">
+
+                <EditText
                     android:id="@+id/age"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -238,7 +261,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:gravity="left"
-                    android:maxLength="3"
+                    android:maxLength="2"
                     android:hint="Age"
                     android:inputType="number"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />

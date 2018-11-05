@@ -140,14 +140,14 @@ public class HomeActivity extends BaseActivity
 
     @BindView(R.id.title_home)
     TextView title_home;
-@BindView(R.id.no_card_text)
+    @BindView(R.id.no_card_text)
     TextView no_card_text;
 
     @BindView(R.id.pager)
     ViewPager cardPager;
 
     private Handler handler;
-    int currentPage=0;
+    int currentPage = 0;
     private int delay = 5000; //milliseconds
     private int page = 0;
     MyAllCardAdapter adapter;
@@ -168,6 +168,7 @@ public class HomeActivity extends BaseActivity
     static final Integer GPS_SETTINGS = 0x7;
 
     ArrayList<AllCardPJ> allCardList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,6 +225,7 @@ public class HomeActivity extends BaseActivity
                 .error(R.drawable.dummy_user)
                 .into(profile_pic);
         getAllCards();
+
     }
 
     private void getAllCards() {
@@ -271,10 +273,9 @@ public class HomeActivity extends BaseActivity
                                         allCardList.add(acp);
                                     }
 
-                                     adapter=new MyAllCardAdapter(HomeActivity.this,allCardList);
+                                    adapter = new MyAllCardAdapter(HomeActivity.this, allCardList);
                                     cardPager.setAdapter(adapter);
-                                }
-                                else {
+                                } else {
                                     no_card_text.setVisibility(View.VISIBLE);
                                     cardPager.setVisibility(View.GONE);
                                     no_card_text.setOnClickListener(new View.OnClickListener() {
@@ -428,7 +429,13 @@ public class HomeActivity extends BaseActivity
             Intent intent = new Intent(HomeActivity.this, StatusActivity.class);
             intent.putExtra("title", "History");
             startActivity(intent);
-        } else if (id == R.id.signout) {
+
+    } else if (id == R.id.customer) {
+        Intent intent = new Intent(HomeActivity.this, CustomerService.class);
+        startActivity(intent);
+    }
+
+        else if (id == R.id.signout) {
             manager.logoutUser();
             Toast.makeText(this, "Sign Out Successfully", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(HomeActivity.this, SignInActivity.class);

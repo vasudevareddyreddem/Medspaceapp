@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -63,6 +65,9 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
     @BindView(R.id.name)
     EditText edt_name;
 
+ @BindView(R.id.cardNum)
+    EditText edt_cardNum;
+
 
     @BindView(R.id.back)
     ImageView back;
@@ -115,38 +120,59 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
         back.setOnClickListener(this);
         addOp.setOnClickListener(this);
         dateOfReg.setOnClickListener(this);
+        edt_cardNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
+            private boolean backspacingFlag = false;
+            private boolean editedFlag = false;
+            private int cursorComplement;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                cursorComplement = s.length() - edt_cardNum.getSelectionStart();
+                if (count > after) {
+                    backspacingFlag = true;
+                } else {
+                    backspacingFlag = false;
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                super.onTextChanged(s, start, before, count);
+
+            }
+
+            @Override
+            public synchronized void afterTextChanged(Editable s) {
+
+
+                String string = s.toString();
+                String phone = string.replaceAll("[^\\d]", "");
+
+                if (!editedFlag) {
+
+                    //example: 999999999 <- 6+ digits already typed
+                    // masked: (999) 999-999
+                    if (phone.length() >= 12 && !backspacingFlag) {
+                        editedFlag = true;
+                        String ans = phone.substring(0, 4) + " " + phone.substring(4, 8) + " " + phone.substring(8, 12);
+                        edt_cardNum.setText(ans);
+                        edt_cardNum.setSelection(edt_cardNum.getText().length() - cursorComplement);
+
+                    }
+                } else {
+                    editedFlag = false;
+                }
+            }
+        });
+
         if (isConnected()) {
             FeatchCity();
         } else
             MessageToast.showToastMethod(this, "No Internet");
 
-       // setTimeSlots();
-
 
     }
-
-//    private void setTimeSlots() {
-//        timeSlots = new ArrayList<TimeSlot>();
-////        timeSlots.add(new TimeSlot("12:00 am"));
-////        timeSlots.add(new TimeSlot("12:30 am"));
-//        for (int i = 8; i <= 22; i++) {
-//            int time = i % 12;
-//            if (i < 12) {
-//                String temp = String.format("%02d", i);
-//                timeSlots.add(new TimeSlot(temp + ":00 am"));
-//                timeSlots.add(new TimeSlot(temp + ":30 am"));
-//            } else if (i == 12) {
-//                timeSlots.add(new TimeSlot(12 + ":00 pm"));
-//                timeSlots.add(new TimeSlot(12 + ":30 pm"));
-//            } else {
-//                String temp = String.format("%02d", time);
-//                timeSlots.add(new TimeSlot(temp + ":00 pm"));
-//                timeSlots.add(new TimeSlot(temp + ":30 pm"));
-//            }
-//
-//        }
-
-   // }
 
     private void fetchData(int data_type, int position) {
         switch (data_type) {
@@ -516,6 +542,18 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
             edt_name.setError("Please enter Name");
             return;
         }
+
+        String cardNum = edt_cardNum.getText().toString();
+        if (cardNum == null || cardNum.isEmpty()) {
+            edt_cardNum.setError("Please enter card number");
+            return;
+        }
+        if (cardNum.length()<14) {
+            edt_cardNum.setError("Please enter valid card number");
+            return;
+        }
+
+
 
         String age = edt_age.getText().toString();
         if (age == null || age.isEmpty()) {

@@ -1,14 +1,16 @@
 package com.medspaceit.appointment.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.medspaceit.appointment.R;
+import com.medspaceit.appointment.activity.getSingleCardInfo;
 import com.medspaceit.appointment.model.AllCardPJ;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class MyAllCardAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup view, int position) {
+    public Object instantiateItem(ViewGroup view, final int position) {
         View v = inflater.inflate(R.layout.slide_card, view, false);
 
         TextView holderName = (TextView) v.findViewById(R.id.card_holder_name);
@@ -49,7 +51,28 @@ public class MyAllCardAdapter extends PagerAdapter {
         holderName.setText(allCardList.get(position).getName());
         cardNo.setText(allCardList.get(position).getCard_number());
         view.addView(v, 0);
+
+        holderName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendCardNo(position);
+            }
+        });
+
+        cardNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendCardNo(position);
+            }
+        });
         return v;
+    }
+
+    private void sendCardNo(int position) {
+      String cardNo=  allCardList.get(position).getCard_number();
+        Intent i=new Intent(context,getSingleCardInfo.class);
+        i.putExtra("cardNo",cardNo);
+        context.startActivity(i);
     }
 
     @Override

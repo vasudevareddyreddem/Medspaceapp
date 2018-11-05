@@ -4,6 +4,7 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -86,9 +87,10 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_FMROR38S2ObKGw" />
-           <!-- android:value="rzp_live_8oTwGtVqjBWSSb"/>-->
+        <!-- android:value="rzp_live_8oTwGtVqjBWSSb"/> -->
 
-     <!-- [START fcm_default_icon] -->
+
+        <!-- [START fcm_default_icon] -->
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
              See README(https://goo.gl/l4GJaQ) for more.
@@ -127,17 +129,20 @@
         <activity
             android:name=".activity.Get_Health_Card"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.FinalScreen"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.HealthReports"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.MyReportDownload"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.MyReportUpload"
+        <activity
+            android:name=".activity.FinalScreen"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HealthReports"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyReportDownload"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyReportUpload"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.CustomerService" />
+        <activity android:name=".activity.getSingleCardInfo"></activity>
     </application>
 
 </manifest>

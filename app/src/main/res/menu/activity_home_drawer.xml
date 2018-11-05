@@ -68,6 +68,16 @@
             android:icon="@drawable/histroy"
             android:title="History" />
     </group>
+
+    <group
+        android:id="@+id/group18"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/customer"
+            android:icon="@drawable/histroy"
+
+            android:title="Customer Service" />
+    </group>
     <group
         android:id="@+id/group7"
         android:checkableBehavior="single">
@@ -76,12 +86,6 @@
             android:icon="@drawable/signout"
             android:title="Signout" />
     </group>
-    <group
-        android:id="@+id/group_"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/empty"
-            android:title="@null" />
-    </group>
+
 
 </menu>
