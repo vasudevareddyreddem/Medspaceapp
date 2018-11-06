@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.medspaceit.appointment.activity.CustomerService">
+    tools:context="com.medspaceit.appointments.activity.CustomerService">
     <android.support.v7.widget.CardView
         android:id="@+id/toolbar"
         android:layout_alignParentTop="true"
@@ -46,12 +46,22 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:text="7997999108"
+        android:text="Any queries/ complaints call"
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="25sp"
         android:textColor="#111"
         android:layout_marginTop="150dp"
+
+        android:layout_height="wrap_content" />
+ <TextView
+        android:layout_width="match_parent"
+        android:text="7997999108"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="#111"
+        android:layout_marginTop="10dp"
 
         android:layout_height="wrap_content" />
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.medspaceit.appointment">
+    package="com.medspaceit.appointments">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -86,8 +86,9 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_FMROR38S2ObKGw" />
-        <!-- android:value="rzp_live_8oTwGtVqjBWSSb"/> -->
+            android:value="rzp_live_8oTwGtVqjBWSSb"/>
+
+        <!--  android:value="rzp_test_FMROR38S2ObKGw" />-->
 
 
         <!-- [START fcm_default_icon] -->

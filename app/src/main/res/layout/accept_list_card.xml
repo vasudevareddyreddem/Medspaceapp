@@ -88,6 +88,45 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:padding="2dp"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical|left"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/doc"
+                                android:layout_margin="2dp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Patient Name:"
+                                android:textStyle="bold"
+                                android:paddingLeft="2dp"
+                                android:paddingRight="2dp"
+                                android:textColor="@color/colorPrimaryDark"
+                                />
+                            <TextView
+                                android:id="@+id/cardholdername"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+
+                        </LinearLayout>
+
+
+
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
