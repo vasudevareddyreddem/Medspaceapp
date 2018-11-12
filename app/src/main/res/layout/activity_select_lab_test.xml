@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.medspaceit.appointments.activity.SelectLabTest">
+    <android.support.v7.widget.CardView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="Select Lab Test"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorWhite" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/test_name"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_space"
+        android:background="@drawable/sign_text_shape"
+        android:onClick="openSingleChoice"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/test_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Select Test Name"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:padding="8dp"
+            android:src="@drawable/dropdown_icon" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/test_type"
+        android:layout_width="match_parent"
+        android:layout_below="@id/test_name"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_space"
+        android:background="@drawable/sign_text_shape"
+        android:onClick="openSingleChoice"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/type_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Select Test Type"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:padding="8dp"
+            android:src="@drawable/dropdown_icon" />
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/test_type"
+        android:id="@+id/date_ll"
+        android:layout_margin="@dimen/margin_space"
+        android:background="@drawable/sign_text_shape"
+        android:padding="12dp">
+
+        <EditText
+            android:id="@+id/date_of_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@color/colorWhite"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+            android:hint="Date of Appointment"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/time_lay"
+        android:layout_below="@+id/date_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_space"
+        android:background="@drawable/sign_text_shape"
+        android:onClick="openSingleChoice"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/time_txt"
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Select Time"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:padding="8dp"
+            android:src="@drawable/dropdown_icon" />
+    </LinearLayout>
+
+</RelativeLayout>

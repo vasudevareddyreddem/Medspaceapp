@@ -410,7 +410,7 @@ public class HomeActivity extends BaseActivity
             startActivity(new Intent(HomeActivity.this, OpRegistrationActivity.class));
 
         } else if (id == R.id.lab_app) {
-            startActivity(new Intent(HomeActivity.this, ComingSoon.class));
+            startActivity(new Intent(HomeActivity.this, Lab.class));
         } else if (id == R.id.pharmacy) {
             startActivity(new Intent(HomeActivity.this, ComingSoon.class));
         } else if (id == R.id.healthcard) {
@@ -455,7 +455,11 @@ public class HomeActivity extends BaseActivity
 //                startActivity(new Intent(HomeActivity.this, PharmacyActivity.class));
 //                break;
             case R.id.find_doc_card:
+                startActivity(new Intent(HomeActivity.this, ComingSoon.class));
+                break;
             case R.id.lab_app_card:
+                startActivity(new Intent(HomeActivity.this, Lab.class));
+                break;
             case R.id.maps:
                 startActivity(new Intent(HomeActivity.this, ComingSoon.class));
                 break;
