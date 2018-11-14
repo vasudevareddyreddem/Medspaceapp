@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.medspaceit.appointments.R;
@@ -13,22 +14,24 @@ import com.medspaceit.appointments.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PatientDetails extends BaseActivity {
+public class ReviewTests extends BaseActivity {
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.btn_next_b)
-    Button btn_next_b;
-    @BindView(R.id.your_state_progress_bar_id2)
-    StateProgressBar your_state_progress_bar_id2;
+
+
+    @BindView(R.id.btn_paynow)
+    Button btn_paynow;
+
+    @BindView(R.id.your_state_progress_bar_id4)
+    StateProgressBar your_state_progress_bar_id4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_details);
+        setContentView(R.layout.activity_review_tests);
         ButterKnife.bind(this);
 
         back.setOnClickListener(this);
-        btn_next_b.setOnClickListener(this);
-    }
+        btn_paynow.setOnClickListener(this);    }
 
     @Override
     public void onClick(View v) {
@@ -37,17 +40,11 @@ public class PatientDetails extends BaseActivity {
                 finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+                break;
+
+            case R.id.btn_paynow:
 
                 break;
-            case R.id.btn_next_b:
-                Intent i=new Intent(this,PickUpAddress.class);
-                startActivity(i);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-                break;
-//            case R.id.btn_next_a:
-//                Intent i=new Intent(this,PatientDetails.class);
-//                break;
 
         }
     }

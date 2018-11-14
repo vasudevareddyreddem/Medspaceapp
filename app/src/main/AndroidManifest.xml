@@ -158,10 +158,23 @@
             android:name=".activity.SearchTestActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.BookTestPackageOnline" />
-        <activity android:name=".activity.AllLabList" />
-        <activity android:name=".activity.PickTimeSlot" />
-        <activity android:name=".activity.PatientDetails"></activity>
+        <activity
+            android:name=".activity.BookTestPackageOnline"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AllLabList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PickTimeSlot"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PatientDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PickUpAddress"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.ReviewTests"></activity>
     </application>
 
 </manifest>

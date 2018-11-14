@@ -132,7 +132,7 @@
         android:background="@drawable/sign_text_shape"
         android:gravity="center"
         android:id="@+id/patient_no"
-        android:padding="10dp">
+        android:padding="12dp">
 
 
 
@@ -140,7 +140,7 @@
             android:id="@+id/edt_user_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:background="#fff"
             android:hint="@string/user_number"
             android:inputType="number"
@@ -206,7 +206,7 @@
         android:layout_below="@+id/patient_email_star"
         android:background="@drawable/sign_text_shape"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="12dp">
 
 
         <EditText
@@ -214,7 +214,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="10dp"
             android:background="#fff"
             android:hint="@string/user_email"
             android:inputType="textEmailAddress"

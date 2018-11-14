@@ -13,21 +13,21 @@ import com.medspaceit.appointments.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PatientDetails extends BaseActivity {
+public class PickUpAddress extends BaseActivity {
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.btn_next_b)
-    Button btn_next_b;
-    @BindView(R.id.your_state_progress_bar_id2)
-    StateProgressBar your_state_progress_bar_id2;
+    @BindView(R.id.btn_next_c)
+    Button btn_next_c;
+    @BindView(R.id.your_state_progress_bar_id3)
+    StateProgressBar your_state_progress_bar_id3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_details);
+        setContentView(R.layout.activity_pick_up_address);
         ButterKnife.bind(this);
 
         back.setOnClickListener(this);
-        btn_next_b.setOnClickListener(this);
+        btn_next_c.setOnClickListener(this);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class PatientDetails extends BaseActivity {
 
 
                 break;
-            case R.id.btn_next_b:
-                Intent i=new Intent(this,PickUpAddress.class);
+            case R.id.btn_next_c:
+                Intent i=new Intent(this,ReviewTests.class);
                 startActivity(i);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -58,5 +58,4 @@ public class PatientDetails extends BaseActivity {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
-    }
-}
+    }}
