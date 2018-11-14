@@ -142,10 +142,24 @@
         <activity
             android:name=".activity.MyReportUpload"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.CustomerService" />
-        <activity android:name=".activity.getSingleCardInfo" />
-        <activity android:name=".activity.Lab" />
-        <activity android:name=".activity.SelectLabTest"></activity>
+        <activity
+            android:name=".activity.CustomerService"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.getSingleCardInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Lab"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SelectLabTest"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SearchTestActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.BookTestPackageOnline" />
+        <activity android:name=".activity.AllLabList"></activity>
     </application>
 
 </manifest>

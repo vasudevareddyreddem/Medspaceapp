@@ -55,7 +55,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.OnRemoveListener {
+public class OpRegistrationActivity extends BaseActivity  {
     @BindView(R.id.date_of_reg)
     EditText dateOfReg;
 
@@ -755,14 +755,7 @@ public class OpRegistrationActivity extends BaseActivity implements TagsAdapter.
     }
 
 
-    @Override
-    public void onRemoveTag(Hospital s) {
-        if (out.contains(s))
-            out.remove(s);
-        if (out.isEmpty()) {
-            layout.setVisibility(View.GONE);
-        }
-    }
+
 
 
     public void showConsultationFee(View view) {
