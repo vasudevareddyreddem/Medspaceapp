@@ -159,7 +159,9 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.BookTestPackageOnline" />
-        <activity android:name=".activity.AllLabList"></activity>
+        <activity android:name=".activity.AllLabList" />
+        <activity android:name=".activity.PickTimeSlot" />
+        <activity android:name=".activity.PatientDetails"></activity>
     </application>
 
 </manifest>
