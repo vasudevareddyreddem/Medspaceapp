@@ -174,7 +174,8 @@
         <activity
             android:name=".activity.PickUpAddress"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ReviewTests"></activity>
+        <activity android:name=".activity.ReviewTests" />
+        <activity android:name=".activity.CallToBookLabTest"></activity>
     </application>
 
 </manifest>

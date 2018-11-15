@@ -72,7 +72,7 @@ public class Lab extends BaseActivity {
                 startActivity(new Intent(this, SelectLabTest.class));
                 break;
             case R.id.select_booklabtest_ll:
-                Toast.makeText(this, "book lab test", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, CallToBookLabTest.class));
                 break;
 
         }

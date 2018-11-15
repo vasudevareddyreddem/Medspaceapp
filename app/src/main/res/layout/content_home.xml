@@ -47,12 +47,23 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <ProgressBar
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:id="@+id/pg_bar"
+                    android:visibility="gone"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="@color/colorWhite"
+                    android:gravity="center" />
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <android.support.v4.view.ViewPager
+
+                     <android.support.v4.view.ViewPager
                         android:id="@+id/pager"
                         android:visibility="invisible"
 
@@ -60,6 +71,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentTop="true" />
                       </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="match_parent"

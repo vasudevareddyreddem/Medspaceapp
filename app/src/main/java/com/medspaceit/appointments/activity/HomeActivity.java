@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -141,6 +142,8 @@ public class HomeActivity extends BaseActivity
 
     @BindView(R.id.pager)
     ViewPager cardPager;
+    @BindView(R.id.pg_bar)
+    ProgressBar pg_bar;
 
     private Handler handler;
     int currentPage = 0;
@@ -224,6 +227,7 @@ public class HomeActivity extends BaseActivity
     }
 
     private void getAllCards() {
+        pg_bar.setVisibility(View.VISIBLE);
         String json = "";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -245,7 +249,7 @@ public class HomeActivity extends BaseActivity
 
                         @Override
                         public void onResponse(JSONObject response) {
-                            hideDialog();
+                            pg_bar.setVisibility(View.GONE);
                             allCardList = new ArrayList();
                             try {
                                 JSONObject job = new JSONObject(String.valueOf(response));
@@ -273,6 +277,7 @@ public class HomeActivity extends BaseActivity
                                 } else {
                                     no_card_text.setVisibility(View.VISIBLE);
                                     cardPager.setVisibility(View.GONE);
+                                    pg_bar.setVisibility(View.GONE);
                                     no_card_text.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
