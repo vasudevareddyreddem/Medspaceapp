@@ -4,6 +4,7 @@ package com.medspaceit.appointments.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,22 +76,24 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             userName.setSelection(position);
 
         }
-
+//        Log.i("====111=",manager.getSingleField(SessionManager.PROFILE_IMG_URL));
+//        Log.i("====222=",manager.getSingleField(SessionManager.PROFILE_IMG_PATH));
 
         String filename=manager.getSingleField(SessionManager.PROFILE_IMG_URL)+manager.getSingleField(SessionManager.PROFILE_IMG_PATH);
-        File file=new File(filename);
-        if(!file.exists()) {
-            Glide.with(this)
-                    .load(filename)
 
-                    .into(profile_pic);
-        }else
-            {
+        if(filename.equals("https://ehealthinfra.com/assets/adminprofilepic/"))
+        {
             Glide.with(this)
-                    .load(file)
+                    .load(R.drawable.dummy_user)
 
-                    .into(profile_pic);
-        }
+                    .into(profile_pic);}
+        else {
+
+                Glide.with(this)
+                        .load(filename)
+
+                        .into(profile_pic);}
+
     }
 
     @Override

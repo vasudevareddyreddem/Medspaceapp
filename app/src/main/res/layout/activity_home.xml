@@ -88,7 +88,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_home_drawer"
-        android:background="#333"
+        android:background="@drawable/nav_drawer_option_layer_list"
         app:itemIconTint="@color/colorWhite"
         app:itemTextColor="@color/colorWhite"
       android:theme="@style/NavigationDrawerStyle"

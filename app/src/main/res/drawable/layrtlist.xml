@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:opacity="opaque">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item>
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
-            <solid android:color="@color/colorPrimary"
-                />
-            <corners
-                android:bottomLeftRadius="10000dp"/>
+        <shape android:shape="rectangle" android:layout_width="wrap_content">
+            <corners android:radius="10dp"/>
+
+            <stroke android:width="10dp" android:color="#bfbcbc" />
+            <solid android:color="#00000000" />
+            <padding android:left="1dp" android:top="1dp" android:right="1dp"
+                android:bottom="1dp" />
         </shape>
     </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp"/>
+            <gradient android:startColor="@color/colorPrimary"
+                android:endColor="@color/colorPrimary" android:angle="270"
+                android:centerColor="@color/cardview_shadow_start_color" />
+            <!-- border width and color -->
+            <stroke android:width="1dp" android:color="#FFDDDDDD" />
+            <padding android:left="10dp" android:top="8dp" android:right="10dp"
+                android:bottom="8dp" />
+        </shape>
+    </item>
+
 </layer-list>

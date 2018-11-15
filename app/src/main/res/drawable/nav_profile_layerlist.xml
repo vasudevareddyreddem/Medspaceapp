@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle"
+            android:layout_width="wrap_content">
+            <stroke android:width="4dp"
+                android:color="#bfbcbc" />
+
+            <padding  android:bottom="1dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+
+            <gradient android:startColor="@color/colorPrimary"
+                android:endColor="@color/colorPrimary"
+                android:angle="270"
+                android:centerColor="@color/cardview_shadow_start_color" />
+            <!-- border width and color -->
+
+            <padding android:left="10dp"
+                android:top="8dp"
+                android:right="10dp"
+                android:bottom="8dp" />
+        </shape>
+    </item>
+
+</layer-list>

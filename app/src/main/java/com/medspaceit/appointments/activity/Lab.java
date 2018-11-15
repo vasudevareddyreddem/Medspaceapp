@@ -66,7 +66,7 @@ public class Lab extends BaseActivity {
                 finish();
                 break;
             case R.id.select_myreport_ll:
-                Toast.makeText(this, "my report", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, MyReports.class));
                 break;
             case R.id.select_labtest_ll:
                 startActivity(new Intent(this, SelectLabTest.class));

@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,10 +28,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -142,8 +147,12 @@ public class HomeActivity extends BaseActivity
 
     @BindView(R.id.pager)
     ViewPager cardPager;
+
     @BindView(R.id.pg_bar)
     ProgressBar pg_bar;
+
+    @BindView(R.id.three_dot_ll)
+    LinearLayout three_dot_ll;
 
     private Handler handler;
     int currentPage = 0;
@@ -218,10 +227,18 @@ public class HomeActivity extends BaseActivity
         maps.setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         updateProfile();
+
+        disableNavigationViewScrollbars(navigationView);
         String profile = manager.getSingleField(SessionManager.PROFILE_IMG_URL) + manager.getSingleField(SessionManager.PROFILE_IMG_PATH);
+        if(profile.equals("https://ehealthinfra.com/assets/adminprofilepic/"))
+        {
         Glide.with(this)
+                .load(R.drawable.dummy_user)
+                .into(profile_pic);}
+                else {Glide.with(this)
                 .load(profile)
-                .into(profile_pic);
+                .into(profile_pic);}
+
         getAllCards();
 
     }
@@ -250,6 +267,7 @@ public class HomeActivity extends BaseActivity
                         @Override
                         public void onResponse(JSONObject response) {
                             pg_bar.setVisibility(View.GONE);
+                            three_dot_ll.setVisibility(View.VISIBLE);
                             allCardList = new ArrayList();
                             try {
                                 JSONObject job = new JSONObject(String.valueOf(response));
@@ -278,6 +296,7 @@ public class HomeActivity extends BaseActivity
                                     no_card_text.setVisibility(View.VISIBLE);
                                     cardPager.setVisibility(View.GONE);
                                     pg_bar.setVisibility(View.GONE);
+                                    three_dot_ll.setVisibility(View.GONE);
                                     no_card_text.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -517,6 +536,17 @@ public class HomeActivity extends BaseActivity
 
 
     private void hambergerAction() {
+        handler=new Handler();
+       // hamberger.setRotation(hamberger.getRotation() + 90);
+        handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                  Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
+                                    hamberger.startAnimation(animation);
+                                }
+                            }
+                , 100);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
@@ -733,6 +763,11 @@ public class HomeActivity extends BaseActivity
                                     .load(file)
                                     .into(profile_pic);
                         }
+//                        else {
+//                            Glide.with(HomeActivity.this)
+//                                    .load(R.drawable.dummy_user)
+//                                    .into(profile_pic);
+//                        }
 
                     }
 
@@ -749,5 +784,13 @@ public class HomeActivity extends BaseActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    private void disableNavigationViewScrollbars(NavigationView navigationView) {
+        if (navigationView != null) {
+            NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
+            if (navigationMenuView != null) {
+                navigationMenuView.setVerticalScrollBarEnabled(false);
+            }
+        }
     }
 }
