@@ -56,8 +56,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 //
 //        }
 
-
-
     }
 
     @Override
@@ -74,8 +72,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(SignInActivity.this, ForgotPasswordActivity.class));
                 finish();
                 break;
-
-
 
         }
 
@@ -118,8 +114,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
            return false;
        }
 
-
-
       return true;
     }
 
@@ -144,7 +138,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         return;
                     }
                 LoginResult result=response.body();
-                MessageToast.showToastMethod(SignInActivity.this,result.getMessage());
+                          showToast(result.getMessage());
                 if(result.getStatus()==1)
                 {
                     Details details=result.getDetails();

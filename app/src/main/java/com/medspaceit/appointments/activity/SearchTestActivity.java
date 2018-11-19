@@ -49,7 +49,7 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
     public static RecyclerView all_test_recycler_view;
     public static RecyclerView selected_tag_view;
     public static LinearLayout tag_view_ll;
-    public static List<SelectLabTestNamePJ> selectedTestList;
+
 
     ArrayList<TestPJ> testList;
     TestListAdapter testListAdapter;

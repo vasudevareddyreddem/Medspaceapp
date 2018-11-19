@@ -49,10 +49,7 @@ public class HealthReports extends BaseActivity {
             showDialog();
             fetchAcceptStatusList();
         } else
-            MessageToast.showToastMethod(this, "No Internet");
-
-
-
+            showToast("No Internet");
     }
 
     private void fetchAcceptStatusList() {
@@ -105,6 +102,12 @@ public class HealthReports extends BaseActivity {
                                      AcceptAdapter acceptAdapter=new AcceptAdapter(HealthReports.this,acceptList,manager,service);
                                      acceptListRcView.setAdapter(acceptAdapter);
                                  }
+                                 else if(status.equals("0"))
+                                 {
+                                     String message=job.getString("message");
+                                     showToast(message);
+                                 }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

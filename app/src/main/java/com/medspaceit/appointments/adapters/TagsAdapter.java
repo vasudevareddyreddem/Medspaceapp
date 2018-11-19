@@ -1,7 +1,6 @@
 package com.medspaceit.appointments.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,19 +9,19 @@ import android.widget.TextView;
 
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.activity.SearchTestActivity;
-import com.medspaceit.appointments.model.Hospital;
 import com.medspaceit.appointments.model.SelectLabTestNamePJ;
+import com.medspaceit.appointments.utils.util;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
 
-
+    ArrayList<SelectLabTestNamePJ> positions;
     SearchTestActivity searchTestActivity;
-    List<SelectLabTestNamePJ> selectedTestList;
-    public TagsAdapter(SearchTestActivity searchTestActivity, List<SelectLabTestNamePJ> selectedTestList) {
+
+    public TagsAdapter(SearchTestActivity searchTestActivity, ArrayList<SelectLabTestNamePJ> positions) {
    this.searchTestActivity=searchTestActivity;
-   this.selectedTestList=selectedTestList;
+   this.positions=positions;
     }
 
 
@@ -36,16 +35,16 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final TagsAdapter.TagHolder holder, final int position) {
-                 holder.tag_txt.setText(selectedTestList.get(position).getTestname());
+                 holder.tag_txt.setText(positions.get(position).getTestname());
 
     }
 
     @Override
     public int getItemCount() {
-        if(selectedTestList==null)
+        if(positions==null)
             return 0;
 
-        return selectedTestList.size();
+        return positions.size();
     }
 
     public class TagHolder extends RecyclerView.ViewHolder{

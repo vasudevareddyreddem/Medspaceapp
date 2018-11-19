@@ -4,6 +4,7 @@ package com.medspaceit.appointments.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,14 @@ import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.activity.SearchTestActivity;
 import com.medspaceit.appointments.model.SelectLabTestNamePJ;
 import com.medspaceit.appointments.model.TestPJ;
+import com.medspaceit.appointments.utils.util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.medspaceit.appointments.activity.SearchTestActivity.selectedTestList;
+import butterknife.internal.Utils;
+
 
 /**
  * Created by Bhupi on 13-Nov-18.
@@ -36,7 +39,6 @@ public class TestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.mContext = mContext;
         this.namesList = namesList;
         this.testList = new ArrayList();
-        selectedTestList = new ArrayList();
         this.testList.addAll(namesList);
 
     }
@@ -58,46 +60,97 @@ public class TestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
-
+        final int myPos= position;
         if (holder instanceof TestHolder) {
             TestHolder acceptholder = (TestHolder) holder;
 
             acceptholder.tst_cb.setText(namesList.get(position).getTestname());
-            acceptholder.tst_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            acceptholder.tst_cb.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onClick(View v) {
+                    CheckBox temp=(CheckBox)v;
+                    if(temp.isChecked()){
 
-                    if (isChecked) {
                         SelectLabTestNamePJ pj = new SelectLabTestNamePJ(namesList.get(position).getTestname());
-                        selectedTestList.add(pj);
-                        tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, selectedTestList);
+                        util.positions.add(pj);
+                        Log.e("selectedTestList=====",""+util.positions.size()+"   "+namesList.get(position).getTestname());
+                        tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, util.positions);
                         SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
                         tagsAdapter.notifyDataSetChanged();
-                    } else {
-                        if (selectedTestList.size() == 0) {
+                        if (util.positions.size() != 0) {
+                            SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
+                        } else {
+                            if (util.positions.size() == 0) {
+                                SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
+                            }}
+                    }
+                    else{
+                        try {
+                            util.positions.remove(myPos);
+
+                        Log.e("selectedTestList==rm===",""+util.positions.size()+"   "+namesList.get(position).getTestname());
+
+
+                        if (util.positions.size() == 0) {
+                            util.positions.clear();
                             SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
                         }
 
-                        selectedTestList.remove(namesList.get(position).getTestname());
-                        tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, selectedTestList);
+
+                            tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, util.positions);
                         SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
                         tagsAdapter.notifyDataSetChanged();
-                    }
-
-
-
-
-
-
-                    if (selectedTestList.size() != 0) {
+                        }catch (Exception e)
+                        {Log.e("e.print",e.getMessage());}
+                        if (util.positions.size() != 0) {
                         SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
                     } else {
-                        if (selectedTestList.size() == 0) {
+                        if (util.positions.size() == 0) {
+                            util.positions.clear();
                             SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
                         }
+                    }
                     }
                 }
             });
+//            acceptholder.tst_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                    if (isChecked) {
+//                        SelectLabTestNamePJ pj = new SelectLabTestNamePJ(namesList.get(position).getTestname());
+//                        selectedTestList.add(pj);
+//                        Log.e("selectedTestList=====",""+selectedTestList.size()+"   "+namesList.get(position).getTestname());
+//                        tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, selectedTestList);
+//                        SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
+//                        tagsAdapter.notifyDataSetChanged();
+//                    } else {
+//                        try{
+//                            selectedTestList.remove(namesList.get(position).getTestname());
+//                            Log.e("selectedTestList==rm===",""+selectedTestList.size()+"   "+namesList.get(position).getTestname());
+//
+//                            if (selectedTestList.size() == 0) {
+//                            SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
+//                        }
+//
+//
+//                            tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, selectedTestList);
+//                        SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
+//                        tagsAdapter.notifyDataSetChanged();
+//                    }catch (Exception e)
+//                        {}}
+//
+//
+//
+//                    if (selectedTestList.size() != 0) {
+//                        SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
+//                    } else {
+//                        if (selectedTestList.size() == 0) {
+//                            SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
+//                        }
+//                    }
+//                }
+//            });
 
             //Toast.makeText(mContext, ""+ SearchTestActivity.selectedTestList.size(), Toast.LENGTH_SHORT).show();
         }
@@ -135,12 +188,7 @@ public class TestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (wp.getTestname().toLowerCase(Locale.getDefault()).contains(charText)) {
                     namesList.add(wp);
                 }
-//                else if (wp.videoName.toLowerCase(Locale.getDefault()).contains(charText)) {
-//                    namesList.add(wp);
-//                }
-//                else if (wp.searchimagecity_name.toLowerCase(Locale.getDefault()).contains(charText)) {
-//                    namesList.add(wp);
-//                }
+
             }
         }
         notifyDataSetChanged();

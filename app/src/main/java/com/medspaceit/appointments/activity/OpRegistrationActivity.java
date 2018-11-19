@@ -169,8 +169,7 @@ public class OpRegistrationActivity extends BaseActivity  {
         if (isConnected()) {
             FeatchCity();
         } else
-            MessageToast.showToastMethod(this, "No Internet");
-
+        showToast("No Internet");
 
     }
 

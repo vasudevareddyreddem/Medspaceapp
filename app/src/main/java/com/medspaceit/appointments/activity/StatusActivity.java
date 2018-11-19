@@ -15,6 +15,7 @@ import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.AppStatus;
 import com.medspaceit.appointments.model.RegResult;
 import com.medspaceit.appointments.model.StatusData;
+import com.medspaceit.appointments.utils.MessageToast;
 import com.medspaceit.appointments.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -59,9 +60,11 @@ public class StatusActivity extends BaseActivity implements StatusAdapter.Status
             //TODO:remoce comment for history
             //fetchAppList(historyListApi);
         } else {
-
-            fetchAppList(stausListApi);
-        }
+if(isConnected()) {
+    fetchAppList(stausListApi);
+}else {
+    showToast("No Internet");
+}       }
     }
 
     @Override

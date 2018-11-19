@@ -244,6 +244,8 @@ public class HomeActivity extends BaseActivity
     }
 
     private void getAllCards() {
+        if(isConnected())
+        {
         pg_bar.setVisibility(View.VISIBLE);
         String json = "";
         JSONObject jsonObject = new JSONObject();
@@ -323,6 +325,7 @@ public class HomeActivity extends BaseActivity
         }
 
 
+    }
     }
 
     @Override
@@ -501,8 +504,11 @@ public class HomeActivity extends BaseActivity
                 openProfilesettingDialog(v);
                 break;
             case R.id.profile_pic:
-                selectImage();
-                break;
+                if(checkPermissions()) {
+                    selectImage();
+                }else {
+                    checkPermissions();
+                }break;
 
         }
 

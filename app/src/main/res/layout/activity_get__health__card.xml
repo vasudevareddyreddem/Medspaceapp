@@ -69,7 +69,7 @@
                     <ImageView
                         android:layout_width="@dimen/icon_size"
                         android:layout_height="@dimen/icon_size"
-                        android:src="@drawable/cardnumber" />
+                        android:src="@drawable/cardnumberdark" />
 
                     <EditText
                         android:id="@+id/heaith_card_no"
