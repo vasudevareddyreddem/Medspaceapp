@@ -52,7 +52,7 @@ public class SelectLabTest extends BaseActivity {
         if (isConnected()) {
             FeatchCity();
         } else {
-            MessageToast.showToastMethod(this, "No Internet");
+            showToast(getString(R.string.nointernet));
         }
 
     }

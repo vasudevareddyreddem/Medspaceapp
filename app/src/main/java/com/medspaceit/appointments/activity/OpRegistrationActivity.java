@@ -169,7 +169,8 @@ public class OpRegistrationActivity extends BaseActivity  {
         if (isConnected()) {
             FeatchCity();
         } else
-        showToast("No Internet");
+            showToast(getString(R.string.nointernet));
+
 
     }
 
@@ -677,7 +678,8 @@ public class OpRegistrationActivity extends BaseActivity  {
         if (isConnected()) {
             addAppointmentApi();
         } else {
-            showToast("No Internet");
+            showToast(getString(R.string.nointernet));
+
         }
 
     }

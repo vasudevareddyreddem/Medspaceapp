@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ReportInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Context context;
-boolean flag=true;
+        boolean flag=true;
     List<MyReportDownloadPoojo.Report>list=new ArrayList<>();
     public ReportInfoAdapter(Context context,MyReportDownloadPoojo data) {
         this.context=context;

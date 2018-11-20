@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -63,12 +64,14 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_test);
+        ButterKnife.bind(this);
+        hideSoftKeyboard();
         all_test_recycler_view=findViewById(R.id.all_test_recycler_view);
         selected_tag_view=findViewById(R.id.selected_tag_view);
         tag_view_ll=findViewById(R.id.tag_view_ll);
         all_test_recycler_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         selected_tag_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        ButterKnife.bind(this);
+
         back.setOnClickListener(this);
         btn_submit_test.setOnClickListener(this);
         searchbar.setOnClickListener(this);
@@ -80,18 +83,19 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
         tagsAdapter=new TagsAdapter(SearchTestActivity.this,tagsAdapterList);
         selected_tag_view.setAdapter(tagsAdapter);
 
-        tag_view_ll.setVisibility(View.VISIBLE);
+
         if(isConnected()) {
         getAllTest();}
         else
         {
-            showToast("No Internet");
+            showToast(getString(R.string.nointernet));
         }
 
     }
 
     private void getAllTest() {
         showDialog();
+        hideSoftKeyboard();
         StringRequest stringRequest=new StringRequest("https://api.myjson.com/bins/c3inq", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -155,5 +159,10 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
         return false;
     }
 
-
+    public void hideSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
 }

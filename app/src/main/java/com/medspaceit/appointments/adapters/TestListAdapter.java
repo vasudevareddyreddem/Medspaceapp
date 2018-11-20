@@ -10,22 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
-
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.activity.SearchTestActivity;
-import com.medspaceit.appointments.model.SelectLabTestNamePJ;
 import com.medspaceit.appointments.model.TestPJ;
-import com.medspaceit.appointments.utils.MessageToast;
-import com.medspaceit.appointments.utils.util;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
-import butterknife.internal.Utils;
-
+import static com.medspaceit.appointments.activity.SearchTestActivity.tag_view_ll;
 import static com.medspaceit.appointments.activity.SearchTestActivity.tagsAdapter;
 import static com.medspaceit.appointments.activity.SearchTestActivity.tagsAdapterList;
 
@@ -38,9 +29,8 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
     Context mContext;
     ArrayList<TestPJ> testList;
 
-    private List<TestPJ> namesList = null;
-HashMap<String,Integer>liststore=new HashMap<>();
-int count=0;
+    private List<TestPJ> namesList;
+
     public TestListAdapter(Context mContext, ArrayList<TestPJ> namesList) {
         this.mContext = mContext;
         this.namesList = namesList;
@@ -83,7 +73,7 @@ int count=0;
                     for(int i=0;i<length;i++){
                         if(tagsAdapterList.get(i).equals(name))
                         {
-//                            tagsAdapterList.remove(i);
+
                             tagsAdapterList.remove(name);
                             Log.e("Info "," Info "+tagsAdapterList.toString()+ i);
 
@@ -93,9 +83,14 @@ int count=0;
                     }
 
                 }
-//                tagsAdapterList.add(position,namesList.get(position).getTestname());
-//                    tagsAdapterList.remove(position);
+                if(tagsAdapterList.size()==0)
+                {
+                    tag_view_ll.setVisibility(View.GONE);
+                }
+                else {
+                    tag_view_ll.setVisibility(View.VISIBLE);
 
+                }
                 tagsAdapter.notifyDataSetChanged();
             }
         });
@@ -126,7 +121,6 @@ int count=0;
         charText = charText.toLowerCase(Locale.getDefault());
         namesList.clear();
         if (charText.length() == 0) {
-            //SearchTestActivity.all_test_recycler_view.setVisibility(View.INVISIBLE);
 
             namesList.addAll(testList);
         } else {
