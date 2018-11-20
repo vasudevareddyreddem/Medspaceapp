@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.model.DownloadReportPJ;
+import com.medspaceit.appointments.model.MyReportDownloadPoojo;
 
 import java.util.List;
 
@@ -20,10 +21,11 @@ import java.util.List;
 public class MyReportDownloadAdapter extends BaseAdapter
 {
     Context context;
-    List<DownloadReportPJ> downloadReportList;
-    public MyReportDownloadAdapter(Context context, List<DownloadReportPJ> downloadReportList) {
+    List<MyReportDownloadPoojo.ViewDetail> downloadReportList;
+    public MyReportDownloadAdapter(Context context, List<MyReportDownloadPoojo.ViewDetail> downloadReportList) {
    this.context=context;
    this.downloadReportList=downloadReportList;
+
     }
 
     @Override
@@ -50,7 +52,7 @@ public class MyReportDownloadAdapter extends BaseAdapter
         TextView textViewItemName = (TextView)
                 convertView.findViewById(R.id.downloadreport);
 
-        textViewItemName.setText(downloadReportList.get(position).getDownloadreport());
+        textViewItemName.setText(downloadReportList.get(position).downloadreport);
 
         return convertView;
     }

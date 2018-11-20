@@ -118,7 +118,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 showDialog();
                 apiCall(profile);
             }
-            else showToast("No Internet");
+            else showToast(getString(R.string.nointernet));
         }
     }
 

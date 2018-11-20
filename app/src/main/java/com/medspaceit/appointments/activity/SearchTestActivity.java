@@ -1,6 +1,7 @@
 package com.medspaceit.appointments.activity;
 
 import android.content.Intent;
+import android.support.annotation.ArrayRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +56,9 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
     TestListAdapter testListAdapter;
 
 
+    public  static TagsAdapter tagsAdapter;
+   public static ArrayList<String>tagsAdapterList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +76,11 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
 
 
 
+        tagsAdapterList=new ArrayList<>();
+        tagsAdapter=new TagsAdapter(SearchTestActivity.this,tagsAdapterList);
+        selected_tag_view.setAdapter(tagsAdapter);
+
+        tag_view_ll.setVisibility(View.VISIBLE);
         if(isConnected()) {
         getAllTest();}
         else
@@ -101,6 +110,7 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
 
                     testListAdapter=new TestListAdapter(SearchTestActivity.this,testList);
                     all_test_recycler_view.setAdapter(testListAdapter);
+
 
 
                 } catch (JSONException e) {

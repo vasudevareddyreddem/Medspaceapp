@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
 
-    ArrayList<SelectLabTestNamePJ> positions;
+    ArrayList<String> positions;
     SearchTestActivity searchTestActivity;
 
-    public TagsAdapter(SearchTestActivity searchTestActivity, ArrayList<SelectLabTestNamePJ> positions) {
+    public TagsAdapter(SearchTestActivity searchTestActivity, ArrayList<String> positions) {
    this.searchTestActivity=searchTestActivity;
    this.positions=positions;
     }
@@ -35,7 +35,11 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final TagsAdapter.TagHolder holder, final int position) {
-                 holder.tag_txt.setText(positions.get(position).getTestname());
+                 holder.tag_txt.setText(positions.get(position));
+
+
+
+
 
     }
 

@@ -10,31 +10,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.activity.SearchTestActivity;
 import com.medspaceit.appointments.model.SelectLabTestNamePJ;
 import com.medspaceit.appointments.model.TestPJ;
+import com.medspaceit.appointments.utils.MessageToast;
 import com.medspaceit.appointments.utils.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.internal.Utils;
+
+import static com.medspaceit.appointments.activity.SearchTestActivity.tagsAdapter;
+import static com.medspaceit.appointments.activity.SearchTestActivity.tagsAdapterList;
 
 
 /**
  * Created by Bhupi on 13-Nov-18.
  */
 
-public class TestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHolder> {
     Context mContext;
     ArrayList<TestPJ> testList;
 
     private List<TestPJ> namesList = null;
-    TagsAdapter tagsAdapter;
-
+HashMap<String,Integer>liststore=new HashMap<>();
+int count=0;
     public TestListAdapter(Context mContext, ArrayList<TestPJ> namesList) {
         this.mContext = mContext;
         this.namesList = namesList;
@@ -50,112 +56,52 @@ public class TestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TestListAdapter.TestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.alltestlistlayout, parent, false);
         return new TestHolder(view);
 
 
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-
-        final int myPos= position;
-        if (holder instanceof TestHolder) {
-            TestHolder acceptholder = (TestHolder) holder;
-
-            acceptholder.tst_cb.setText(namesList.get(position).getTestname());
-            acceptholder.tst_cb.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CheckBox temp=(CheckBox)v;
-                    if(temp.isChecked()){
-
-                        SelectLabTestNamePJ pj = new SelectLabTestNamePJ(namesList.get(position).getTestname());
-                        util.positions.add(pj);
-                        Log.e("selectedTestList=====",""+util.positions.size()+"   "+namesList.get(position).getTestname());
-                        tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, util.positions);
-                        SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
-                        tagsAdapter.notifyDataSetChanged();
-                        if (util.positions.size() != 0) {
-                            SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
-                        } else {
-                            if (util.positions.size() == 0) {
-                                SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
-                            }}
-                    }
-                    else{
-                        try {
-                            util.positions.remove(myPos);
-
-                        Log.e("selectedTestList==rm===",""+util.positions.size()+"   "+namesList.get(position).getTestname());
+    public void onBindViewHolder(@NonNull TestHolder holder, final int position) {
+        holder.tst_cb.setText(namesList.get(position).getTestname());
 
 
-                        if (util.positions.size() == 0) {
-                            util.positions.clear();
-                            SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
-                        }
+        holder.tst_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-
-                            tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, util.positions);
-                        SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
-                        tagsAdapter.notifyDataSetChanged();
-                        }catch (Exception e)
-                        {Log.e("e.print",e.getMessage());}
-                        if (util.positions.size() != 0) {
-                        SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
+                String name = namesList.get(position).getTestname();
+                if (isChecked) {
+                    tagsAdapterList.add(name);
+                    Log.e("Info ","Info "+tagsAdapterList.toString()+" size "+tagsAdapterList.size());
                     } else {
-                        if (util.positions.size() == 0) {
-                            util.positions.clear();
-                            SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
+
+                    int length=tagsAdapterList.size();
+                    for(int i=0;i<length;i++){
+                        if(tagsAdapterList.get(i).equals(name))
+                        {
+//                            tagsAdapterList.remove(i);
+                            tagsAdapterList.remove(name);
+                            Log.e("Info "," Info "+tagsAdapterList.toString()+ i);
+
+                            break;
+
                         }
                     }
-                    }
+
                 }
-            });
-//            acceptholder.tst_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                    if (isChecked) {
-//                        SelectLabTestNamePJ pj = new SelectLabTestNamePJ(namesList.get(position).getTestname());
-//                        selectedTestList.add(pj);
-//                        Log.e("selectedTestList=====",""+selectedTestList.size()+"   "+namesList.get(position).getTestname());
-//                        tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, selectedTestList);
-//                        SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
-//                        tagsAdapter.notifyDataSetChanged();
-//                    } else {
-//                        try{
-//                            selectedTestList.remove(namesList.get(position).getTestname());
-//                            Log.e("selectedTestList==rm===",""+selectedTestList.size()+"   "+namesList.get(position).getTestname());
-//
-//                            if (selectedTestList.size() == 0) {
-//                            SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
-//                        }
-//
-//
-//                            tagsAdapter = new TagsAdapter((SearchTestActivity) mContext, selectedTestList);
-//                        SearchTestActivity.selected_tag_view.setAdapter(tagsAdapter);
-//                        tagsAdapter.notifyDataSetChanged();
-//                    }catch (Exception e)
-//                        {}}
-//
-//
-//
-//                    if (selectedTestList.size() != 0) {
-//                        SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
-//                    } else {
-//                        if (selectedTestList.size() == 0) {
-//                            SearchTestActivity.tag_view_ll.setVisibility(View.GONE);
-//                        }
-//                    }
-//                }
-//            });
+//                tagsAdapterList.add(position,namesList.get(position).getTestname());
+//                    tagsAdapterList.remove(position);
 
-            //Toast.makeText(mContext, ""+ SearchTestActivity.selectedTestList.size(), Toast.LENGTH_SHORT).show();
-        }
+                tagsAdapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
-
 
     @Override
     public int getItemCount() {

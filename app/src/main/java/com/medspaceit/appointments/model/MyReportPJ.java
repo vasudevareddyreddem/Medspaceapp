@@ -13,6 +13,8 @@ public class MyReportPJ {
         this.address=address;
     }
 
+
+
     public String getLabname() {
         return labname;
     }

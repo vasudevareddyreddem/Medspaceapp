@@ -166,6 +166,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:paddingLeft="2dp"
+                        android:id="@+id/txt_view_report_for_download"
                         android:text="View Details"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />
@@ -177,11 +178,11 @@
                         android:gravity="center"
                         android:paddingLeft="2dp" />
 
-                    <ListView
-                        android:id="@+id/downloadReportListview"
-                        android:layout_width="100dp"
-
-                        android:layout_height="200dp" />
+                    <Spinner
+                        android:id="@+id/downloadReportSpinner"
+                        android:layout_width="wrap_content"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

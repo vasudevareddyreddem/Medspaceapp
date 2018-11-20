@@ -49,4 +49,5 @@
     <string name="name_of_the_patient">Name</string>
     <string name="whatsappno">WhatsApp Number</string>
     <string name="threedot">●  ●  ●</string>
+    <string name="nointernet">No Internet</string>
 </resources>
