@@ -149,10 +149,9 @@ android:id="@+id/options_ll"
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_margin="10dp"
-        android:background="@drawable/sign_text_shape"
         android:layout_below="@+id/Packages_txt"
-        android:id="@+id/checkup_recyclerview"
-        android:layout_height="wrap_content"
+        android:id="@+id/package_recyclerview"
+        android:layout_height="match_parent"
         />
 
 

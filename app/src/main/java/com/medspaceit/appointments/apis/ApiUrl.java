@@ -37,6 +37,7 @@ public class ApiUrl {
     final public static String timelist="doctors_time_slot";
     final public static String search="search";
     final public static String test_list="test_list";
+    final public static String packages="package";
 
 
 }

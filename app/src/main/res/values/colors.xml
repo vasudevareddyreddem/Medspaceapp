@@ -9,6 +9,7 @@
     <color name="colorRadio">#d9d9d9</color>
     <color name="colorFadeWhite">#aaffffff</color>
     <color name="line">#FFDADADA</color>
+    <color name="linedark">#b9b9b9</color>
     <color name="reject">#ff9802</color>
     <color name="accept">#70d449</color>
     <color name="back">#18659f</color>
