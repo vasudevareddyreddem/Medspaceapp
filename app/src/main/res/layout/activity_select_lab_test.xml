@@ -89,21 +89,24 @@
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:id="@+id/openSearchView"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_space"
             android:background="@drawable/sign_text_shape"
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <TextView
+            <EditText
+                android:id="@+id/et_search_test"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
+                android:background="@color/colorWhite"
                 android:gravity="left"
-                android:text="Search for tests"
+                android:maxLength="30"
+                android:hint="Search for tests"
+                android:inputType="textPersonName"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
             <ImageView
@@ -111,6 +114,7 @@
                 android:layout_height="28dp"
                 android:layout_marginRight="10dp"
                 android:padding="1dp"
+                android:id="@+id/searchimage"
                 android:src="@drawable/magnifier" />
         </LinearLayout>
 
@@ -118,86 +122,9 @@
     </LinearLayout>
 
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/test_type"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/search_test_ll"-->
-        <!--android:layout_margin="@dimen/margin_space"-->
-        <!--android:background="@drawable/sign_text_shape"-->
-        <!--android:onClick="openSingleChoice"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:padding="10dp">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/type_txt"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="left"-->
-            <!--android:text="Select Test Type"-->
-            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="25dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:padding="8dp"-->
-            <!--android:src="@drawable/dropdown_icon" />-->
-    <!--</LinearLayout>-->
-
-
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/date_ll"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/test_type"-->
-        <!--android:layout_margin="@dimen/margin_space"-->
-        <!--android:background="@drawable/sign_text_shape"-->
-        <!--android:padding="12dp">-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/date_of_reg"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="@color/colorWhite"-->
-            <!--android:clickable="true"-->
-            <!--android:focusableInTouchMode="false"-->
-            <!--android:hint="Date of Appointment"-->
-            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />-->
-    <!--</RelativeLayout>-->
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/time_lay"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/date_ll"-->
-        <!--android:layout_margin="@dimen/margin_space"-->
-        <!--android:background="@drawable/sign_text_shape"-->
-        <!--android:onClick="openSingleChoice"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:padding="10dp">-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/time_txt"-->
-            <!--android:layout_width="249dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="left"-->
-            <!--android:text="Select Time"-->
-            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="25dp"-->
-            <!--android:layout_height="25dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:padding="8dp"-->
-            <!--android:src="@drawable/dropdown_icon" />-->
-    <!--</LinearLayout>-->
-
+   <android.support.v7.widget.RecyclerView
+       android:layout_width="match_parent"
+       android:id="@+id/searchLAbsRecyclerView"
+       android:layout_below="@+id/search_test"
+       android:layout_height="match_parent"/>
 </RelativeLayout>

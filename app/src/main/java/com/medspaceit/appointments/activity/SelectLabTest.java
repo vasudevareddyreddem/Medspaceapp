@@ -1,29 +1,42 @@
 package com.medspaceit.appointments.activity;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
+
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.medspaceit.appointments.R;
+import com.medspaceit.appointments.adapters.ReportInfoAdapter;
 import com.medspaceit.appointments.apis.ApiUrl;
-import com.medspaceit.appointments.model.City;
-import com.medspaceit.appointments.model.CityList;
+import com.medspaceit.appointments.model.CitiesList;
+import com.medspaceit.appointments.model.DGCitiesList;
 import com.medspaceit.appointments.model.Formatter;
-import com.medspaceit.appointments.utils.MessageToast;
+import com.medspaceit.appointments.model.MyReportDownloadPoojo;
+import com.medspaceit.appointments.model.SearchRelatedTest;
+import com.medspaceit.appointments.utils.SessionManager;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,18 +50,33 @@ public class SelectLabTest extends BaseActivity {
     @BindView(R.id.back)
     ImageView back;
 
+    @BindView(R.id.searchimage)
+    ImageView searchimage;
+
     @BindView(R.id.city_text)
     TextView city_text;
-    @BindView(R.id.openSearchView)
-    LinearLayout openSearchView;
-    List<City> cities = null;
+
+    @BindView(R.id.et_search_test)
+    EditText et_search_test;
+
+    @BindView(R.id.searchLAbsRecyclerView)
+    RecyclerView searchLAbsRecyclerView;
+
+
+    List<DGCitiesList> cities = null;
+    String city = "null";
+    String searchtest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_lab_test);
         ButterKnife.bind(this);
         back.setOnClickListener(this);
-        openSearchView.setOnClickListener(this);
+        searchimage.setOnClickListener(this);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        searchLAbsRecyclerView.setLayoutManager(llm);
         if (isConnected()) {
             FeatchCity();
         } else {
@@ -58,57 +86,86 @@ public class SelectLabTest extends BaseActivity {
     }
 
     @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
-                case R.id.openSearchView:
-            startActivity(new Intent(this,SearchTestActivity.class));
+            case R.id.searchimage:
+                searchtest = et_search_test.getText().toString().trim();
+                city = city_text.getText().toString();
+                if (city.equals("Select City")) {
+                    city = "";
+                }
+                if (city.equals("") && searchtest.equals("")) {
+                    showToast("Please Select City/Test");
+                } else if (!searchtest.equals("") && city.equals("")) {
+                    showToast("Please Select City");
+
+                } else {
+                    hideSoftKeyboard();
+                    if (isConnected()) {
+                        getRelatedLabs(city, searchtest);
+                    } else {
+                        showToast(getString(R.string.nointernet));
+                    }
+                }
                 break;
         }
     }
-    int mYear, mMonth, mDay;
 
-    public void showDatePicker() {
-        // To show current date in the datepicker
-        Calendar mcurrentDate = Calendar.getInstance();
-        mYear = mcurrentDate.get(Calendar.YEAR);
-        mMonth = mcurrentDate.get(Calendar.MONTH);
-        mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+    private void getRelatedLabs(String city, String searchtest) {
+        showDialog();
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("city", city);
+            jsonObject.put("search_value", searchtest);
 
-        DatePickerDialog mDatePicker = new DatePickerDialog(SelectLabTest.this, new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+        } catch (JSONException e) {
+            e.printStackTrace();
 
-                Calendar myCalendar = Calendar.getInstance();
-                try {
+        }
 
-                    myCalendar.set(Calendar.YEAR, selectedyear);
-                    myCalendar.set(Calendar.MONTH, selectedmonth);
-                    myCalendar.set(Calendar.DAY_OF_MONTH, selectedday);
-                    String myFormat = "yyyy-MM-dd"; //Change as you need
-                    SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
-                    Date date = myCalendar.getTime();
-                    String sDate = sdf.format(date);
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
 
-                   // dateOfReg.setText(sDate);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.DIAGONOSTIC_BASE_URL + ApiUrl.search, new JSONObject(json),
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.e("Info===== ", " Respone" + response.toString());
+                            Gson gson = new Gson();
+                            hideDialog();
+
+                            SearchRelatedTest data = gson.fromJson(response.toString(), SearchRelatedTest.class);
+                            if (data.status == 1) {
+                                searchLAbsRecyclerView.setVisibility(View.VISIBLE);
+
+                                SearchRelatedInfoAdapter sriAdapter = new SearchRelatedInfoAdapter(SelectLabTest.this, data);
+                                searchLAbsRecyclerView.setAdapter(sriAdapter);
+                            } else {
+                                showToast(data.message);
+                                searchLAbsRecyclerView.setVisibility(View.GONE);
+                            }
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    hideDialog();
+                    Log.e("Info", " Error " + error.getMessage());
                 }
-                mDay = selectedday;
-                mMonth = selectedmonth;
-                mYear = selectedyear;
-            }
-        }, mYear, mMonth, mDay);
-        //mDatePicker.setTitle("Select date");
-
-        mDatePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-
-        mDatePicker.show();
+            });
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("Info ", "Error  try " + e.getMessage());
+        }
     }
-
 
     public void openSingleChoice(View view) {
 
@@ -135,7 +192,7 @@ public class SelectLabTest extends BaseActivity {
     private void fetchData(int data_type, int position) {
         switch (data_type) {
             case 0:
-                String city = cities.get(position).getValue();
+                city = cities.get(position).getValue();
                 city_text.setText(city);
 
                 break;
@@ -151,23 +208,24 @@ public class SelectLabTest extends BaseActivity {
     }
 
     private void FeatchCity() {
-        Call<CityList> call = service.getCitys(new JsonObject(), ApiUrl.content_type);
+        Call<CitiesList> call = servicedg.getCities(new JsonObject(), ApiUrl.content_type);
         showDialog();
-        call.enqueue(new Callback<CityList>() {
+        call.enqueue(new Callback<CitiesList>() {
             @Override
-            public void onResponse(Call<CityList> call, Response<CityList> response) {
+            public void onResponse(Call<CitiesList> call, Response<CitiesList> response) {
                 hideDialog();
+
                 if (!response.isSuccessful()) {
                     showToast("Server side error");
                     return;
                 }
 
 
-                CityList cityList = response.body();
+                CitiesList cityList = response.body();
 
                 if (cityList != null) {
 
-                    City city = new City();
+
                     if (cityList.getStatus() == 1) {
                         cities = cityList.getCitys();
                     } else
@@ -178,11 +236,16 @@ public class SelectLabTest extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<CityList> call, Throwable t) {
+            public void onFailure(Call<CitiesList> call, Throwable t) {
                 hideDialog();
             }
         });
     }
 
-
+    public void hideSoftKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
 }

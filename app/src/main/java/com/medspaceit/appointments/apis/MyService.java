@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.JsonObject;
 import com.medspaceit.appointments.model.Appointment;
+import com.medspaceit.appointments.model.CitiesList;
 import com.medspaceit.appointments.model.CityList;
 import com.medspaceit.appointments.model.DepartmentList;
 import com.medspaceit.appointments.model.Doctorlists;
@@ -65,6 +66,8 @@ public interface MyService {
     Call<RegResult> forgetPsw(@Body JsonObject s, @Header("content-type") String contenttype);
     @POST(ApiUrl.citys)
     Call<CityList> getCitys(@Body JsonObject s, @Header("content-type") String contenttype);
+     @POST(ApiUrl.cities)
+    Call<CitiesList> getCities(@Body JsonObject s, @Header("content-type") String contenttype);
     @POST(ApiUrl.depts)
     Call<DepartmentList> getDepts(@Body JsonObject s, @Header("content-type") String contenttype);
     @POST(ApiUrl.splist)

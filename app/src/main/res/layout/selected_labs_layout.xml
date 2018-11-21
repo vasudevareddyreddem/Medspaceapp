@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+android:layout_margin="10dp"
+    android:background="@drawable/sign_text_shape"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/lab_iamge"
+        android:layout_width="80dp"
+        android:layout_margin="5dp"
+        android:layout_height="80dp" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_toRightOf="@id/lab_iamge"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lab_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="maxcure"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lab_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Home Sample Pickup"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/lab_view_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/sign_button_shape"
+        android:text="  View Profile  "
+        android:textColor="@color/colorWhite"
+        android:textSize="11sp" />
+
+</RelativeLayout>

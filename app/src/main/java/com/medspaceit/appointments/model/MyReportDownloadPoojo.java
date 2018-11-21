@@ -17,7 +17,6 @@ public class MyReportDownloadPoojo {
     public class Report {
 
         @SerializedName("sno")
-
         public String sno;
         @SerializedName("test")
         public String test;

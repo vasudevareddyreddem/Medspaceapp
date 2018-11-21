@@ -8,11 +8,12 @@ package com.medspaceit.appointments.apis;
 public class ApiUrl {
     public static String content_type="application/json";
     public static String BaseUrl = "https://ehealthinfra.com/api/Appointment/";
-    public static String PHARMA_BASE_URL="http://medspaceit.com/seller_admin/api";
+    public static String DIAGONOSTIC_BASE_URL="http://appointment.ehealthinfra.com/api/diagnostic/";
     final public static String userLogin= "login";
     final public static String userReg="register";
     final public static String forgetPsw="forgotpassword";
     final public static String citys="citys";
+    final public static String cities="cities";
     final public static String depts="department_list";
     final public static String splist="specialist_list";
     final public static String hoslist="hospital_list";
@@ -34,6 +35,8 @@ public class ApiUrl {
     final public static String allcards="card_list_details";
     final public static String cardamount="cardamount";
     final public static String timelist="doctors_time_slot";
+    final public static String search="search";
+    final public static String test_list="test_list";
 
 
 }

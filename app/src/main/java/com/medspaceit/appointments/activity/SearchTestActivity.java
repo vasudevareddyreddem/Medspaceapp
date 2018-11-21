@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -15,15 +16,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.adapters.TagsAdapter;
 import com.medspaceit.appointments.adapters.TestListAdapter;
+import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.Hospital;
+import com.medspaceit.appointments.model.AllTestListForBook;
 import com.medspaceit.appointments.model.SelectLabTestNamePJ;
 import com.medspaceit.appointments.model.TestPJ;
 
@@ -49,40 +55,30 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
     Button btn_submit_test;
 
     public static RecyclerView all_test_recycler_view;
-    public static RecyclerView selected_tag_view;
     public static LinearLayout tag_view_ll;
 
 
-    ArrayList<TestPJ> testList;
     TestListAdapter testListAdapter;
 
-
-    public  static TagsAdapter tagsAdapter;
-   public static ArrayList<String>tagsAdapterList;
-
+    String a_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_test);
         ButterKnife.bind(this);
         hideSoftKeyboard();
+
+        Bundle b=getIntent().getExtras();
+        a_id=b.getString("a_id");
+
         all_test_recycler_view=findViewById(R.id.all_test_recycler_view);
-        selected_tag_view=findViewById(R.id.selected_tag_view);
         tag_view_ll=findViewById(R.id.tag_view_ll);
         all_test_recycler_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        selected_tag_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         back.setOnClickListener(this);
         btn_submit_test.setOnClickListener(this);
         searchbar.setOnClickListener(this);
         searchbar.setOnQueryTextListener(this);
-
-
-
-        tagsAdapterList=new ArrayList<>();
-        tagsAdapter=new TagsAdapter(SearchTestActivity.this,tagsAdapterList);
-        selected_tag_view.setAdapter(tagsAdapter);
-
 
         if(isConnected()) {
         getAllTest();}
@@ -96,42 +92,54 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
     private void getAllTest() {
         showDialog();
         hideSoftKeyboard();
-        StringRequest stringRequest=new StringRequest("https://api.myjson.com/bins/c3inq", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject=new JSONObject(response);
-                    JSONArray jsonArray=jsonObject.getJSONArray("tests");
-                    testList=new ArrayList();
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("a_id", a_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.DIAGONOSTIC_BASE_URL + ApiUrl.test_list, new JSONObject(json),
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.e("Info ", " Respone" + response.toString());
+                            Gson gson = new Gson();
+                            hideDialog();
+
+                            AllTestListForBook data = gson.fromJson(response.toString(), AllTestListForBook.class);
+                            if (data.status == 1) {
+                                testListAdapter=new TestListAdapter(SearchTestActivity.this,data);
+                                all_test_recycler_view.setAdapter(testListAdapter);
+                            } else {
+                                showToast(data.message);
+                            }
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
                     hideDialog();
-                    for (int i = 0; i <jsonArray.length() ; i++) {
-                        JSONObject jb=jsonArray.getJSONObject(i);
-                        String testname=jb.getString("test_name");
-                        TestPJ tp=new TestPJ(testname);
-                        testList.add(tp);
-
-                    }
-
-                    testListAdapter=new TestListAdapter(SearchTestActivity.this,testList);
-                    all_test_recycler_view.setAdapter(testListAdapter);
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("Info", " Error " + error.getMessage());
                 }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        RequestQueue queue= Volley.newRequestQueue(this);
-        queue.add(stringRequest);
+            });
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("Info ", "Error  try " + e.getMessage());
+        }
     }
+
+
+
 
     @Override
     public void onClick(View v) {

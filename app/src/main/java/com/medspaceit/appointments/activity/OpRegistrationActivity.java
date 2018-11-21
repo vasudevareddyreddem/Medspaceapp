@@ -498,7 +498,7 @@ public class OpRegistrationActivity extends BaseActivity  {
 
                 if (cityList != null) {
 
-                    City city = new City();
+                    
                     if (cityList.getStatus() == 1) {
                         cities = cityList.getCitys();
                     } else

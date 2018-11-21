@@ -8,17 +8,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.activity.SearchTestActivity;
+import com.medspaceit.appointments.model.AllTestListForBook;
+import com.medspaceit.appointments.model.MyReportDownloadPoojo;
 import com.medspaceit.appointments.model.TestPJ;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import static com.medspaceit.appointments.activity.SearchTestActivity.tag_view_ll;
-import static com.medspaceit.appointments.activity.SearchTestActivity.tagsAdapter;
-import static com.medspaceit.appointments.activity.SearchTestActivity.tagsAdapterList;
 
 
 /**
@@ -27,16 +33,17 @@ import static com.medspaceit.appointments.activity.SearchTestActivity.tagsAdapte
 
 public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHolder> {
     Context mContext;
-    ArrayList<TestPJ> testList;
+    List<AllTestListForBook.TestName> list = new ArrayList<>();
+    List<AllTestListForBook.TestName> searchlist;
 
-    private List<TestPJ> namesList;
-
-    public TestListAdapter(Context mContext, ArrayList<TestPJ> namesList) {
+    public TestListAdapter(Context mContext, AllTestListForBook data) {
         this.mContext = mContext;
-        this.namesList = namesList;
-        this.testList = new ArrayList();
-        this.testList.addAll(namesList);
-
+        searchlist = new ArrayList<>();
+        searchlist.addAll(data.details.testNames);
+        list.addAll(data.details.testNames);
+        if (list.size() == 0) {
+            Toast.makeText(mContext, "No Test List Found...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -56,59 +63,39 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
 
     @Override
     public void onBindViewHolder(@NonNull TestHolder holder, final int position) {
-        holder.tst_cb.setText(namesList.get(position).getTestname());
 
 
-        holder.tst_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.txt_test_name.setText(list.get(position).testName);
+        holder.txt_test_type.setText("Type :" + list.get(position).testType);
+        holder.txt_test_amount.setText("₹" + list.get(position).testAmount);
+        holder.txt_test_time.setText("Time :" + list.get(position).testDuartion);
+
+
+        holder.btn_test_book.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
+                SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
 
-                String name = namesList.get(position).getTestname();
-                if (isChecked) {
-                    tagsAdapterList.add(name);
-                    Log.e("Info ","Info "+tagsAdapterList.toString()+" size "+tagsAdapterList.size());
-                    } else {
-
-                    int length=tagsAdapterList.size();
-                    for(int i=0;i<length;i++){
-                        if(tagsAdapterList.get(i).equals(name))
-                        {
-
-                            tagsAdapterList.remove(name);
-                            Log.e("Info "," Info "+tagsAdapterList.toString()+ i);
-
-                            break;
-
-                        }
-                    }
-
-                }
-                if(tagsAdapterList.size()==0)
-                {
-                    tag_view_ll.setVisibility(View.GONE);
-                }
-                else {
-                    tag_view_ll.setVisibility(View.VISIBLE);
-
-                }
-                tagsAdapter.notifyDataSetChanged();
             }
         });
-
-
     }
 
     @Override
     public int getItemCount() {
-        return namesList.size();
+        return list.size();
     }
 
     public class TestHolder extends RecyclerView.ViewHolder {
-        CheckBox tst_cb;
+        TextView txt_test_name, txt_test_type, txt_test_amount, txt_test_time;
+        Button btn_test_book;
 
         public TestHolder(View itemView) {
             super(itemView);
-            tst_cb = itemView.findViewById(R.id.tst_cb);
+            txt_test_name = itemView.findViewById(R.id.txt_test_name);
+            txt_test_type = itemView.findViewById(R.id.txt_test_type);
+            txt_test_amount = itemView.findViewById(R.id.txt_test_amount);
+            txt_test_time = itemView.findViewById(R.id.txt_test_time);
+            btn_test_book = itemView.findViewById(R.id.btn_test_book);
 
 
         }
@@ -119,14 +106,14 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
         SearchTestActivity.all_test_recycler_view.setVisibility(View.VISIBLE);
 
         charText = charText.toLowerCase(Locale.getDefault());
-        namesList.clear();
+        list.clear();
         if (charText.length() == 0) {
 
-            namesList.addAll(testList);
+            list.addAll(searchlist);
         } else {
-            for (TestPJ wp : testList) {
-                if (wp.getTestname().toLowerCase(Locale.getDefault()).contains(charText)) {
-                    namesList.add(wp);
+            for (AllTestListForBook.TestName wp : searchlist) {
+                if (wp.testName.toLowerCase(Locale.getDefault()).contains(charText)) {
+                    list.add(wp);
                 }
 
             }

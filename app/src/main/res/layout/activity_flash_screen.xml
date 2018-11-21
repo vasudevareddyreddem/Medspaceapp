@@ -22,7 +22,7 @@
         android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/medspacenewlogo"
         />
     <TextView
         android:id="@+id/textView"

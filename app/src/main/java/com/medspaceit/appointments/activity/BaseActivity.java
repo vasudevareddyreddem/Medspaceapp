@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.medspaceit.appointments.apis.MyService;
+import com.medspaceit.appointments.apis.MyServiceDG;
 import com.medspaceit.appointments.utils.DialogsUtils;
 import com.medspaceit.appointments.utils.NetworkConnection;
 import com.medspaceit.appointments.utils.SessionManager;
@@ -23,6 +24,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     SessionManager manager;
 NetworkConnection connection;
 MyService service;
+MyServiceDG servicedg;
 ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ ProgressDialog dialog;
         manager=new SessionManager(this);
         connection=new NetworkConnection(this);
         service= MyService.Factory.create(getApplicationContext());
+        servicedg= MyServiceDG.Factory.create(getApplicationContext());
     }
     public void showDialog(){
         if(dialog==null){

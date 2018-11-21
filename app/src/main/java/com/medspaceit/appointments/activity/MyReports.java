@@ -57,11 +57,8 @@ if(isConnected()) {
         StringRequest stringRequest=new StringRequest("https://api.myjson.com/bins/5z6my", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 Gson gson=new Gson();
-                hideDialog();
                 MyReportDownloadPoojo data=gson.fromJson(response, MyReportDownloadPoojo.class);
-
                 ReportInfoAdapter rpAdapter=new ReportInfoAdapter(MyReports.this,data);
                 reportInfoRecyclerView.setAdapter(rpAdapter);
             }
