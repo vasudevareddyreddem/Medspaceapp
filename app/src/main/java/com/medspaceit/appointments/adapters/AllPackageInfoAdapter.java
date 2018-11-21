@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.medspaceit.appointments.R;
+import com.medspaceit.appointments.activity.Lab;
+import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.AllPackagePojo;
 import com.medspaceit.appointments.model.MyReportDownloadPoojo;
+import com.medspaceit.appointments.model.TestAddToCartPojo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +40,13 @@ import java.util.List;
 
 public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<AllPackagePojo.List> list = new ArrayList<>();
-    Context context;
+    Lab context;
     List dialogList = new ArrayList();
+    String lTPId,UID;
 
-    public AllPackageInfoAdapter(Context context, AllPackagePojo data) {
+    public AllPackageInfoAdapter(Lab context, AllPackagePojo data, String UID) {
         this.context = context;
+        this.UID = UID;
         list.addAll(data.list);
 
     }
@@ -49,11 +64,11 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof MyPackageHolder) {
             final MyPackageHolder reportholder = (MyPackageHolder) holder;
-
+            lTPId= list.get(position).lTPId;
             reportholder.txt_package_name.setText(list.get(position).testPackageName);
             reportholder.txt_package_intro.setText(list.get(position).instruction);
             reportholder.txt_test_no.setText("Includes " + list.get(position).packageTestList.size() + " Tests");
@@ -71,8 +86,8 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             }
 
-            reportholder.txt_package_percentage.setText(list.get(position).percentage);
-            reportholder.txt_package_amount.setText("Rs." + list.get(position).amount);
+            reportholder.txt_package_percentage.setText(list.get(position).percentage+" Off");
+            reportholder.txt_package_amount.setText("MRP: Rs." + list.get(position).amount);
             reportholder.txt_package_discuount.setText("Rs." + list.get(position).discount);
             reportholder.btn_view_all_test.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,25 +96,65 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     String allNames = dialogList.toString();
                     allNames = allNames.replace("[", "");
                     allNames = allNames.replace("]", "");
-                    List<String> mAnimals = new ArrayList<String>();
-                    mAnimals.add(allNames);
-
-                    //Create sequence of items
-                    final CharSequence[] Animals = mAnimals.toArray(new String[mAnimals.size()]);
+                    List<String> mPackages = new ArrayList<String>();
+                    mPackages.add(allNames);
+                    final CharSequence[] allPackage = mPackages.toArray(new String[mPackages.size()]);
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                     dialogBuilder.setTitle("All Test Names");
-                    dialogBuilder.setItems(Animals, new DialogInterface.OnClickListener() {
+                    dialogBuilder.setItems(allPackage, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
-                            String selectedText = Animals[item].toString();  //Selected item in listview
-                        }
+                                                   }
                     });
-                    //Create alert dialog object via builder
                     AlertDialog alertDialogObject = dialogBuilder.create();
-                    //Show the dialog
                     alertDialogObject.show();
                 }
             });
 
+
+reportholder.btn_explore.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        context.showDialog();
+
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("a_u_id",UID);
+            jsonObject.put("l_t_p_id",lTPId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.DIAGONOSTIC_BASE_URL + ApiUrl.package_addtocart, new JSONObject(json),
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Gson gson = new Gson();
+                            context.hideDialog();
+                            TestAddToCartPojo data = gson.fromJson(response.toString(), TestAddToCartPojo.class);
+
+                            context.showToast(data.message);
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    context.hideDialog();
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(context);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+});
 
         }
     }

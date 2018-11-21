@@ -1,5 +1,6 @@
 package com.medspaceit.appointments.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.ArrayRes;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import com.medspaceit.appointments.model.Hospital;
 import com.medspaceit.appointments.model.AllTestListForBook;
 import com.medspaceit.appointments.model.SelectLabTestNamePJ;
 import com.medspaceit.appointments.model.TestPJ;
+import com.medspaceit.appointments.utils.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +68,6 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_test);
         ButterKnife.bind(this);
-        hideSoftKeyboard();
 
         Bundle b=getIntent().getExtras();
         a_id=b.getString("a_id");
@@ -80,6 +81,7 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
         searchbar.setOnClickListener(this);
         searchbar.setOnQueryTextListener(this);
 
+
         if(isConnected()) {
         getAllTest();}
         else
@@ -91,7 +93,6 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
 
     private void getAllTest() {
         showDialog();
-        hideSoftKeyboard();
         String json = "";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -111,13 +112,14 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
                     new com.android.volley.Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.e("Info ", " Respone" + response.toString());
+                           // Log.e("Info ", " Respone" + response.toString());
                             Gson gson = new Gson();
                             hideDialog();
 
                             AllTestListForBook data = gson.fromJson(response.toString(), AllTestListForBook.class);
                             if (data.status == 1) {
-                                testListAdapter=new TestListAdapter(SearchTestActivity.this,data);
+                                String UID= manager.getSingleField(SessionManager.KEY_ID);
+                                testListAdapter=new TestListAdapter(SearchTestActivity.this,data,UID);
                                 all_test_recycler_view.setAdapter(testListAdapter);
                             } else {
                                 showToast(data.message);
@@ -167,10 +169,5 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
         return false;
     }
 
-    public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-    }
+
 }

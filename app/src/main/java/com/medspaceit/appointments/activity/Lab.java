@@ -31,6 +31,7 @@ import com.medspaceit.appointments.model.CityList;
 import com.medspaceit.appointments.model.Formatter;
 import com.medspaceit.appointments.model.AllPackagePojo;
 import com.medspaceit.appointments.utils.MessageToast;
+import com.medspaceit.appointments.utils.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,8 +94,9 @@ public class Lab extends BaseActivity {
             public void onResponse(String response) {
                 hideDialog();
                 Gson gson = new Gson();
+                String UID=manager.getSingleField(SessionManager.KEY_ID);
                 AllPackagePojo data = gson.fromJson(response, AllPackagePojo.class);
-                AllPackageInfoAdapter apAdapter = new AllPackageInfoAdapter(Lab.this, data);
+                AllPackageInfoAdapter apAdapter = new AllPackageInfoAdapter(Lab.this, data,UID);
                 package_recyclerview.setAdapter(apAdapter);
             }
         }, new com.android.volley.Response.ErrorListener() {

@@ -19,7 +19,7 @@ android:layout_margin="10dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/lab_name"
+            android:id="@+id/lab_nam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="maxcure"

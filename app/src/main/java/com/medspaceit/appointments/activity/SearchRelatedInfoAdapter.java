@@ -87,7 +87,7 @@ class SearchRelatedInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Button lab_view_profile;
         public MyReportHolder(View itemView) {
             super(itemView);
-            lab_name = itemView.findViewById(R.id.lab_name);
+            lab_name = itemView.findViewById(R.id.lab_nam);
             lab_test = itemView.findViewById(R.id.lab_test);
             txt3 = itemView.findViewById(R.id.txt3);
             lab_iamge = itemView.findViewById(R.id.lab_iamge);

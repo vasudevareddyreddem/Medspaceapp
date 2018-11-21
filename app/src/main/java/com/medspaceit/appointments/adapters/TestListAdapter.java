@@ -1,6 +1,7 @@
 package com.medspaceit.appointments.adapters;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,22 +9,36 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.activity.SearchTestActivity;
+import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.AllTestListForBook;
 import com.medspaceit.appointments.model.MyReportDownloadPoojo;
+import com.medspaceit.appointments.model.TestAddToCartPojo;
 import com.medspaceit.appointments.model.TestPJ;
+import com.medspaceit.appointments.utils.SessionManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import static com.medspaceit.appointments.activity.SearchTestActivity.tag_view_ll;
 
 
@@ -32,11 +47,12 @@ import static com.medspaceit.appointments.activity.SearchTestActivity.tag_view_l
  */
 
 public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHolder> {
-    Context mContext;
+    SearchTestActivity mContext;
     List<AllTestListForBook.TestName> list = new ArrayList<>();
     List<AllTestListForBook.TestName> searchlist;
-
-    public TestListAdapter(Context mContext, AllTestListForBook data) {
+    String UID;
+    public TestListAdapter(SearchTestActivity mContext, AllTestListForBook data, String UID) {
+        this.UID = UID;
         this.mContext = mContext;
         searchlist = new ArrayList<>();
         searchlist.addAll(data.details.testNames);
@@ -66,6 +82,7 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
 
 
         holder.txt_test_name.setText(list.get(position).testName);
+
         holder.txt_test_type.setText("Type :" + list.get(position).testType);
         holder.txt_test_amount.setText("₹" + list.get(position).testAmount);
         holder.txt_test_time.setText("Time :" + list.get(position).testDuartion);
@@ -76,9 +93,51 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
             public void onClick(View v) {
                 SearchTestActivity.tag_view_ll.setVisibility(View.VISIBLE);
 
+                mContext.showDialog();
+
+                String json = "";
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("a_u_id",UID);
+                    jsonObject.put("l_id", list.get(position).lId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+
+                json = jsonObject.toString();
+                JsonObjectRequest jsonObjReq = null;
+
+                try {
+
+                    jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                            ApiUrl.DIAGONOSTIC_BASE_URL + ApiUrl.test_addtocart, new JSONObject(json),
+                            new com.android.volley.Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.e("Info ", " Respone" + response.toString());
+                                    Gson gson = new Gson();
+                                    mContext.hideDialog();
+                                    TestAddToCartPojo data = gson.fromJson(response.toString(), TestAddToCartPojo.class);
+
+                                        mContext.showToast(data.message);
+                                }
+                            }, new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            mContext.hideDialog();
+                            Log.e("Info", " Error " + error.getMessage());
+                        }
+                    });
+                    RequestQueue queue = Volley.newRequestQueue(mContext);
+                    queue.add(jsonObjReq);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("Info ", "Error  try " + e.getMessage());
+                }
             }
         });
-    }
+            }
 
     @Override
     public int getItemCount() {
@@ -120,6 +179,7 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
         }
         notifyDataSetChanged();
     }
+
 
 
 }
