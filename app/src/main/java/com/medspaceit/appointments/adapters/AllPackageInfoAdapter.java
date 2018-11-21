@@ -67,7 +67,7 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 reportholder.txt_test_names.setVisibility(View.GONE);
                 reportholder.btn_view_all_test.setVisibility(View.VISIBLE);
                 for (int i = 0; i < list.get(position).packageTestList.size(); i++) {
-                    dialogList.add(i, list.get(position).packageTestList.get(i).testName+"\n");
+                    dialogList.add(i, "\n" + list.get(position).packageTestList.get(i).testName);
                 }
             }
 
