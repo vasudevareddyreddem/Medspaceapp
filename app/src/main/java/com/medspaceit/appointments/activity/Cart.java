@@ -2,6 +2,7 @@ package com.medspaceit.appointments.activity;
 
 import butterknife.BindView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -74,6 +75,8 @@ public static  LinearLayout pack_total_amount_ll;
     public static TextView txt_sample_pickup;
     public static TextView txt_sample_pickup_charge;
     public static  TextView final_total;
+    public static  Button btn_checkout;
+
 
   public static String UID;
     @Override
@@ -89,6 +92,7 @@ public static  LinearLayout pack_total_amount_ll;
         txt_sample_pickup_charge=findViewById(R.id.txt_sample_pickup_charge);
         final_total=findViewById(R.id.final_total);
         pack_total_amount_ll=findViewById(R.id.pack_total_amount_ll);
+        btn_checkout=findViewById(R.id.btn_checkout);
 
 
         if (isConnected()) {
@@ -135,7 +139,7 @@ public static  LinearLayout pack_total_amount_ll;
                                     CartTestDetailsPojo testdata = gson.fromJson(response.toString(), CartTestDetailsPojo.class);
 
                                     test_cart_recycler_view.setVisibility(View.VISIBLE);
-                                    TestCartAdapter  tca=new TestCartAdapter(Cart.this,testdata);
+                                    TestCartAdapter  tca=new TestCartAdapter(Cart.this,testdata,UID);
                                     test_cart_recycler_view.setAdapter(tca);
 
 
@@ -144,6 +148,7 @@ public static  LinearLayout pack_total_amount_ll;
                                     final CartPackageDetailsPojo packagedata = gson.fromJson(response.toString(), CartPackageDetailsPojo.class);
 
                                     package_card_details_ll.setVisibility(View.VISIBLE);
+                                    pack_total_amount_ll.setVisibility(View.VISIBLE);
                                     txt_package_name_cart.setText(packagedata.list.get(0).testPackageName);
                                     ArrayList packList=new ArrayList();
                                     for (int i = 0; i <packagedata.list.get(0).packageTestList.size() ; i++) {
@@ -222,6 +227,13 @@ public static  LinearLayout pack_total_amount_ll;
                                                 e.printStackTrace();
                                                 Log.e("Info crt 3", "Error  try " + e.getMessage());
                                             }}
+                                    });
+
+                                    btn_checkout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            startActivity(new Intent(Cart.this,PickTimeSlot.class));
+                                        }
                                     });
 
                                 }

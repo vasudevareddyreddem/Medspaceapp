@@ -1,5 +1,6 @@
 package com.medspaceit.appointments.adapters;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.activity.Cart;
+import com.medspaceit.appointments.activity.PatientDetails;
+import com.medspaceit.appointments.activity.PickTimeSlot;
 import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.CartTestDetailsPojo;
 import com.medspaceit.appointments.model.RemoveCartDataPojo;
@@ -37,12 +40,15 @@ import java.util.List;
 public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Cart context;
     double total = 0.0;
+    double totalDeliveryCharge = 0.0;
     List<CartTestDetailsPojo.List> list = new ArrayList<>();
-
-    public TestCartAdapter(Cart cart, CartTestDetailsPojo data) {
+    String UID;
+    public TestCartAdapter(Cart cart, CartTestDetailsPojo data, String UID) {
         this.context = cart;
+        this.UID = UID;
         list.addAll(data.list);
         total = getTotal();
+        totalDeliveryCharge = getTotalDeliveryCharge();
 
     }
 
@@ -74,10 +80,9 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             testCartHolder.cart_adapter_test_amount.setText("₹" + list.get(position).amount);
             testCartHolder.cart_adapter_test_name.setText("Test Name: " + list.get(position).testName);
             Cart.txt_sample_pickup.setText("Delivery Charge");
-            Cart.txt_sample_pickup_charge.setText("₹" + list.get(position).deliveryCharge);
-            String delchrg = list.get(position).deliveryCharge;
-            double del = Double.parseDouble(delchrg);
-            double amount = del + total;
+            Cart.txt_sample_pickup_charge.setText("₹" + totalDeliveryCharge);
+
+            double amount = totalDeliveryCharge + total;
             Cart.final_total.setText("₹" + amount);
             testCartHolder.cart_adapter_test_lab_name.setText("Lab Name: " + list.get(position).labName);
             testCartHolder.cart_test_remove.setOnClickListener(new View.OnClickListener() {
@@ -87,10 +92,9 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     context.showDialog();
                     String json = "";
                     JSONObject jsonObject = new JSONObject();
-                    String UID = Cart.UID;
                     try {
                         jsonObject.put("a_u_id", UID);
-                        jsonObject.put("c_id", list.get(0).cId);
+                        jsonObject.put("c_id", list.get(position).cId);
                     } catch (JSONException e) {
                         e.printStackTrace();
 
@@ -117,6 +121,7 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                             notifyDataSetChanged();
                                             total = 0.0;
                                             total = getTotal();
+                                            totalDeliveryCharge=getTotalDeliveryCharge();
                                             if (list.size() == 0) {
                                                 Cart.pack_total_amount_ll.setVisibility(View.GONE);
                                             } else {
@@ -143,7 +148,12 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             });
-
+            Cart.btn_checkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context,PickTimeSlot.class));
+                }
+            });
 
         }
     }
@@ -182,6 +192,22 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
         return total;
+    }
+
+    public double getTotalDeliveryCharge() {
+
+        double totalDCharge = 0.0;
+        for (int i = 0; i < list.size(); i++) {
+            totalDCharge = totalDCharge + Double.parseDouble(list.get(i).deliveryCharge);
+        }
+        if (list.size() == 0) {
+            Cart.pack_total_amount_ll.setVisibility(View.GONE);
+        }
+        else {
+            Cart.pack_total_amount_ll.setVisibility(View.VISIBLE);
+
+        }
+        return totalDCharge;
     }
 
 }
