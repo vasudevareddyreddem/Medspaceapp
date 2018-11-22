@@ -40,6 +40,8 @@ public class ApiUrl {
     final public static String packages="package";
     final public static String test_addtocart="test_addtocart";
     final public static String package_addtocart="package_addtocart";
+    final public static String cart="cart";
+    final public static String remove_cartitem="remove_cartitem";
 
 
 }

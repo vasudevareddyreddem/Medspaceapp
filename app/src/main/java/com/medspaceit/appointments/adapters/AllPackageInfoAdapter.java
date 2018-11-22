@@ -3,6 +3,7 @@ package com.medspaceit.appointments.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.medspaceit.appointments.R;
+import com.medspaceit.appointments.activity.Cart;
 import com.medspaceit.appointments.activity.Lab;
 import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.AllPackagePojo;
@@ -42,7 +44,7 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     List<AllPackagePojo.List> list = new ArrayList<>();
     Lab context;
     List dialogList = new ArrayList();
-    String lTPId,UID;
+    String UID;
 
     public AllPackageInfoAdapter(Lab context, AllPackagePojo data, String UID) {
         this.context = context;
@@ -68,7 +70,7 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         if (holder instanceof MyPackageHolder) {
             final MyPackageHolder reportholder = (MyPackageHolder) holder;
-            lTPId= list.get(position).lTPId;
+
             reportholder.txt_package_name.setText(list.get(position).testPackageName);
             reportholder.txt_package_intro.setText(list.get(position).instruction);
             reportholder.txt_test_no.setText("Includes " + list.get(position).packageTestList.size() + " Tests");
@@ -111,9 +113,10 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             });
 
 
-reportholder.btn_explore.setOnClickListener(new View.OnClickListener() {
+           reportholder.btn_explore.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+      String  lTPId= list.get(position).lTPId;
         context.showDialog();
 
         String json = "";
@@ -139,8 +142,8 @@ reportholder.btn_explore.setOnClickListener(new View.OnClickListener() {
                             Gson gson = new Gson();
                             context.hideDialog();
                             TestAddToCartPojo data = gson.fromJson(response.toString(), TestAddToCartPojo.class);
-
                             context.showToast(data.message);
+                            context.startActivity(new Intent(context, Cart.class));
                         }
                     }, new com.android.volley.Response.ErrorListener() {
                 @Override
