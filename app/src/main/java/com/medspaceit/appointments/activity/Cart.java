@@ -76,7 +76,7 @@ public static  LinearLayout pack_total_amount_ll;
     public static TextView txt_sample_pickup_charge;
     public static  TextView final_total;
     public static  Button btn_checkout;
-    String lab_id;
+    String   passAmount;
 
 
   public static String UID;
@@ -172,8 +172,9 @@ public static  LinearLayout pack_total_amount_ll;
                                     String chr=packagedata.list.get(0).deliveryCharge;
                                     double d2=Double.parseDouble(chr);
                                     double finalamt=d1+d2;
-                                    final_total.setText("₹"+finalamt);
 
+                                    final_total.setText("₹"+finalamt);
+                                    passAmount=String.valueOf(finalamt);
                                     btn_remove_package.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -216,7 +217,6 @@ public static  LinearLayout pack_total_amount_ll;
                                                     @Override
                                                     public void onErrorResponse(VolleyError error) {
                                                         hideDialog();
-                                                        Log.e("Info crt 2", " Error " + error.getMessage());
 
                                                     }
                                                 });
@@ -224,7 +224,6 @@ public static  LinearLayout pack_total_amount_ll;
                                                 queue.add(jsonObjReq);
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
-                                                Log.e("Info crt 3", "Error  try " + e.getMessage());
                                             }}
                                     });
 
@@ -235,6 +234,7 @@ public static  LinearLayout pack_total_amount_ll;
                                     @Override
                                     public void onClick(View v) {
                                         Intent i=new  Intent(Cart.this,PickTimeSlot.class);
+                                        i.putExtra("passAmount",passAmount);
                                         startActivity(i);
                                     }
                                 });

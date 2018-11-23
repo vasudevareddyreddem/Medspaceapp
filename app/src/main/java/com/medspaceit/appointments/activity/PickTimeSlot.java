@@ -55,7 +55,7 @@ public class PickTimeSlot extends BaseActivity {
 
     List<MyTimeList> timeSlots = null;
 
-    String lab_id, utime;
+    String lab_id, utime,passAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,9 @@ public class PickTimeSlot extends BaseActivity {
         btn_next_a.setOnClickListener(this);
         et_select_date.setOnClickListener(this);
 
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        passAmount = b.getString("passAmount");
         if (isConnected()) {
             FetchTimeSlot(lab_id);
         } else {
@@ -94,6 +97,7 @@ public class PickTimeSlot extends BaseActivity {
                     Intent i = new Intent(this, PatientDetails.class);
                     i.putExtra("udate", et_select_date.getText().toString());
                     i.putExtra("utime", txt_time.getText().toString());
+                    i.putExtra("passAmount", passAmount);
                     startActivity(i);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

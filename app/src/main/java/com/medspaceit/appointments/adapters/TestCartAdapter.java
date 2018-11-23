@@ -42,7 +42,7 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     double total = 0.0;
     double totalDeliveryCharge = 0.0;
     List<CartTestDetailsPojo.List> list = new ArrayList<>();
-    String UID;
+    String UID,passAmount;
     public TestCartAdapter(Cart cart, CartTestDetailsPojo data, String UID) {
         this.context = cart;
         this.UID = UID;
@@ -84,6 +84,7 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             double amount = totalDeliveryCharge + total;
             Cart.final_total.setText("₹" + amount);
+            passAmount=String.valueOf(amount);
             testCartHolder.cart_adapter_test_lab_name.setText("Lab Name: " + list.get(position).labName);
             testCartHolder.cart_test_remove.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -136,7 +137,6 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 context.hideDialog();
-                                Log.e("Info crt 2", " Error " + error.getMessage());
 
                             }
                         });
@@ -144,14 +144,17 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         queue.add(jsonObjReq);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e("Info crt 3", "Error  try " + e.getMessage());
                     }
                 }
             });
             Cart.btn_checkout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context,PickTimeSlot.class));
+                    Intent intent=new Intent(context,PickTimeSlot.class);
+                    intent.putExtra("passAmount",passAmount);
+                    context.startActivity(intent);
+
+
                 }
             });
 
@@ -166,7 +169,7 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class MyTestCartHolder extends RecyclerView.ViewHolder {
         TextView cart_adapter_test_name, cart_adapter_test_amount, cart_adapter_test_lab_name;
-        Button cart_test_remove, btn_test_checkout;
+        Button cart_test_remove;
 
         public MyTestCartHolder(View itemView) {
             super(itemView);

@@ -71,7 +71,7 @@ public class PatientDetails extends BaseActivity {
 
 
     String gender = "";
-    String udate, utime;
+    String udate, utime,passAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class PatientDetails extends BaseActivity {
         Bundle b = i.getExtras();
         udate = b.getString("udate");
         utime = b.getString("utime");
+        passAmount = b.getString("passAmount");
 
 
         back.setOnClickListener(this);
@@ -128,8 +129,10 @@ public class PatientDetails extends BaseActivity {
                 } else if (gender.equals("")) {
                     showToast("Please select gender");
                 } else {
-
-                    sendAllPatientDetails();
+                    if (isConnected())
+                        sendAllPatientDetails();
+                    else
+                        showToast(getString(R.string.nointernet));
                 }
                 break;
         }
@@ -173,6 +176,7 @@ public class PatientDetails extends BaseActivity {
                                 showToast(patientData.message);
                                 Intent i = new Intent(PatientDetails.this, PickUpAddress.class);
                                 i.putExtra("patient_details_id", patientData.patientDetailsId);
+                                i.putExtra("passAmount",passAmount);
                                 startActivity(i);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

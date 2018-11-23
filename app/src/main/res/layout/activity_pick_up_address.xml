@@ -185,7 +185,7 @@
                     android:layout_width="match_parent"
                     android:id="@+id/labelSpinner"
                     android:layout_margin="10dp"
-                    android:padding="12dp"
+                    android:padding="3dp"
                     android:background="@drawable/sign_text_shape"
                     android:layout_height="50dp"/>
 
