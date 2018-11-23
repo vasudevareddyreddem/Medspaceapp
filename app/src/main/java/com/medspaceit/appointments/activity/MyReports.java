@@ -51,7 +51,8 @@ public class MyReports extends BaseActivity {
 if(isConnected()) {
     getData();
     showDialog();
-}else {showToast(getString(R.string.nointernet));}   }
+}else
+    {showToast(getString(R.string.nointernet));}   }
 
     private void getData() {
         StringRequest stringRequest=new StringRequest("https://api.myjson.com/bins/5z6my", new Response.Listener<String>() {

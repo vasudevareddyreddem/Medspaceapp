@@ -1,6 +1,8 @@
 package com.medspaceit.appointments.activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,16 +12,30 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.medspaceit.appointments.R;
+import com.medspaceit.appointments.apis.ApiUrl;
+import com.medspaceit.appointments.model.Formatter;
+import com.medspaceit.appointments.model.Hospital;
+import com.medspaceit.appointments.model.MyTimeList;
+import com.medspaceit.appointments.model.TimePickerList;
+import com.medspaceit.appointments.model.TimePickerList;
+import com.medspaceit.appointments.model.TimeSlot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PickTimeSlot extends BaseActivity {
     @BindView(R.id.et_select_date)
@@ -36,6 +52,11 @@ public class PickTimeSlot extends BaseActivity {
 
     @BindView(R.id.your_state_progress_bar_id1)
     StateProgressBar your_state_progress_bar_id1;
+
+    List<MyTimeList> timeSlots = null;
+
+    String lab_id, utime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +66,12 @@ public class PickTimeSlot extends BaseActivity {
         back.setOnClickListener(this);
         btn_next_a.setOnClickListener(this);
         et_select_date.setOnClickListener(this);
+
+        if (isConnected()) {
+            FetchTimeSlot(lab_id);
+        } else {
+            showToast(getString(R.string.nointernet));
+        }
     }
 
     @Override
@@ -59,11 +86,19 @@ public class PickTimeSlot extends BaseActivity {
 
                 break;
             case R.id.btn_next_a:
-                Intent i=new Intent(this,PatientDetails.class);
-                startActivity(i);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                if (et_select_date.getText().toString().equals("")) {
+                    showToast("Please select date");
+                } else if (txt_time.getText().toString().equals("Select Time")) {
+                    showToast("Please select time");
+                } else {
+                    Intent i = new Intent(this, PatientDetails.class);
+                    i.putExtra("udate", et_select_date.getText().toString());
+                    i.putExtra("utime", txt_time.getText().toString());
+                    startActivity(i);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
 
+                }
                 break;
 
         }
@@ -108,6 +143,86 @@ public class PickTimeSlot extends BaseActivity {
         mDatePicker.show();
     }
 
+    private void FetchTimeSlot(String lab_id) {
+
+        JsonObject object = new JsonObject();
+        object.addProperty("a_id", 0);
+
+
+        Call<TimePickerList> call = servicedg.getList(object, ApiUrl.content_type);
+
+        showDialog();
+        call.enqueue(new Callback<TimePickerList>() {
+            @Override
+            public void onResponse(Call<TimePickerList> call, Response<TimePickerList> response) {
+                hideDialog();
+
+                if (!response.isSuccessful()) {
+                    showToast("Server side error");
+                    return;
+                }
+                TimePickerList detps = response.body();
+
+                if (detps != null) {
+
+                    if (detps.status == 1) {
+                        timeSlots = detps.list;
+                    } else {
+
+                        showToast(detps.getMessage());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<TimePickerList> call, Throwable t) {
+                hideDialog();
+            }
+
+        });
+    }
+
     public void openSingleChoice(View view) {
+        List list = null;
+        String title = null;
+
+        list = timeSlots;
+        title = "Select Time";
+
+
+        if (list != null) {
+            final String[] items = getStringArray(list);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+            View view1 = getLayoutInflater().inflate(R.layout.spinner_item, null);
+            TextView mTitle = view1.findViewById(R.id.txt_item);
+            mTitle.setText(title);
+            builder.setCustomTitle(view1)
+                    .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            fetchData(which);
+
+
+                        }
+                    });
+            builder.create().show();
+        }
+    }
+
+    private void fetchData(int position) {
+        utime = timeSlots.get(position).getStime();
+        txt_time.setText(utime.toString());
+
+    }
+
+    private String[] getStringArray(List formatters) {
+        String[] strings = new String[formatters.size()];
+        for (int i = 0; i < formatters.size(); i++) {
+            strings[i] = ((Formatter) formatters.get(i)).getValue();
+        }
+        return strings;
+
     }
 }

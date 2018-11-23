@@ -76,6 +76,7 @@ public static  LinearLayout pack_total_amount_ll;
     public static TextView txt_sample_pickup_charge;
     public static  TextView final_total;
     public static  Button btn_checkout;
+    String lab_id;
 
 
   public static String UID;
@@ -137,7 +138,6 @@ public static  LinearLayout pack_total_amount_ll;
                                 if((checkData.list.get(0).type).equals("1"))
                                 {
                                     CartTestDetailsPojo testdata = gson.fromJson(response.toString(), CartTestDetailsPojo.class);
-
                                     test_cart_recycler_view.setVisibility(View.VISIBLE);
                                     TestCartAdapter  tca=new TestCartAdapter(Cart.this,testdata,UID);
                                     test_cart_recycler_view.setAdapter(tca);
@@ -146,7 +146,6 @@ public static  LinearLayout pack_total_amount_ll;
                                 }
                                 else {
                                     final CartPackageDetailsPojo packagedata = gson.fromJson(response.toString(), CartPackageDetailsPojo.class);
-
                                     package_card_details_ll.setVisibility(View.VISIBLE);
                                     pack_total_amount_ll.setVisibility(View.VISIBLE);
                                     txt_package_name_cart.setText(packagedata.list.get(0).testPackageName);
@@ -229,14 +228,16 @@ public static  LinearLayout pack_total_amount_ll;
                                             }}
                                     });
 
-                                    btn_checkout.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            startActivity(new Intent(Cart.this,PickTimeSlot.class));
-                                        }
-                                    });
+
 
                                 }
+                                btn_checkout.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent i=new  Intent(Cart.this,PickTimeSlot.class);
+                                        startActivity(i);
+                                    }
+                                });
 
                                 } else {
                                 showToast(checkData.message);

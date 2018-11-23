@@ -112,6 +112,7 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
                     new com.android.volley.Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                           // Log.e("Info ", " Respone" + response.toString());
                             Gson gson = new Gson();
                             hideDialog();
 
@@ -128,15 +129,19 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     hideDialog();
-
+                    Log.e("Info", " Error " + error.getMessage());
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(jsonObjReq);
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.e("Info ", "Error  try " + e.getMessage());
         }
     }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -160,7 +165,14 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
     @Override
     public boolean onQueryTextChange(String newText) {
         String text1 = newText;
-        testListAdapter.filter(text1);
+        try {
+            testListAdapter.filter(text1);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         return false;
     }
 

@@ -49,12 +49,12 @@
         android:layout_marginTop="10dp"
         app:spb_animateToCurrentProgressState="false"
         app:spb_checkStateCompleted="false"
-        app:spb_currentStateDescriptionColor="#009688"
+        app:spb_currentStateDescriptionColor="@color/accept"
         app:spb_currentStateNumber="three"
         app:spb_maxStateNumber="four"
         app:spb_stateBackgroundColor="#BDBDBD"
         app:spb_stateDescriptionColor="#808080"
-        app:spb_stateForegroundColor="#009688"
+        app:spb_stateForegroundColor="@color/accept"
         app:spb_stateNumberBackgroundColor="#808080"
         app:spb_stateNumberForegroundColor="#eeeeee" />
 
@@ -180,6 +180,14 @@
                         tools:ignore="DuplicateIds" />
 
                 </LinearLayout>
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:id="@+id/labelSpinner"
+                    android:layout_margin="10dp"
+                    android:padding="12dp"
+                    android:background="@drawable/sign_text_shape"
+                    android:layout_height="50dp"/>
 
 
             </LinearLayout>

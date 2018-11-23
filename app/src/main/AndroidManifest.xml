@@ -162,9 +162,6 @@
             android:name=".activity.BookTestPackageOnline"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AllLabList"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.PickTimeSlot"
             android:exported="true"
             android:screenOrientation="portrait" />
@@ -173,11 +170,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PickUpAddress"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.ReviewTests" />
-        <activity android:name=".activity.CallToBookLabTest" />
-        <activity android:name=".activity.MyReports" />
-        <activity android:name=".activity.Cart"></activity>
+            android:screenOrientation="portrait"
+            android:exported="true"/>
+        <activity android:name=".activity.ReviewTests"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CallToBookLabTest"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyReports"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.Cart"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

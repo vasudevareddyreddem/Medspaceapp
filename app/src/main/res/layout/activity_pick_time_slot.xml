@@ -49,10 +49,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:spb_stateBackgroundColor="#BDBDBD"
-        app:spb_stateForegroundColor="#009688"
+        app:spb_stateForegroundColor="@color/accept"
         app:spb_stateNumberBackgroundColor="#808080"
         app:spb_stateNumberForegroundColor="#eeeeee"
-        app:spb_currentStateDescriptionColor="#009688"
+        app:spb_currentStateDescriptionColor="@color/accept"
         app:spb_stateDescriptionColor="#808080"
         app:spb_animateToCurrentProgressState="true"
         app:spb_checkStateCompleted="false"/>

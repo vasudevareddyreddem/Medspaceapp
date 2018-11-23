@@ -17,6 +17,7 @@ import com.medspaceit.appointments.model.RegResult;
 import com.medspaceit.appointments.model.Registration;
 import com.medspaceit.appointments.model.Specialists;
 import com.medspaceit.appointments.model.StatusData;
+import com.medspaceit.appointments.model.TimePickerList;
 import com.medspaceit.appointments.model.TimeSlotlists;
 
 import java.util.concurrent.TimeUnit;
@@ -58,4 +59,7 @@ public interface MyServiceDG {
 
     @POST(ApiUrl.cities)
     Call<CitiesList> getCities(@Body JsonObject s, @Header("content-type") String contenttype);
-   }
+    @POST(ApiUrl.time_list)
+    Call<TimePickerList> getList(@Body JsonObject s, @Header("content-type") String contenttype);
+
+}
