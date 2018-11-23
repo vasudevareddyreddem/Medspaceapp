@@ -45,6 +45,8 @@ public class ApiUrl {
     final public static String time_list="time_list";
     final public static String patientdetails="patientdetails";
     final public static String billing_address="billing_address";
+    final public static String dgpayment="payment";
+    final public static String success="success";
 
 
 }

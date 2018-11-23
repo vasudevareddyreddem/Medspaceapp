@@ -57,7 +57,7 @@ public class PickUpAddress extends BaseActivity {
     @BindView(R.id.your_state_progress_bar_id3)
     StateProgressBar your_state_progress_bar_id3;
 
-    String patient_details_id,passAmount;
+    String patient_details_id,passAmount,pname,pnumber,pemail;
     String[] arraySpinner = new String[] {
             "Select Label", "Home", "Work", "Other"
     };
@@ -73,6 +73,9 @@ public class PickUpAddress extends BaseActivity {
 
         patient_details_id = b.getString("patient_details_id");
         passAmount = b.getString("passAmount");
+        pname = b.getString("pname");
+        pnumber = b.getString("pnumber");
+        pemail = b.getString("pemail");
         back.setOnClickListener(this);
         btn_next_c.setOnClickListener(this);
 
@@ -161,8 +164,11 @@ public class PickUpAddress extends BaseActivity {
                                 showToast(patientData.message);
                                 Intent i = new Intent(PickUpAddress.this, ReviewTests.class);
                                 i.putExtra("patient_details_id",patient_details_id);
-                                i.putExtra("billing_id",patientData.billingId);
+                                i.putExtra("billing_id",patientData.billingId.toString());
                                 i.putExtra("passAmount",passAmount);
+                                i.putExtra("pemail",pemail);
+                                i.putExtra("pname",pname);
+                                i.putExtra("pnumber",pnumber);
                                 startActivity(i);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

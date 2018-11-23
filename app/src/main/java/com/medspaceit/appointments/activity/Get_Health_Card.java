@@ -352,19 +352,13 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
                                     pleaseWaitLayout.setVisibility(View.VISIBLE);
                                     Toast.makeText(Get_Health_Card.this, message, Toast.LENGTH_SHORT).show();
 
-//                                    Intent intent=new Intent(Get_Health_Card.this,CheckoutActivity.class);
-//                                    intent.putExtra("email",email.getText().toString());
-//                                    intent.putExtra("name",pt_name.getText().toString());
-//                                    intent.putExtra("phone",molibe_number.getText().toString());
-//                                    intent.putExtra("card_assign_number",card_assign_number);
-//                                    intent.putExtra("heaith_card_no",heaith_card_no.getText().toString());
-//                                    startActivity(intent);
-
                                     if (isConnected()) {
 
                                         startPayment();
-                                        // finish();
-                                    } else showToast("No Internet");
+
+                                    } else
+                                        showToast(getString(R.string.nointernet));
+
 
 
                                 }
@@ -372,8 +366,6 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-//                        Cardnumber = jsonObject.getString("Cardnumber");
-//                        heaith_card_no.setText(Cardnumber);
 
                         }
                     }, new Response.ErrorListener() {

@@ -182,7 +182,7 @@ public class HomeActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        Toast.makeText(this, ""+ manager.getSingleField(SessionManager.KEY_ID), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ""+ manager.getSingleField(SessionManager.KEY_ID), Toast.LENGTH_SHORT).show();
 //         int no_count= manager.getNotification();
 //         if(no_count==0){
 //             notification_count.setVisibility(View.GONE);
@@ -398,6 +398,7 @@ public class HomeActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finishAffinity();
         }
     }
 

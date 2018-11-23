@@ -175,8 +175,11 @@ public class PatientDetails extends BaseActivity {
                             if (patientData.status == 1) {
                                 showToast(patientData.message);
                                 Intent i = new Intent(PatientDetails.this, PickUpAddress.class);
-                                i.putExtra("patient_details_id", patientData.patientDetailsId);
+                                i.putExtra("patient_details_id", patientData.patientDetailsId.toString());
                                 i.putExtra("passAmount",passAmount);
+                                i.putExtra("pname",et_patient_name.getText().toString());
+                                i.putExtra("pnumber",et_patient_number.getText().toString());
+                                i.putExtra("pemail",et_patient_email.getText().toString());
                                 startActivity(i);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
