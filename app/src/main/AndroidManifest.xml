@@ -159,9 +159,6 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BookTestPackageOnline"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.PickTimeSlot"
             android:exported="true"
             android:screenOrientation="portrait" />

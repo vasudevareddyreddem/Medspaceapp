@@ -176,7 +176,7 @@ public class PatientDetails extends BaseActivity {
                                 showToast(patientData.message);
                                 Intent i = new Intent(PatientDetails.this, PickUpAddress.class);
                                 i.putExtra("patient_details_id", patientData.patientDetailsId.toString());
-                                i.putExtra("passAmount",passAmount);
+                                i.putExtra("passAmount",passAmount.toString());
                                 i.putExtra("pname",et_patient_name.getText().toString());
                                 i.putExtra("pnumber",et_patient_number.getText().toString());
                                 i.putExtra("pemail",et_patient_email.getText().toString());
@@ -191,7 +191,6 @@ public class PatientDetails extends BaseActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     hideDialog();
-                    Log.e("Info crt 2", " Error " + error.getMessage());
 
                 }
             });
@@ -199,7 +198,6 @@ public class PatientDetails extends BaseActivity {
             queue.add(jsonObjReq);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("Info crt 3", "Error  try " + e.getMessage());
         }
 
 

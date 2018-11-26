@@ -3,6 +3,8 @@ package com.medspaceit.appointments.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,8 +25,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.medspaceit.appointments.R;
+import com.medspaceit.appointments.adapters.BillingAdderssAdapter;
 import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.PatientBillingAddressPojo;
+import com.medspaceit.appointments.model.BillingAddressListPojo;
 import com.medspaceit.appointments.utils.SessionManager;
 
 import org.json.JSONException;
@@ -45,11 +50,16 @@ public class PickUpAddress extends BaseActivity {
     @BindView(R.id.et_landmark)
     EditText et_landmark;
 
+    @BindView(R.id.billing_address_rcview)
+    RecyclerView billing_address_rcview;
+
     @BindView(R.id.et_city)
     EditText et_city;
 
     @BindView(R.id.et_pincode)
     EditText et_pincode;
+@BindView(R.id.qqqqq)
+TextView qqqqq;
 
 
     @BindView(R.id.btn_next_c)
@@ -70,14 +80,19 @@ public class PickUpAddress extends BaseActivity {
         ButterKnife.bind(this);
         Intent i = getIntent();
         Bundle b = i.getExtras();
-
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        billing_address_rcview.setLayoutManager(llm);
         patient_details_id = b.getString("patient_details_id");
         passAmount = b.getString("passAmount");
         pname = b.getString("pname");
         pnumber = b.getString("pnumber");
         pemail = b.getString("pemail");
+
         back.setOnClickListener(this);
         btn_next_c.setOnClickListener(this);
+        qqqqq.setFocusable(true);
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, arraySpinner);
@@ -85,9 +100,71 @@ public class PickUpAddress extends BaseActivity {
         labelSpinner.setAdapter(adapter);
 
 
+        if(isConnected()) {
+            getbillingAddressList();
+            showDialog();
+        }else
+        {showToast(getString(R.string.nointernet));}   }
+
+    private void getbillingAddressList() {
+
+
+        showDialog();
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        String UID = manager.getSingleField(SessionManager.KEY_ID);
+        try {
+            jsonObject.put("a_u_id", UID);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.DIAGONOSTIC_BASE_URL + ApiUrl.address_list, new JSONObject(json),
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            hideDialog();
+
+                            Gson gson = new Gson();
+
+                            BillingAddressListPojo billingData = gson.fromJson(response.toString(), BillingAddressListPojo.class);
+                            if (billingData.status == 1) {
+                                String UID = manager.getSingleField(SessionManager.KEY_ID);
+                                billing_address_rcview.setVisibility(View.VISIBLE);
+                                BillingAdderssAdapter adderssAdapter=new BillingAdderssAdapter(PickUpAddress.this,billingData,UID,patient_details_id,passAmount,pname,pnumber,pemail);
+                                billing_address_rcview.setAdapter(adderssAdapter);
+
+                            } else {
+                                billing_address_rcview.setVisibility(View.GONE);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    hideDialog();
+
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(PickUpAddress.this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
+
+
+
 
     @Override
     public void onClick(View v) {
@@ -120,7 +197,8 @@ public class PickUpAddress extends BaseActivity {
                     if(isConnected())
                     sendPatientBillingAddress();
                      else
-                        showToast(getString(R.string.nointernet));                      }
+                        showToast(getString(R.string.nointernet));
+                }
                 break;
 
 
@@ -159,12 +237,13 @@ public class PickUpAddress extends BaseActivity {
 
                             Gson gson = new Gson();
 
-                            PatientBillingAddressPojo patientData = gson.fromJson(response.toString(), PatientBillingAddressPojo.class);
-                            if (patientData.status == 1) {
-                                showToast(patientData.message);
+                            PatientBillingAddressPojo billingData = gson.fromJson(response.toString(), PatientBillingAddressPojo.class);
+                            if (billingData.status == 1) {
+                                showToast(billingData.message);
                                 Intent i = new Intent(PickUpAddress.this, ReviewTests.class);
+
                                 i.putExtra("patient_details_id",patient_details_id);
-                                i.putExtra("billing_id",patientData.billingId.toString());
+                                i.putExtra("billing_id",billingData.billingId.toString());
                                 i.putExtra("passAmount",passAmount);
                                 i.putExtra("pemail",pemail);
                                 i.putExtra("pname",pname);
@@ -174,7 +253,7 @@ public class PickUpAddress extends BaseActivity {
 
 
                             } else {
-                                showToast(patientData.message);
+                                showToast(billingData.message);
                             }
                         }
                     }, new Response.ErrorListener() {

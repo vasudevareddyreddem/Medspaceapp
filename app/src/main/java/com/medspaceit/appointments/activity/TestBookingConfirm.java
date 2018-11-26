@@ -63,21 +63,6 @@ public class TestBookingConfirm extends BaseActivity {
         back.setOnClickListener(this);
 
 
-//        Bundle b = getIntent().getExtras();
-//
-//        String dat = b.getString("dat");
-//        String tim = b.getString("tim");
-//        String Name = b.getString("Name");
-//        String Mobile = b.getString("Mobile");
-//        String Email = b.getString("Email");
-//        String Gender = b.getString("Gender");
-//        String Age = b.getString("Age");
-//
-//        String Address = b.getString("Address");
-//        String Landmark = b.getString("Landmark");
-//        String Locality = b.getString("Locality");
-//        String Zipcode = b.getString("Zipcode");
-
         pt_name.setText(ReviewTests.successData.patientDetails.name);
         pt_mobile.setText(ReviewTests.successData.patientDetails.mobile);
         pt_email.setText(ReviewTests.successData.patientDetails.email);
