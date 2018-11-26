@@ -181,7 +181,8 @@
         <activity
             android:name=".activity.Cart"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TestBookingConfirm"></activity>
+        <activity android:name=".activity.TestBookingConfirm" />
+        <activity android:name=".activity.MyDiagnosticReportDownload"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.medspaceit.appointments.activity;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,59 +13,61 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.medspaceit.appointments.R;
-import com.medspaceit.appointments.adapters.ReportInfoAdapter;
+import com.medspaceit.appointments.adapters.MyReportDownloadAdapter;
 import com.medspaceit.appointments.apis.ApiUrl;
+import com.medspaceit.appointments.model.MyDiagnosticReportDownloadPojo;
 import com.medspaceit.appointments.model.ViewAllMyOrdersPojo;
-import com.medspaceit.appointments.model.SuccessPaymentDetails;
+import com.medspaceit.appointments.utils.MessageToast;
 import com.medspaceit.appointments.utils.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyReports extends BaseActivity {
-
+public class MyDiagnosticReportDownload extends BaseActivity {
+String UID,order_item_id;
+    @BindView(R.id.downloadReportRCView)
+    RecyclerView downloadReportRCView;
     @BindView(R.id.back)
     ImageView back;
-
-    RecyclerView reportInfoRecyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_reports);
+        setContentView(R.layout.activity_my_diagnostic_report_download);
+
         ButterKnife.bind(this);
-        reportInfoRecyclerView =findViewById(R.id.reportInfoRecyclerView);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        reportInfoRecyclerView.setLayoutManager(llm);
         back.setOnClickListener(this);
-if(isConnected()) {
-    getAllOrders();
-    showDialog();
-}else
-    {showToast(getString(R.string.nointernet));}   }
+        Intent intent=getIntent();
+        Bundle b=intent.getExtras();
+        UID=b.getString("UID");
+        order_item_id=b.getString("order_item_id");
+
+        downloadReportRCView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        if (isConnected()) {
+            showDialog();
+            fetchReports();
+        } else
+            MessageToast.showToastMethod(this, "No Internet");
 
 
+    }
 
-    public  void getAllOrders()
-    {
+    private void fetchReports() {
+
         showDialog();
         String json = "";
-        String UID = manager.getSingleField(SessionManager.KEY_ID);
-
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("a_u_id", UID);
-
-
-        } catch (JSONException e) {
+            jsonObject.put("order_item_id", order_item_id);
+                    } catch (JSONException e) {
             e.printStackTrace();
 
         }
@@ -75,24 +78,21 @@ if(isConnected()) {
         try {
 
             jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    ApiUrl.DIAGONOSTIC_BASE_URL + ApiUrl.orders_list, new JSONObject(json),
+                    ApiUrl.DIAGONOSTIC_BASE_URL + ApiUrl.download_reports, new JSONObject(json),
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             hideDialog();
 
-                            Gson gson=new Gson();
-                            ViewAllMyOrdersPojo data=gson.fromJson(response.toString(), ViewAllMyOrdersPojo.class);
+                            Gson gson = new Gson();
 
+                            MyDiagnosticReportDownloadPojo reportData = gson.fromJson(response.toString(), MyDiagnosticReportDownloadPojo.class);
+                            if (reportData.status == 1) {
 
-                            if (data.status == 1) {
-                                String UID = manager.getSingleField(SessionManager.KEY_ID);
-
-                                ReportInfoAdapter rpAdapter=new ReportInfoAdapter(MyReports.this,data,UID);
-                                reportInfoRecyclerView.setAdapter(rpAdapter);
-
+                                MyReportDownloadAdapter adapter=new MyReportDownloadAdapter(MyDiagnosticReportDownload.this, reportData);
+                                downloadReportRCView.setAdapter(adapter);
                             } else {
-                                showToast(data.message);
+                                showToast(reportData.message);
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -102,20 +102,19 @@ if(isConnected()) {
 
                 }
             });
-            RequestQueue queue = Volley.newRequestQueue(MyReports.this);
+            RequestQueue queue = Volley.newRequestQueue(MyDiagnosticReportDownload.this);
             queue.add(jsonObjReq);
         } catch (JSONException e) {
             e.printStackTrace();
-
         }
+
 
     }
 
+
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.back:
-                finish();
-                break;}
+
     }
 }

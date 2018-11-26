@@ -33,15 +33,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyReportDownload  extends BaseActivity {
+public class MyReportDownload extends BaseActivity {
     @BindView(R.id.downloadListRcView)
     RecyclerView downloadListRcView;
     @BindView(R.id.back)
     ImageView back;
 
-String hos_id;
+    String hos_id;
 
     List<DownloadListPJ> downloadList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +50,9 @@ String hos_id;
 
         ButterKnife.bind(this);
         back.setOnClickListener(this);
-        Intent i=getIntent();
-        Bundle b=i.getExtras();
-        hos_id=b.getString("hos_id");
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        hos_id = b.getString("hos_id");
         downloadListRcView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         if (isConnected()) {
             showDialog();
@@ -81,38 +82,36 @@ String hos_id;
         try {
 
             jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    ApiUrl.BaseUrl+ApiUrl.prescriptionlist, new JSONObject(json),
+                    ApiUrl.BaseUrl + ApiUrl.prescriptionlist, new JSONObject(json),
                     new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
                             hideDialog();
-                            downloadList=new ArrayList();
+                            downloadList = new ArrayList();
 
                             try {
-                                JSONObject job=new JSONObject(String.valueOf(response));
+                                JSONObject job = new JSONObject(String.valueOf(response));
 
-                                String status=job.getString("status");
-                                String message=job.getString("message");
+                                String status = job.getString("status");
+                                String message = job.getString("message");
 
 
-                                if(status.equals("1"))
-                                {
-                                    String path=job.getString("path");
-                                    JSONArray jsonArray=job.getJSONArray("list");
+                                if (status.equals("1")) {
+                                    String path = job.getString("path");
+                                    JSONArray jsonArray = job.getJSONArray("list");
                                     for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject js=jsonArray.getJSONObject(i);
-                                        String prescription=js.getString("prescription");
-                                        String created_at =js.getString("created_at");
+                                        JSONObject js = jsonArray.getJSONObject(i);
+                                        String prescription = js.getString("prescription");
+                                        String created_at = js.getString("created_at");
 
-                                        DownloadListPJ downloadListPJ=new DownloadListPJ(prescription,created_at);
+                                        DownloadListPJ downloadListPJ = new DownloadListPJ(prescription, created_at);
                                         downloadList.add(downloadListPJ);
                                     }
 
-                                    DownloadAdapter da=new DownloadAdapter(MyReportDownload.this,downloadList,path);
+                                    DownloadAdapter da = new DownloadAdapter(MyReportDownload.this, downloadList, path);
                                     downloadListRcView.setAdapter(da);
-                                }
-                                else {
+                                } else {
                                     showToast(message);
                                 }
                             } catch (JSONException e) {
@@ -148,4 +147,5 @@ String hos_id;
                 finish();
                 break;
         }
-    }}
+    }
+}

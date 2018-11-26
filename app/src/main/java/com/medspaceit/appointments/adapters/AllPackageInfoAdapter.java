@@ -1,20 +1,15 @@
 package com.medspaceit.appointments.adapters;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,7 +22,6 @@ import com.medspaceit.appointments.activity.Cart;
 import com.medspaceit.appointments.activity.Lab;
 import com.medspaceit.appointments.apis.ApiUrl;
 import com.medspaceit.appointments.model.AllPackagePojo;
-import com.medspaceit.appointments.model.MyReportDownloadPoojo;
 import com.medspaceit.appointments.model.TestAddToCartPojo;
 
 import org.json.JSONException;

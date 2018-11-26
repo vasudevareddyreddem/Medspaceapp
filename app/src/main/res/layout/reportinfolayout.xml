@@ -16,27 +16,6 @@
 
         >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/status_lable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical|left"
-                android:text="Laboratory Name :"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/lab_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/status_lable"
-                android:gravity="center_vertical|left"
-                android:text="Lab 1" />
-        </RelativeLayout>
 
 
     </RelativeLayout>
@@ -67,28 +46,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="3dp"
+
                     android:gravity="center_vertical|left"
                     android:orientation="horizontal"
                     android:padding="2dp">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_margin="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
+                        android:textSize="16sp"
+
                         android:paddingRight="2dp"
-                        android:text="Grand Total: "
+                        android:id="@+id/pac_or_test_name_header"
+                        android:text="Package/Test Name: "
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/total"
+                        android:id="@+id/f_pack_test_name"
+                        android:textSize="16sp"
 
-                        android:layout_width="wrap_content"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
@@ -98,27 +80,57 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="3dp"
                     android:gravity="center_vertical|left"
                     android:orientation="horizontal"
                     android:padding="2dp">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_margin="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="2dp"
+                        android:textSize="16sp"
                         android:paddingRight="2dp"
-                        android:text="Discount:"
+                        android:text="Patient Name: "
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/discount"
+                        android:id="@+id/f_patient_name"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+
+                    <TextView
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Mobile No: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/f_patient_mobile"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
@@ -127,32 +139,211 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
+                    android:layout_margin="3dp"
                     android:gravity="center_vertical|left"
                     android:orientation="horizontal"
                     android:padding="2dp">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="left|top"
-                        android:layout_margin="2dp"
-                        android:src="@drawable/address" />
 
                     <TextView
-                        android:id="@+id/labaddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="left|center_vertical"
-
                         android:paddingLeft="2dp"
-                        android:paddingRight="2dp" />
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Test Duration: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/f_test_duration"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Lab Status: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/f_labstatus"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Status: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/f_status"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Created at:"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/f_datetime"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/coupon_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Amount: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/f_test_amount"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Delivery Charge: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/f_test_delivery_chrg"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:textSize="16sp"
+                        android:paddingRight="2dp"
+                        android:text="Payment Type: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/f_test_payment_type"
+                        android:textSize="16sp"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -161,28 +352,38 @@
                     android:orientation="vertical"
                     android:padding="2dp">
 
-                    <TextView
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
+                    <Button
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:textSize="12sp"
                         android:gravity="center"
+                        android:background="@drawable/sign_button_shape"
                         android:paddingLeft="2dp"
-                        android:id="@+id/txt_view_report_for_download"
-                        android:text="View Details"
-                        android:textColor="@color/colorPrimary"
+                        android:visibility="gone"
+                        android:id="@+id/btn_view_report_for_download"
+                        android:text="View Report"
+                        android:textAllCaps="false"
+
+                        android:textColor="@color/colorWhite"
                         android:textStyle="bold" />
 
-                    <View
-                        android:layout_width="90dp"
-                        android:layout_height="1dp"
-                        android:background="@color/colorPrimary"
+                    <Button
+                        android:layout_width="120dp"
+                        android:layout_height="30dp"
+                        android:textSize="12sp"
                         android:gravity="center"
-                        android:paddingLeft="2dp" />
-
-                    <Spinner
-                        android:id="@+id/downloadReportSpinner"
-                        android:layout_width="wrap_content"
+                        android:textAllCaps="false"
+                        android:background="@drawable/sign_button_shape"
+                        android:paddingLeft="2dp"
+                        android:id="@+id/btn_cancel_report"
+                        android:text="Cancel"
                         android:visibility="gone"
-                        android:layout_height="wrap_content" />
+
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold" />
+
+
+
 
                 </LinearLayout>
 

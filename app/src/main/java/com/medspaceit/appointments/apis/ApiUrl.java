@@ -48,6 +48,9 @@ public class ApiUrl {
     final public static String billing_address="billing_address";
     final public static String dgpayment="payment";
     final public static String success="success";
+    final public static String orders_list="orders_list";
+    final public static String cancel_order="cancel_order";
+    final public static String download_reports="download_reports";
 
 
 }
