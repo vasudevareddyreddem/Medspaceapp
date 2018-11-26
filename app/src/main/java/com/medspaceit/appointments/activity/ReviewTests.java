@@ -63,6 +63,8 @@ public class ReviewTests extends BaseActivity implements PaymentResultListener {
     String paymentType = "", pname, pnumber, pemail;
     double total;
 
+    public static SuccessPaymentDetails successData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -331,24 +333,10 @@ public class ReviewTests extends BaseActivity implements PaymentResultListener {
 
                             Gson gson = new Gson();
 
-                            SuccessPaymentDetails successData = gson.fromJson(response.toString(), SuccessPaymentDetails.class);
+                             successData = gson.fromJson(response.toString(), SuccessPaymentDetails.class);
                             if (successData.status == 1) {
 
                                 Intent intent = new Intent(ReviewTests.this, TestBookingConfirm.class);
-                                Bundle bundle = new Bundle();
-
-                                bundle.putString("Name", successData.patientDetails.name.toString());
-                                bundle.putString("Mobile", successData.patientDetails.mobile.toString());
-                                bundle.putString("Email", successData.patientDetails.email.toString());
-                                bundle.putString("Gender", successData.patientDetails.gender.toString());
-                                bundle.putString("Age", successData.patientDetails.age.toString());
-                                bundle.putString(" dat", successData.patientDetails.date.toString());
-                                bundle.putString(" tim", successData.patientDetails.time.toString());
-                                bundle.putString(" Address", successData.addressDetails.address.toString());
-                                bundle.putString(" Landmark", successData.addressDetails.landmark.toString());
-                                bundle.putString(" Locality", successData.addressDetails.locality.toString());
-                                bundle.putString(" Zipcode", successData.addressDetails.pincode.toString());
-                                intent.putExtras(bundle);
 
                                 startActivity(intent);
                             } else {

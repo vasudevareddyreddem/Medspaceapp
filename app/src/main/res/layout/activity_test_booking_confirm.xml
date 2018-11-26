@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.medspaceit.appointments.activity.TestBookingConfirm">
+
     <android.support.v7.widget.CardView
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -39,127 +40,357 @@
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:text="Patient Details"
-            android:background="@color/line"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:gravity="center|start"
-            android:paddingLeft="10dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_name"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_mobile"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_email"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_gender"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_age"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_datetime"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:text="Patient Address"
-            android:background="@color/line"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:gravity="center|start"
-            android:paddingLeft="10dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_address"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/line"
+                    android:gravity="center|start"
+                    android:paddingLeft="10dp"
+                    android:text="Patient Details"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_landmark"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_locality"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/pt_pincode"
-            android:textColor="@color/colorBlack"
-            android:textSize="18sp"
-            android:gravity="center|start"
-            android:paddingLeft="30dp"
-            android:layout_height="40dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Name:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
 
 
+                </LinearLayout>
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Mobile No:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Email:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Gender:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Age:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Date:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_datetime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Time:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/line"
+                    android:gravity="center|start"
+                    android:paddingLeft="10dp"
+                    android:text="Patient Address"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Address:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Landmark:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_landmark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Locality:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_locality"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center|start"
+                        android:paddingLeft="30dp"
+                        android:text="Pincode:"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/pt_pincode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center|start"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

@@ -48,6 +48,9 @@ public class TestBookingConfirm extends BaseActivity {
     @BindView(R.id.pt_pincode)
     TextView pt_pincode;
 
+    @BindView(R.id.pt_time)
+    TextView pt_time;
+
 
 
 
@@ -59,31 +62,33 @@ public class TestBookingConfirm extends BaseActivity {
 
         back.setOnClickListener(this);
 
-        Bundle b = getIntent().getExtras();
 
-        String dat = b.getString("dat");
-        String tim = b.getString("tim");
-        String Name = b.getString("Name");
-        String Mobile = b.getString("Mobile");
-        String Email = b.getString("Email");
-        String Gender = b.getString("Gender");
-        String Age = b.getString("Age");
+//        Bundle b = getIntent().getExtras();
+//
+//        String dat = b.getString("dat");
+//        String tim = b.getString("tim");
+//        String Name = b.getString("Name");
+//        String Mobile = b.getString("Mobile");
+//        String Email = b.getString("Email");
+//        String Gender = b.getString("Gender");
+//        String Age = b.getString("Age");
+//
+//        String Address = b.getString("Address");
+//        String Landmark = b.getString("Landmark");
+//        String Locality = b.getString("Locality");
+//        String Zipcode = b.getString("Zipcode");
 
-        String Address = b.getString("Address");
-        String Landmark = b.getString("Landmark");
-        String Locality = b.getString("Locality");
-        String Zipcode = b.getString("Zipcode");
-
-        pt_name.setText("Name:      "+Name);
-        pt_mobile.setText("Mobile :      "+Mobile);
-        pt_email.setText("Email ID:      "+Email);
-        pt_gender.setText("Gender:      "+Gender);
-        pt_age.setText("Age:      "+Age);
-        pt_datetime.setText("Sample Pickup Date Time: "+dat+" "+tim);
-        pt_address.setText("Address:      "+Address);
-        pt_landmark.setText("Landmark:      "+Landmark);
-        pt_locality.setText("Locality:      "+Locality);
-        pt_pincode.setText("Zipcode:      "+Zipcode);
+        pt_name.setText(ReviewTests.successData.patientDetails.name);
+        pt_mobile.setText(ReviewTests.successData.patientDetails.mobile);
+        pt_email.setText(ReviewTests.successData.patientDetails.email);
+        pt_gender.setText(ReviewTests.successData.patientDetails.gender);
+        pt_age.setText(ReviewTests.successData.patientDetails.age);
+        pt_datetime.setText(ReviewTests.successData.patientDetails.date);
+        pt_time.setText(ReviewTests.successData.patientDetails.time);
+        pt_address.setText(ReviewTests.successData.addressDetails.address);
+        pt_landmark.setText(ReviewTests.successData.addressDetails.landmark);
+        pt_locality.setText(ReviewTests.successData.addressDetails.locality);
+        pt_pincode.setText(ReviewTests.successData.addressDetails.pincode);
 
 
 
@@ -95,6 +100,9 @@ public class TestBookingConfirm extends BaseActivity {
             case R.id.back:
                 finish();
                 startActivity(new Intent(TestBookingConfirm.this, HomeActivity.class));
+                this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+
 
                 break;
     }}
@@ -103,5 +111,7 @@ public class TestBookingConfirm extends BaseActivity {
         super.onBackPressed();
         finish();
         startActivity(new Intent(TestBookingConfirm.this, HomeActivity.class));
+        this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
     }
 }
