@@ -43,15 +43,26 @@
 
 
     </android.support.v7.widget.CardView>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Email: "
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#111"
+        android:layout_marginTop="150dp"
+
+        android:layout_height="wrap_content" />
+
 
     <TextView
         android:layout_width="match_parent"
         android:text="Any queries/ complaints call"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textColor="#111"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="10dp"
 
         android:layout_height="wrap_content" />
  <TextView
@@ -59,19 +70,19 @@
         android:text="7997999108"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textColor="#111"
         android:layout_marginTop="10dp"
 
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:layout_width="60dp"
+        android:layout_width="40dp"
         android:layout_gravity="center"
         android:gravity="center"
-android:id="@+id/callButton"
+        android:id="@+id/callButton"
         android:background="@drawable/telephone"
         android:layout_marginTop="10dp"
-        android:layout_height="60dp" />
+        android:layout_height="40dp" />
 
 </LinearLayout>

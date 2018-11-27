@@ -51,7 +51,7 @@
             android:layout_margin="10dp"
             android:orientation="horizontal"
             android:weightSum="5"
-            android:background="@drawable/sign_text_shape">
+            android:background="@drawable/boxborder_shape">
 
             <ImageView
                 android:layout_width="40dp"
