@@ -48,9 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_margin="5dp"
-android:id="@+id/options_ll"
+        android:layout_margin="10dp"
+         android:id="@+id/options_ll"
         android:weightSum="3">
 
         <LinearLayout
@@ -61,7 +60,7 @@ android:id="@+id/options_ll"
             android:id="@+id/select_labtest_ll"
             android:gravity="center"
             android:layout_margin="5dp"
-            android:background="@drawable/sign_text_shape"
+            android:background="@drawable/boxborder_shape"
 
             android:orientation="vertical">
 
@@ -87,7 +86,7 @@ android:id="@+id/options_ll"
             android:layout_weight="1"
             android:id="@+id/select_booklabtest_ll"
             android:layout_margin="5dp"
-            android:background="@drawable/sign_text_shape"
+            android:background="@drawable/boxborder_shape"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -115,7 +114,7 @@ android:id="@+id/options_ll"
             android:gravity="center"
             android:layout_margin="5dp"
             android:id="@+id/select_myreport_ll"
-            android:background="@drawable/sign_text_shape"
+            android:background="@drawable/boxborder_shape"
             android:orientation="vertical">
 
             <ImageView
@@ -141,10 +140,11 @@ android:id="@+id/options_ll"
         android:layout_height="wrap_content"
         android:text="Test Packages"
         android:id="@+id/Packages_txt"
+        android:textStyle="bold"
         android:layout_below="@+id/options_ll"
-        android:textColor="@color/colorBlack"
-        android:textSize="15sp"
-        android:layout_marginLeft="20dp"/>
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:layout_marginLeft="13dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

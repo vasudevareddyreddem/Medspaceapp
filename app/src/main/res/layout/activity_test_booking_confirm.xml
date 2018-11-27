@@ -58,13 +58,13 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:background="@color/line"
                     android:gravity="center|start"
                     android:paddingLeft="10dp"
                     android:text="Patient Details"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -79,10 +79,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Name:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_name"
@@ -92,7 +92,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
 
                 </LinearLayout>
@@ -109,10 +109,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Mobile No:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_mobile"
@@ -121,7 +121,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -136,10 +136,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Email:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_email"
@@ -148,7 +148,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -163,10 +163,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Gender:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_gender"
@@ -175,7 +175,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -190,10 +190,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Age:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_age"
@@ -202,7 +202,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -217,10 +217,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Date:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_datetime"
@@ -229,7 +229,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -244,10 +244,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Time:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_time"
@@ -256,7 +256,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -268,13 +268,13 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:background="@color/line"
                     android:gravity="center|start"
                     android:paddingLeft="10dp"
                     android:text="Patient Address"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -289,10 +289,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Address:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_address"
@@ -301,7 +301,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -316,10 +316,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Landmark:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_landmark"
@@ -328,7 +328,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -343,10 +343,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Locality:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_locality"
@@ -355,7 +355,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -370,10 +370,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:gravity="center|start"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="15dp"
                         android:text="Pincode:"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/pt_pincode"
@@ -382,7 +382,7 @@
                         android:layout_weight="2"
                         android:gravity="center|start"
                         android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </LinearLayout>

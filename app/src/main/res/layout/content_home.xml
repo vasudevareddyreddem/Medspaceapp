@@ -24,7 +24,7 @@
             <RelativeLayout
                 android:id="@+id/home_top_lay"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="35dp"
                 android:layout_alignParentTop="true">
 
                 <TextView
@@ -35,12 +35,12 @@
                     android:gravity="bottom|center"
                     android:text="Hello"
                     android:textColor="@color/colorBlack"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="180dp"
                 android:layout_gravity="bottom|center"
                 android:layout_marginLeft="19dp"
                 android:layout_marginRight="19dp"
@@ -113,7 +113,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="160dp"
 
                     android:orientation="horizontal">
 
@@ -157,6 +157,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Appointments"
+                                   android:textSize="16sp"
                                     android:textAlignment="center"
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/colorWhite" />
@@ -205,20 +206,14 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Lab Appointment"
+                                    android:text="Dignostic tests"
                                     android:textAlignment="center"
+                                    android:textSize="16sp"
 
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/colorWhite" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="13 Hospitals"
-                                    android:textAlignment="center"
 
-                                    android:textColor="@color/colorWhite"
-                                    android:visibility="gone" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -229,7 +224,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="160dp"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.CardView
@@ -271,6 +266,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Pharmacy"
                                     android:textAlignment="center"
+                                    android:textSize="16sp"
 
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/colorWhite" />
@@ -318,6 +314,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Find Doctor"
                                     android:textAlignment="center"
+                                    android:textSize="16sp"
 
                                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                     android:textColor="@color/colorWhite" />

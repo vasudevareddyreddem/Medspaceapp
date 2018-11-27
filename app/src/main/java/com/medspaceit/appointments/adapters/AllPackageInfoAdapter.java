@@ -3,6 +3,7 @@ package com.medspaceit.appointments.adapters;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,8 +39,8 @@ import java.util.List;
 public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<AllPackagePojo.List> list = new ArrayList<>();
     Lab context;
-    List dialogList = new ArrayList();
-    String UID;
+    List <String>dialogList;
+    String UID,allNames="";
 
     public AllPackageInfoAdapter(Lab context, AllPackagePojo data, String UID) {
         this.context = context;
@@ -77,22 +79,39 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             } else if (list.get(position).packageTestList.size() >= 4) {
                 reportholder.txt_test_names.setVisibility(View.GONE);
                 reportholder.btn_view_all_test.setVisibility(View.VISIBLE);
-                for (int i = 0; i < list.get(position).packageTestList.size(); i++) {
-                    dialogList.add(i, "\n" + list.get(position).packageTestList.get(i).testName);
-                }
+
+
             }
 
-            reportholder.txt_package_percentage.setText(list.get(position).percentage+" Off");
+            String str=list.get(position).percentage;
+          String aaa=  str.substring(0, str.length() - 3);
+            reportholder.txt_package_percentage.setText(aaa+"% Off");
             reportholder.txt_package_amount.setText("MRP: Rs." + list.get(position).amount);
-            reportholder.txt_package_discuount.setText("Rs." + list.get(position).discount);
+            reportholder.txt_package_amount.setPaintFlags(reportholder.txt_package_amount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            reportholder.txt_package_discuount.setText("- Rs." + list.get(position).discount);
+            String amt=list.get(position).amount;
+            String dis=list.get(position).discount;
+            int a1=Integer.parseInt(amt);
+            int a2=Integer.parseInt(dis);
+            int f1=a1-a2;
+            reportholder.txt_package_final_price.setText("Amount:"+"Rs." + f1);
             reportholder.btn_view_all_test.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    String allNames = dialogList.toString();
+
+                    dialogList = new ArrayList();
+
+                    for (int i = 0; i < list.get(position).packageTestList.size(); i++) {
+                        dialogList.add(i, "\n" + list.get(position).packageTestList.get(i).testName);
+                    }
+                    allNames = dialogList.toString();
+
+                    List<String> mPackages = new ArrayList<String>();
                     allNames = allNames.replace("[", "");
                     allNames = allNames.replace("]", "");
-                    List<String> mPackages = new ArrayList<String>();
+
                     mPackages.add(allNames);
                     final CharSequence[] allPackage = mPackages.toArray(new String[mPackages.size()]);
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -110,7 +129,7 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
            reportholder.btn_explore.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      String  lTPId= list.get(position).lTPId;
+            String  lTPId= list.get(position).lTPId;
         context.showDialog();
 
         String json = "";
@@ -164,7 +183,7 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public class MyPackageHolder extends RecyclerView.ViewHolder {
         TextView txt_package_name, txt_package_intro, txt_test_no, txt_test_names,
-                txt_package_percentage, txt_package_amount, txt_package_discuount;
+                txt_package_percentage, txt_package_amount, txt_package_discuount,txt_package_final_price;
         Button btn_view_all_test, btn_explore;
 
         public MyPackageHolder(View itemView) {
@@ -178,6 +197,7 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             txt_package_discuount = itemView.findViewById(R.id.txt_package_discuount);
             btn_explore = itemView.findViewById(R.id.btn_explore);
             btn_view_all_test = itemView.findViewById(R.id.btn_view_all_test);
+            txt_package_final_price = itemView.findViewById(R.id.txt_package_final_price);
 
         }
     }

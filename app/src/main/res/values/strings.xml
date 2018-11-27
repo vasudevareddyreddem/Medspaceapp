@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MedSpace</string>
+    <string name="app_name">Medarogya</string>
     <string name="caption">Patient Appointment App</string>
     <string name="sign_in">Login</string>
     <string name="update">Update</string>

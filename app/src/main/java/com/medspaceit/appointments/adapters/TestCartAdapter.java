@@ -79,7 +79,7 @@ public class TestCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             testCartHolder.cart_adapter_test_amount.setText("₹" + list.get(position).amount);
             testCartHolder.cart_adapter_test_name.setText("Test Name: " + list.get(position).testName);
-            Cart.txt_sample_pickup.setText("Delivery Charge");
+            Cart.txt_sample_pickup.setText("Delivery Charge:");
             Cart.txt_sample_pickup_charge.setText("₹" + totalDeliveryCharge);
 
             double amount = totalDeliveryCharge + total;

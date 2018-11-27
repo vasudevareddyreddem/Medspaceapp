@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_margin="5dp"
     android:id="@+id/linearlayoutlab"
-    android:background="@drawable/sign_text_shape"
+    android:background="@drawable/boxborder_shape"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,7 +23,7 @@
             android:paddingLeft="30dp"
             android:text="Label:"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/pt_label_frm_list"
@@ -36,7 +36,7 @@ android:singleLine="true"
             android:layout_weight="2"
             android:gravity="center|start"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>
@@ -55,7 +55,7 @@ android:singleLine="true"
             android:paddingLeft="30dp"
             android:text="Address:"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/pt_address_frm_list"
@@ -68,7 +68,7 @@ android:singleLine="true"
             android:layout_weight="2"
             android:gravity="center|start"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>
@@ -88,7 +88,7 @@ android:singleLine="true"
             android:paddingLeft="30dp"
             android:text="Landmark:"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/pt_landmark_frm_list"
@@ -101,7 +101,7 @@ android:singleLine="true"
             android:layout_weight="2"
             android:gravity="center|start"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>
@@ -121,7 +121,7 @@ android:singleLine="true"
             android:paddingLeft="30dp"
             android:text="City:"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/pt_city_frm_list"
@@ -134,7 +134,7 @@ android:singleLine="true"
             android:layout_weight="2"
             android:gravity="center|start"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>
@@ -154,7 +154,7 @@ android:singleLine="true"
             android:paddingLeft="30dp"
             android:text="Pincode:"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/pt_pincode_frm_list"
@@ -167,7 +167,7 @@ android:singleLine="true"
             android:layout_weight="2"
             android:gravity="center|start"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>
@@ -179,7 +179,7 @@ android:singleLine="true"
         android:id="@+id/btn_select_address"
         android:textColor="@color/colorWhite"
         android:textAllCaps="false"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/sign_button_shape"
