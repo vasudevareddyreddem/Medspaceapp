@@ -8,7 +8,11 @@ package com.medspaceit.appointments.apis;
 public class ApiUrl {
     public static String content_type="application/json";
     public static String BaseUrl = "https://ehealthinfra.com/api/Appointment/";
-    public static String DIAGONOSTIC_BASE_URL="http://appointment.ehealthinfra.com/api/diagnostic/";
+    //TODO:FOR TESTING===
+   // public static String DIAGONOSTIC_BASE_URL="http://appointment.ehealthinfra.com/api/diagnostic/";
+
+    //TODO:FOR PROD===
+    public static String DIAGONOSTIC_BASE_URL="https://medarogya.com/api/diagnostic/";
     final public static String userLogin= "login";
     final public static String userReg="register";
     final public static String forgetPsw="forgotpassword";

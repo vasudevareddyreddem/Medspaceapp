@@ -86,9 +86,9 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_FMROR38S2ObKGw" />
+            android:value="rzp_live_8oTwGtVqjBWSSb" />
 
-        <!-- android:value="rzp_live_8oTwGtVqjBWSSb" /> -->
+        <!-- android:value="rzp_test_FMROR38S2ObKGw" /> -->
 
 
         <!-- [START fcm_default_icon] -->
@@ -181,8 +181,10 @@
         <activity
             android:name=".activity.Cart"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TestBookingConfirm" />
-        <activity android:name=".activity.MyDiagnosticReportDownload"></activity>
+        <activity android:name=".activity.TestBookingConfirm"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.MyDiagnosticReportDownload"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

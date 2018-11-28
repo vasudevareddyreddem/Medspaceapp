@@ -74,9 +74,14 @@ public class Lab extends BaseActivity {
                 Gson gson = new Gson();
                 String UID=manager.getSingleField(SessionManager.KEY_ID);
                 AllPackagePojo data = gson.fromJson(response, AllPackagePojo.class);
+                if(data.status==0)
+                {
+                    showToast(data.message);
+                }
+                else {
                 AllPackageInfoAdapter apAdapter = new AllPackageInfoAdapter(Lab.this, data,UID);
                 package_recyclerview.setAdapter(apAdapter);
-            }
+            }}
         }, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
