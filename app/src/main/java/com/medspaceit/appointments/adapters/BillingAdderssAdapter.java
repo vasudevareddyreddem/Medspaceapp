@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,6 +51,7 @@ public class BillingAdderssAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.pnumber=pnumber;
         this.pemail=pemail;
 
+        Collections.reverse(data.list);
 
         addressList.addAll(data.list);
     }
