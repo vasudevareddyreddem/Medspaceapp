@@ -218,6 +218,8 @@
                 android:layout_height="40dp"
                 android:background="@drawable/sign_button_shape"
                 android:text="@string/sign_up"
+                android:textAllCaps="false"
+
                 android:textColor="@color/colorWhite" />
 
         </RelativeLayout>

@@ -84,17 +84,19 @@ public class ReportInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
             reportholder.f_patient_name.setText(list.get(position).pName);
             reportholder.f_patient_mobile.setText(list.get(position).mobile);
-            reportholder.f_test_duration.setText(list.get(position).testDuartion);
-            reportholder.f_datetime.setText(list.get(position).createdAt);
+            if (list.get(position).testDuartion == null) {
+                reportholder.f_test_duration.setText("");
+            } else {
+                reportholder.f_test_duration.setText(list.get(position).testDuartion);
+            }
+            reportholder.f_datetime.setText(list.get(position).sample_pickup);
             reportholder.f_test_amount.setText(list.get(position).amount);
             reportholder.f_test_delivery_chrg.setText(list.get(position).deliveryCharge);
-            if ((list.get(position).labStatus.equals("0")) && (list.get(position).status.equals("1")))
-            {
+            if ((list.get(position).labStatus.equals("0")) && (list.get(position).status.equals("1"))) {
                 reportholder.f_labstatus.setText("Pending");
                 reportholder.f_status.setText("Canceled");
                 reportholder.btn_cancel_report.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 reportholder.f_labstatus.setText("Pending");
                 reportholder.f_status.setText("Canceled");
 
@@ -103,11 +105,11 @@ public class ReportInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 reportholder.f_status.setText("Success");
             }
             if (list.get(position).labStatus.equals("1")) {
-                reportholder.f_labstatus.setText("Accept");
+                reportholder.f_labstatus.setText("Accepted");
                 reportholder.btn_view_report_for_download.setVisibility(View.VISIBLE);
             }
             if (list.get(position).labStatus.equals("2")) {
-                reportholder.f_labstatus.setText("Reject");
+                reportholder.f_labstatus.setText("Rejected");
                 reportholder.btn_view_report_for_download.setVisibility(View.GONE);
                 reportholder.btn_cancel_report.setVisibility(View.GONE);
 
@@ -117,9 +119,9 @@ public class ReportInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View v) {
 
-                    Intent i=new Intent(context,MyDiagnosticReportDownload.class);
-                    i.putExtra("UID",UID);
-                    i.putExtra("order_item_id",list.get(position).orderItemId);
+                    Intent i = new Intent(context, MyDiagnosticReportDownload.class);
+                    i.putExtra("UID", UID);
+                    i.putExtra("order_item_id", list.get(position).orderItemId);
                     context.startActivity(i);
 
 
@@ -141,25 +143,22 @@ public class ReportInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         public void onClick(DialogInterface dialog, int whichButton) {
                             //What ever you want to do with the value
                             String reason = edittext.getText().toString();
-                            if(reason.equals(""))
-                            {
+                            if (reason.equals("")) {
                                 context.showToast("Please enter reason");
-                            }
-                            else {
-                            if (context.isConnected()) {
-                                alert.setCancelable(true);
-                                cancelOrder(position,reason,reportholder);
-
                             } else {
-                                context.showToast(context.getString(R.string.nointernet));
-                            }}
+                                if (context.isConnected()) {
+                                    alert.setCancelable(true);
+                                    cancelOrder(position, reason, reportholder);
+
+                                } else {
+                                    context.showToast(context.getString(R.string.nointernet));
+                                }
+                            }
                         }
                     });
 
 
                     alert.show();
-
-
 
 
                 }
@@ -228,7 +227,7 @@ public class ReportInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public class MyReportHolder extends RecyclerView.ViewHolder {
-        TextView pac_or_test_name_header,f_status, f_labstatus, f_pack_test_name, f_patient_name, f_patient_mobile, f_test_duration, f_datetime, f_test_amount, f_test_delivery_chrg, f_test_payment_type;
+        TextView pac_or_test_name_header, f_status, f_labstatus, f_pack_test_name, f_patient_name, f_patient_mobile, f_test_duration, f_datetime, f_test_amount, f_test_delivery_chrg, f_test_payment_type;
         Button btn_view_report_for_download, btn_cancel_report;
 
         public MyReportHolder(View itemView) {

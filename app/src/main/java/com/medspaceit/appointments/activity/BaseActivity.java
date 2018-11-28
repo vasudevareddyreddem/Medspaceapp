@@ -59,7 +59,7 @@ ProgressDialog dialog;
         return manager;
     }
     public void showToast(String message){
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
     String token=null;
     public String getToken() {

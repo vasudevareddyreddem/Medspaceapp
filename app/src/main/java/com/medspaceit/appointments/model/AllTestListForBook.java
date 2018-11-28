@@ -72,6 +72,10 @@ public class Details {
     @SerializedName("profile_pic")
     @Expose
     public Object profilePic;
+
+    @SerializedName("accrediations")
+    @Expose
+    public Object accrediations;
     @SerializedName("test_names")
     @Expose
     public List<TestName> testNames = null;

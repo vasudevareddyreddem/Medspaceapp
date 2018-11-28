@@ -28,11 +28,14 @@ public class SearchRelatedTest {
 
         public String name;
         @SerializedName("a_id")
-
         public String aId;
-        @SerializedName("profile_pic")
 
+        @SerializedName("profile_pic")
         public Object profilePic;
+
+        @SerializedName("accrediations")
+        public Object accrediations;
+
         @SerializedName("test_names")
 
         public java.util.List<TestName> testNames = null;

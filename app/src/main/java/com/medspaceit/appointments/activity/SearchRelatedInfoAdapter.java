@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.medspaceit.appointments.R;
 import com.medspaceit.appointments.model.SearchRelatedTest;
 
@@ -23,13 +24,16 @@ import java.util.List;
 
 class SearchRelatedInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
+    SearchRelatedTest data;
+    List<SearchRelatedTest.List> list = new ArrayList<>();
 
-    List<SearchRelatedTest.List> list=new ArrayList<>();
-    public SearchRelatedInfoAdapter(Context context,SearchRelatedTest data) {
-        this.context=context;
+    public SearchRelatedInfoAdapter(Context context, SearchRelatedTest data) {
+        this.context = context;
+        this.data = data;
         list.addAll(data.list);
 
     }
+
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -49,37 +53,60 @@ class SearchRelatedInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final MyReportHolder reportholder = (MyReportHolder) holder;
 
             reportholder.lab_name.setText(list.get(position).name);
-            if(list.get(position).testNames.size()!=0) {
-//                for (int i = 0; i <list.get(position).testNames.size() ; i++) {
-//                    String s = TextUtils.join(", ", new String[]{list.get(i).testNames.get(i).testName});
-//                    Log.d("comma data====", s+"");
-//                }
+            if(list.get(position).accrediations==null)
+            {            reportholder.lab_accrediations.setText("");
+            }
+            else {
+                reportholder.lab_accrediations.setText(list.get(position).accrediations.toString());
+            }if (list.get(position).testNames.size() == 1) {
 
-                reportholder.lab_test.setText(list.get(position).testNames.get(position).testName);
+                reportholder.lab_test.setText(list.get(position).testNames.get(0).testName);
+            }
+            if (list.get(position).testNames.size() == 2) {
+
+                reportholder.lab_test.setText(list.get(position).testNames.get(0).testName + "," + list.get(position).testNames.get(1).testName);
+            }
+            if (list.get(position).testNames.size() >= 3) {
+
+                reportholder.lab_test.setText(list.get(position).testNames.get(0).testName + "," + list.get(position).testNames.get(1).testName + "," + list.get(position).testNames.get(2).testName);
             }
             reportholder.lab_view_profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(context,SearchTestActivity.class);
-                    intent.putExtra("a_id",list.get(position).aId);
+                    Intent intent = new Intent(context, SearchTestActivity.class);
+                    intent.putExtra("a_id", list.get(position).aId);
                     context.startActivity(intent);
 
 
                 }
             });
+            if (list.get(position).profilePic==null) {
 
+                Glide.with(context)
+                        .load(R.drawable.labplaceholder)
 
-        }}
+                        .into(reportholder.lab_iamge);
+
+            } else {
+                Glide.with(context)
+                        .load(data.imgpath +"/"+ list.get(position).profilePic)
+
+                        .into(reportholder.lab_iamge);
+            }
+        }
+    }
 
     @Override
     public int getItemCount() {
 
         return list.size();
     }
+
     public class MyReportHolder extends RecyclerView.ViewHolder {
-        TextView lab_name,lab_test,txt3;
+        TextView lab_name, lab_test, txt3,lab_accrediations;
         ImageView lab_iamge;
         Button lab_view_profile;
+
         public MyReportHolder(View itemView) {
             super(itemView);
             lab_name = itemView.findViewById(R.id.lab_nam);
@@ -87,7 +114,9 @@ class SearchRelatedInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             txt3 = itemView.findViewById(R.id.txt3);
             lab_iamge = itemView.findViewById(R.id.lab_iamge);
             lab_view_profile = itemView.findViewById(R.id.lab_view_profile);
+            lab_accrediations = itemView.findViewById(R.id.lab_accrediations);
 
-        }}
+        }
+    }
 
 }

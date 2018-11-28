@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -70,6 +71,8 @@ public class SelectLabTest extends BaseActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         searchLAbsRecyclerView.setLayoutManager(llm);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (isConnected()) {
             FeatchCity();
         } else {
@@ -149,14 +152,12 @@ public class SelectLabTest extends BaseActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     hideDialog();
-                    Log.e("Info", " Error " + error.getMessage());
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(jsonObjReq);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("Info ", "Error  try " + e.getMessage());
         }
     }
 

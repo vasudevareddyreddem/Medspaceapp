@@ -30,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,6 +47,7 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public AllPackageInfoAdapter(Lab context, AllPackagePojo data, String UID) {
         this.context = context;
         this.UID = UID;
+        Collections.reverse(data.list);
         list.addAll(data.list);
 
     }
@@ -68,6 +71,15 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             final MyPackageHolder reportholder = (MyPackageHolder) holder;
 
             reportholder.txt_package_name.setText(list.get(position).testPackageName);
+            reportholder.txt_lab_name.setText("Lab Name: "+list.get(position).name);
+            if(list.get(position).reportsTime==null)
+            {
+                reportholder.txt_reports_in.setText("Reports In:");
+
+            }
+            else {
+                reportholder.txt_reports_in.setText("Reports In: " + list.get(position).reportsTime);
+            }
             reportholder.txt_package_intro.setText(list.get(position).instruction);
             reportholder.txt_test_no.setText("Includes " + list.get(position).packageTestList.size() + " Tests");
             if (list.get(position).packageTestList.size() == 1) {
@@ -85,17 +97,21 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             String str=list.get(position).percentage;
           String aaa=  str.substring(0, str.length() - 3);
-            reportholder.txt_package_percentage.setText(aaa+"% Off");
+            reportholder.txt_package_percentage.setText(aaa+"%Off");
             reportholder.txt_package_amount.setText("MRP: Rs." + list.get(position).amount);
             reportholder.txt_package_amount.setPaintFlags(reportholder.txt_package_amount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
             reportholder.txt_package_discuount.setText("- Rs." + list.get(position).discount);
-            String amt=list.get(position).amount;
+            if(list.get(position).accrediations==null)
+            {reportholder.txt_accrediations.setText("");}
+            else {
+                reportholder.txt_accrediations.setText(list.get(position).accrediations.toString());
+            }String amt=list.get(position).amount;
             String dis=list.get(position).discount;
             int a1=Integer.parseInt(amt);
             int a2=Integer.parseInt(dis);
             int f1=a1-a2;
-            reportholder.txt_package_final_price.setText("Amount:"+"Rs." + f1);
+            reportholder.txt_package_final_price.setText("Amount: "+"Rs." + f1);
             reportholder.btn_view_all_test.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -182,8 +198,8 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public class MyPackageHolder extends RecyclerView.ViewHolder {
-        TextView txt_package_name, txt_package_intro, txt_test_no, txt_test_names,
-                txt_package_percentage, txt_package_amount, txt_package_discuount,txt_package_final_price;
+        TextView txt_package_name, txt_package_intro, txt_test_no, txt_test_names,txt_accrediations,
+                txt_package_percentage,txt_reports_in, txt_lab_name,txt_package_amount, txt_package_discuount,txt_package_final_price;
         Button btn_view_all_test, btn_explore;
 
         public MyPackageHolder(View itemView) {
@@ -197,7 +213,10 @@ public class AllPackageInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             txt_package_discuount = itemView.findViewById(R.id.txt_package_discuount);
             btn_explore = itemView.findViewById(R.id.btn_explore);
             btn_view_all_test = itemView.findViewById(R.id.btn_view_all_test);
+            txt_accrediations = itemView.findViewById(R.id.txt_accrediations);
+            txt_lab_name = itemView.findViewById(R.id.txt_lab_name);
             txt_package_final_price = itemView.findViewById(R.id.txt_package_final_price);
+            txt_reports_in = itemView.findViewById(R.id.txt_reports_in);
 
         }
     }

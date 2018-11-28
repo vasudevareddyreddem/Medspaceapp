@@ -59,6 +59,9 @@ public class ViewAllMyOrdersPojo {
         @SerializedName("mobile")
         @Expose
         public String mobile;
+        @SerializedName("sample_pickup")
+        @Expose
+        public String sample_pickup;
 
     }
 }

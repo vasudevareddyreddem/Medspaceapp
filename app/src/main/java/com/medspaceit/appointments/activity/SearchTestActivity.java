@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.GridView;
@@ -68,6 +69,9 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_test);
         ButterKnife.bind(this);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 
         Bundle b=getIntent().getExtras();
         a_id=b.getString("a_id");
@@ -81,7 +85,7 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
         searchbar.setOnClickListener(this);
         searchbar.setOnQueryTextListener(this);
 
-
+        searchbar.setFocusable(false);
         if(isConnected()) {
         getAllTest();}
         else
@@ -112,7 +116,6 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
                     new com.android.volley.Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                           // Log.e("Info ", " Respone" + response.toString());
                             Gson gson = new Gson();
                             hideDialog();
 
@@ -129,14 +132,12 @@ public class SearchTestActivity extends BaseActivity implements SearchView.OnQue
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     hideDialog();
-                    Log.e("Info", " Error " + error.getMessage());
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(jsonObjReq);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("Info ", "Error  try " + e.getMessage());
         }
     }
 

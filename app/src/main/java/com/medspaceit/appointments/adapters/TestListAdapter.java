@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 /**
@@ -72,9 +76,9 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
 
         holder.txt_test_name.setText(list.get(position).testName);
 
-        holder.txt_test_type.setText("Type :" + list.get(position).testType);
+        holder.txt_test_type.setText("Type: " + list.get(position).testType);
         holder.txt_test_amount.setText("₹" + list.get(position).testAmount);
-        holder.txt_test_time.setText("Time :" + list.get(position).testDuartion);
+        holder.txt_test_time.setText("Reports In: " + list.get(position).testDuartion);
 
 
         holder.btn_test_book.setOnClickListener(new View.OnClickListener() {
@@ -104,25 +108,28 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
                             new com.android.volley.Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
+
+                                    mContext.getWindow().setSoftInputMode(
+                                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
                                     Log.e("Info ", " Respone" + response.toString());
                                     Gson gson = new Gson();
                                     mContext.hideDialog();
                                     TestAddToCartPojo data = gson.fromJson(response.toString(), TestAddToCartPojo.class);
 
                                         mContext.showToast(data.message);
+
                                 }
                             }, new com.android.volley.Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             mContext.hideDialog();
-                            Log.e("Info", " Error " + error.getMessage());
                         }
                     });
                     RequestQueue queue = Volley.newRequestQueue(mContext);
                     queue.add(jsonObjReq);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e("Info ", "Error  try " + e.getMessage());
                 }
             }
         });
@@ -168,7 +175,6 @@ public class TestListAdapter extends RecyclerView.Adapter<TestListAdapter.TestHo
         }
         notifyDataSetChanged();
     }
-
 
 
 }

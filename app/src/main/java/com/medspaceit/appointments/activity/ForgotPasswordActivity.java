@@ -134,6 +134,8 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         super.onBackPressed();
         Intent i=new Intent(ForgotPasswordActivity.this, SignInActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
         startActivity(i);
         finish();
     }
