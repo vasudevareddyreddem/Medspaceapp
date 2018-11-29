@@ -9,7 +9,7 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.medspaceit.appointments.activity.FinalScreen">
+    tools:context="com.medarogya.appointment.activity.FinalScreen">
 <TextView
     android:layout_width="match_parent"
     android:gravity="center"
