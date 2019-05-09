@@ -43,17 +43,33 @@
             android:scaleType="fitCenter"
             />
        </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="@dimen/actionBar"
             android:layout_height="@dimen/actionBar">
-        <ImageView
-            android:id="@+id/maps"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/location"
 
-            />
+
+            <ImageView
+                android:id="@+id/campnotification"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bell"
+                android:layout_gravity="center"
+                 />
+            <TextView
+                android:id="@+id/badge_home"
+                android:layout_width="19dp"
+                android:layout_alignParentRight="true"
+                android:layout_height="19dp"
+                android:background="@drawable/badge_item_count"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
     </LinearLayout>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.medarogya.appointment.R;
 
@@ -16,6 +17,8 @@ import butterknife.ButterKnife;
 public class CallToBookLabTest extends BaseActivity {
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.tv_call_header)
+    TextView tv_call_header;
 
     @BindView(R.id.btn_call_order)
     Button btn_call_order;
@@ -26,6 +29,14 @@ public class CallToBookLabTest extends BaseActivity {
         ButterKnife.bind(this);
         back.setOnClickListener(this);
         btn_call_order.setOnClickListener(this);
+
+        Bundle b=getIntent().getExtras();
+      String calls=b.getString("calls");
+        if(calls.equals("1"))
+            tv_call_header.setText("Call to Order Medicines");
+        else
+            tv_call_header.setText("Call to Book Lab Test");
+
     }
 
     @Override

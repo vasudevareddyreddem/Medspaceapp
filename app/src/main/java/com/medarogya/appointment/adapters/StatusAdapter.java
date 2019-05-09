@@ -80,8 +80,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(Integer.valueOf(status.getStatus())==1){
                 //TODO: if u want accept and reject button visible change Gone to visible
                 statusHolder.action_layout.setVisibility(View.GONE);
-                statusHolder.coupon_layout.setVisibility(View.VISIBLE);
-                statusHolder.tv_coupon.setText(status.getCouponCode());
+//                statusHolder.coupon_layout.setVisibility(View.VISIBLE);
+//                statusHolder.tv_coupon.setText(status.getCouponCode());
 
 
 
@@ -106,8 +106,8 @@ public class StatusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             }else if(adapterType== StatusActivity.historyListApi){
               if(status.getCouponCode()!=null&&!status.getCouponCode().isEmpty()){
-                  statusHolder.coupn_lay.setVisibility(View.VISIBLE);
-                  statusHolder.coupnCode.setText(status.getCouponCode());
+//                  statusHolder.coupn_lay.setVisibility(View.VISIBLE);
+//                  statusHolder.coupnCode.setText(status.getCouponCode());
               }
             }
 

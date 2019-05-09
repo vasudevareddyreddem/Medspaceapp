@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FlashScreen extends BaseActivity {
-    String TAG = this.getClass().getName();
+
 
     @BindView(R.id.tryagain)
     TextView triagain;

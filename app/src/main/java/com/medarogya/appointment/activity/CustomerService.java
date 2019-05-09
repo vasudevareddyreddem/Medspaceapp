@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.medarogya.appointment.R;
 
@@ -22,6 +23,8 @@ public class CustomerService extends BaseActivity {
     ImageView back;
     @BindView(R.id.callButton)
     ImageView callButton;
+    @BindView(R.id.cus_email)
+    TextView cus_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,9 @@ public class CustomerService extends BaseActivity {
         ButterKnife.bind(this);
         back.setOnClickListener(this);
         callButton.setOnClickListener(this);
+        cus_email.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -45,6 +51,14 @@ public class CustomerService extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:7997999108"));
                 startActivity(intent);
+                break;
+
+                case R.id.cus_email:
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                            "mailto", "support@medarogya.com", null));
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+                    startActivity(Intent.createChooser(shareIntent, "Send email..."));
                 break;
         }
 

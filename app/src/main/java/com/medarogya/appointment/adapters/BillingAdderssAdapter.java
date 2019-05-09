@@ -38,18 +38,19 @@ import java.util.List;
 
 public class BillingAdderssAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     PickUpAddress context;
-    String UID,patient_details_id,passAmount,pname,pnumber,pemail;
+    String UID, patient_details_id, passAmount, pname, pnumber, pemail;
 
-    List<BillingAddressListPojo.List> addressList=new ArrayList<>();
+    List<BillingAddressListPojo.List> addressList = new ArrayList<>();
+
     public BillingAdderssAdapter(PickUpAddress context, BillingAddressListPojo data, String UID, String patient_details_id, String passAmount,
                                  String pname, String pnumber, String pemail) {
-        this.context=context;
-        this.UID=UID;
-        this.patient_details_id=patient_details_id;
-        this.passAmount=passAmount;
-        this.pname=pname;
-        this.pnumber=pnumber;
-        this.pemail=pemail;
+        this.context = context;
+        this.UID = UID;
+        this.patient_details_id = patient_details_id;
+        this.passAmount = passAmount;
+        this.pname = pname;
+        this.pnumber = pnumber;
+        this.pemail = pemail;
 
         Collections.reverse(data.list);
 
@@ -84,7 +85,7 @@ public class BillingAdderssAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
 
-                    if(context.isConnected())
+                    if (context.isConnected())
                         sendPatientBillingAddressFrmList(position);
                     else
                         context.showToast(context.getString(R.string.nointernet));
@@ -92,7 +93,8 @@ public class BillingAdderssAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             });
 
-    }}
+        }
+    }
 
     private void sendPatientBillingAddressFrmList(int position) {
 
@@ -121,7 +123,7 @@ public class BillingAdderssAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                           context. hideDialog();
+                            context.hideDialog();
 
                             Gson gson = new Gson();
 
@@ -130,12 +132,12 @@ public class BillingAdderssAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
                                 Intent i = new Intent(context, ReviewTests.class);
-                                i.putExtra("patient_details_id",patient_details_id);
-                                i.putExtra("billing_id",billingData.billingId.toString());
-                                i.putExtra("passAmount",passAmount);
-                                i.putExtra("pemail",pemail);
-                                i.putExtra("pname",pname);
-                                i.putExtra("pnumber",pnumber);
+                                i.putExtra("patient_details_id", patient_details_id);
+                                i.putExtra("billing_id", billingData.billingId.toString());
+                                i.putExtra("passAmount", passAmount);
+                                i.putExtra("pemail", pemail);
+                                i.putExtra("pname", pname);
+                                i.putExtra("pnumber", pnumber);
                                 context.startActivity(i);
                                 context.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -163,9 +165,11 @@ public class BillingAdderssAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemCount() {
         return addressList.size();
     }
+
     public class AllLabHolder extends RecyclerView.ViewHolder {
-        TextView pt_pincode_frm_list,pt_label_frm_list,pt_address_frm_list,pt_landmark_frm_list,pt_city_frm_list;
-Button btn_select_address;
+        TextView pt_pincode_frm_list, pt_label_frm_list, pt_address_frm_list, pt_landmark_frm_list, pt_city_frm_list;
+        Button btn_select_address;
+
         public AllLabHolder(View itemView) {
             super(itemView);
             pt_label_frm_list = itemView.findViewById(R.id.pt_label_frm_list);
@@ -176,5 +180,6 @@ Button btn_select_address;
             btn_select_address = itemView.findViewById(R.id.btn_select_address);
 
 
-        }}
+        }
+    }
 }

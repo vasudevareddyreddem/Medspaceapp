@@ -1,11 +1,13 @@
 package com.medarogya.appointment.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,15 +15,19 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.medarogya.appointment.R;
+import com.medarogya.appointment.model.AcceptListPJ;
 import com.medarogya.appointment.model.RegResult;
 import com.medarogya.appointment.utils.MessageToast;
 import com.medarogya.appointment.utils.SessionManager;
@@ -32,6 +38,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +64,11 @@ public class MyReportUpload extends BaseActivity {
     String hos_ids;
     int SELECT_FILE = 1;
     int REQUEST_CAMERA = 2;
+    String[] permissions = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA};
+
+    public static final int MULTIPLE_PERMISSIONS = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +83,27 @@ public class MyReportUpload extends BaseActivity {
         cancel.setOnClickListener(this);
         take_frm_cam.setOnClickListener(this);
         back.setOnClickListener(this);
+        checkPermissions();
 
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.take_frm_cam:
-                cameraIntent();
+                if(checkPermissions())
+                {cameraIntent();}
+                else {
+                    checkPermissions();
+                }
                 break;
             case R.id.take_frm_gal:
-                galleryIntent();
-                break;
+                if(checkPermissions()) {
+                    galleryIntent();
+                }
+                else {
+                    checkPermissions();
+
+                }break;
             case R.id.cancel:
                 finish();
                 break;
@@ -91,6 +114,21 @@ public class MyReportUpload extends BaseActivity {
 
         }
 
+    private boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p : permissions) {
+            result = ContextCompat.checkSelfPermission(MyReportUpload.this, p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
 
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -242,6 +280,7 @@ public class MyReportUpload extends BaseActivity {
 
                 RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), manager.getSingleField(SessionManager.KEY_ID));
                 RequestBody hos_id = RequestBody.create(MediaType.parse("text/plain"), hos_ids);
+                Log.e("===f==>",fileToUpload+"  "+filename);
                 Call<RegResult> call = service.uploadPrescription(fileToUpload, filename, hos_id);
 
                 call.enqueue(new Callback<RegResult>() {
@@ -251,8 +290,6 @@ public class MyReportUpload extends BaseActivity {
                         if (!response.isSuccessful()) {
 
                         }
-
-
                         RegResult result = response.body();
                         Toast.makeText(MyReportUpload.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
                         finish();

@@ -76,13 +76,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             userName.setSelection(position);
 
         }
-//        Log.i("====111=",manager.getSingleField(SessionManager.PROFILE_IMG_URL));
-//        Log.i("====222=",manager.getSingleField(SessionManager.PROFILE_IMG_PATH));
-
         String filename=manager.getSingleField(SessionManager.PROFILE_IMG_URL)+manager.getSingleField(SessionManager.PROFILE_IMG_PATH);
 
-        if(filename.equals("https://ehealthinfra.com/assets/adminprofilepic/"))
-        {
+        if (filename.equals("http://staging.ehealthinfra.com/assets/adminprofilepic/")||filename.equals("https://ehealthinfra.com/assets/adminprofilepic/")) {
+
             Glide.with(this)
                     .load(R.drawable.dummy_user)
 

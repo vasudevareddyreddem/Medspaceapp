@@ -15,6 +15,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.medarogya.appointment.apis.MyService;
 import com.medarogya.appointment.apis.MyServiceDG;
+import com.medarogya.appointment.apis.MyServicePharmacy;
 import com.medarogya.appointment.utils.DialogsUtils;
 import com.medarogya.appointment.utils.NetworkConnection;
 import com.medarogya.appointment.utils.SessionManager;
@@ -25,6 +26,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 NetworkConnection connection;
 MyService service;
 MyServiceDG servicedg;
+MyServicePharmacy serviceph;
 ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ ProgressDialog dialog;
         connection=new NetworkConnection(this);
         service= MyService.Factory.create(getApplicationContext());
         servicedg= MyServiceDG.Factory.create(getApplicationContext());
+        serviceph= MyServicePharmacy.Factorys.create(getApplicationContext());
     }
     public void showDialog(){
         if(dialog==null){

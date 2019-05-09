@@ -32,7 +32,7 @@ public class MyReports extends BaseActivity {
 
     @BindView(R.id.back)
     ImageView back;
-
+    @BindView(R.id.reportInfoRecyclerView)
     RecyclerView reportInfoRecyclerView;
 
     @Override
@@ -40,21 +40,20 @@ public class MyReports extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_reports);
         ButterKnife.bind(this);
-        reportInfoRecyclerView =findViewById(R.id.reportInfoRecyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         reportInfoRecyclerView.setLayoutManager(llm);
         back.setOnClickListener(this);
-if(isConnected()) {
-    getAllOrders();
-    showDialog();
-}else
-    {showToast(getString(R.string.nointernet));}   }
+        if (isConnected()) {
+            getAllOrders();
+            showDialog();
+        } else {
+            showToast(getString(R.string.nointernet));
+        }
+    }
 
 
-
-    public  void getAllOrders()
-    {
+    public void getAllOrders() {
         showDialog();
         String json = "";
         String UID = manager.getSingleField(SessionManager.KEY_ID);
@@ -81,14 +80,14 @@ if(isConnected()) {
                         public void onResponse(JSONObject response) {
                             hideDialog();
 
-                            Gson gson=new Gson();
-                            ViewAllMyOrdersPojo data=gson.fromJson(response.toString(), ViewAllMyOrdersPojo.class);
+                            Gson gson = new Gson();
+                            ViewAllMyOrdersPojo data = gson.fromJson(response.toString(), ViewAllMyOrdersPojo.class);
 
 
                             if (data.status == 1) {
                                 String UID = manager.getSingleField(SessionManager.KEY_ID);
 
-                                ReportInfoAdapter rpAdapter=new ReportInfoAdapter(MyReports.this,data,UID);
+                                ReportInfoAdapter rpAdapter = new ReportInfoAdapter(MyReports.this, data, UID);
                                 reportInfoRecyclerView.setAdapter(rpAdapter);
 
                             } else {
@@ -116,6 +115,7 @@ if(isConnected()) {
         switch (v.getId()) {
             case R.id.back:
                 finish();
-                break;}
+                break;
+        }
     }
 }

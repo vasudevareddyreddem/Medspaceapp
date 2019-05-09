@@ -93,10 +93,13 @@ public interface MyService {
     @POST(ApiUrl.imageUplode)
     Call<RegResult> uploadFile(@Part MultipartBody.Part file, @Part("a_u_id") RequestBody id);
     @Multipart
-   @POST(ApiUrl.uploadprescription)
-    Call<RegResult> uploadPrescription(@Part MultipartBody.Part file, @Part("a_u_id") RequestBody id,@Part("hos_id") RequestBody hos_id);
-    @POST(ApiUrl.updateToken)
+        @POST(ApiUrl.updateToken)
     Call<RegResult> updateToken(@Body JsonObject uid, @Header("content-type") String contenttype);
     @POST(ApiUrl.cardgenerator)
     Call<String> cardgenerator(@Body String body,@Header("content-type") String contenttype);
+
+
+    @POST(ApiUrl.uploadprescription)
+    Call<RegResult> uploadPrescription(@Part MultipartBody.Part file, @Part("a_u_id") RequestBody id,@Part("hos_id") RequestBody hos_id);
+
 }

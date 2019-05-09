@@ -49,6 +49,8 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
                 Intent intent=new Intent(ForgotPasswordActivity.this, SignInActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+                this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
                 finish();
                 break;
             case R.id.submit:

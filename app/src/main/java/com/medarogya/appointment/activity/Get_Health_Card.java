@@ -507,8 +507,8 @@ public class Get_Health_Card extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     hideDialog();
-                    Toast.makeText(Get_Health_Card.this, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-
+                    mainLayoutGHC.setVisibility(View.VISIBLE);
+                    pleaseWaitLayout.setVisibility(View.GONE);
 
                 }
             });

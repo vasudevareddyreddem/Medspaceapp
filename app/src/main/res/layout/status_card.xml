@@ -159,7 +159,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/doc"
+                android:src="@drawable/patient"
                 android:layout_margin="2dp"
                 />
             <TextView
@@ -261,6 +261,14 @@
 
                 />
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="Department :"
+                />
+            <TextView
                 android:id="@+id/dept_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -281,6 +289,8 @@
             <ImageView
                 android:layout_gravity="left|top"
                 android:layout_width="20dp"
+                android:src="@drawable/doc"
+
                 android:layout_height="20dp"
                 android:layout_margin="2dp"
                 />

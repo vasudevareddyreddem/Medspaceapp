@@ -105,7 +105,10 @@ public class Lab extends BaseActivity {
                 startActivity(new Intent(this, SelectLabTest.class));
                 break;
             case R.id.select_booklabtest_ll:
-                startActivity(new Intent(this, CallToBookLabTest.class));
+                Intent intent=new Intent(this,CallToBookLabTest.class);
+
+                intent.putExtra("calls","2");
+                startActivity(intent);
                 break;
 
         }

@@ -139,8 +139,10 @@ public void storeToken(String token){
         editor.remove(KEY_NAME);
         editor.remove(KEY_ID);
         editor.remove(PROFILE_IMG_URL);
+        editor.remove(PROFILE_IMG_PATH);
         editor.remove(KEY_NUMBER);
         editor.remove(KEY_CARDNO);
+        editor.remove(KEY_IMAGEURI);
         if(pref.getBoolean(KEY_REMEMBER_ME,false))
         {
             editor.commit();

@@ -50,4 +50,7 @@
     <string name="whatsappno">WhatsApp Number</string>
     <string name="threedot">●  ●  ●</string>
     <string name="nointernet">No Internet</string>
+    <string name="serverproblem">Problem occured in server side</string>
+
+
 </resources>

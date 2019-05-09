@@ -13,4 +13,5 @@
     <color name="reject">#ff9802</color>
     <color name="accept">#2f860d</color>
     <color name="back">#18659f</color>
+    <color name="generate">#2BBBAD</color>
 </resources>

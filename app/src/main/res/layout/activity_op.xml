@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.medarogya.appointment.activity.OPActivity">
+    <android.support.v7.widget.CardView
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            >
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/back"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OP"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                />
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/toolbar"
+        android:id="@+id/op_ll"
+        android:weightSum="9"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:id="@+id/op_tot_bal"
+            android:textColor="@color/colorBlack"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:id="@+id/op_used_bal"
+            android:textColor="@color/colorBlack"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:id="@+id/op_remaining_bal"
+            android:textColor="@color/colorBlack"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content" />
+
+
+
+
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/op_ll"
+        android:id="@+id/op_rcview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>

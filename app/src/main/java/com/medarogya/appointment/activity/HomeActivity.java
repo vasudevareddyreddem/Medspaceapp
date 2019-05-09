@@ -3,15 +3,20 @@ package com.medarogya.appointment.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,11 +34,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -54,12 +63,14 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import com.google.gson.Gson;
 import com.medarogya.appointment.R;
 import com.medarogya.appointment.adapters.AcceptAdapter;
 import com.medarogya.appointment.adapters.MyAllCardAdapter;
 import com.medarogya.appointment.apis.ApiUrl;
 import com.medarogya.appointment.model.AcceptListPJ;
 import com.medarogya.appointment.model.AllCardPJ;
+import com.medarogya.appointment.model.HealthCampNotification;
 import com.medarogya.appointment.model.RegResult;
 import com.medarogya.appointment.utils.MessageToast;
 import com.medarogya.appointment.utils.SessionManager;
@@ -76,6 +87,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,8 +107,8 @@ public class HomeActivity extends BaseActivity
     static int SELECT_FILE = 1;
     static int REQUEST_CAMERA = 2;
 
-    @BindView(R.id.maps)
-    ImageView maps;
+    @BindView(R.id.campnotification)
+    ImageView campnotification;
 
     //  @BindView(R.id.hamberger)
     ImageView hamberger;
@@ -130,8 +143,8 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.op_app_card)
     CardView open_op_appointment;
 
-    @BindView(R.id.find_doc_card)
-    CardView find_doc;
+    @BindView(R.id.med_icash_card)
+    CardView med_icash_card;
 
     @BindView(R.id.pharamcy_card)
     CardView pharmacy;
@@ -144,6 +157,8 @@ public class HomeActivity extends BaseActivity
     TextView title_home;
     @BindView(R.id.no_card_text)
     TextView no_card_text;
+    @BindView(R.id.badge_home)
+    TextView badge_home;
 
     @BindView(R.id.pager)
     ViewPager cardPager;
@@ -160,20 +175,13 @@ public class HomeActivity extends BaseActivity
     private int page = 0;
     MyAllCardAdapter adapter;
 
-
-    //    @BindView(R.id.notification_count)
-//    TextView notification_count;
     String[] permissions = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA};//,
-    //            Manifest.permission.ACCESS_COARSE_LOCATION,
-//            Manifest.permission.ACCESS_FINE_LOCATION
-//            };
-   // GoogleApiClient client;
-//    LocationRequest mLocationRequest;
-//    PendingResult<LocationSettingsResult> result;
+            Manifest.permission.CAMERA};
+
     public static final int MULTIPLE_PERMISSIONS = 10;
-    static final Integer GPS_SETTINGS = 0x7;
+    String  version=null,packageName=null;
+    Dialog dialog;
 
     ArrayList<AllCardPJ> allCardList;
 
@@ -182,7 +190,7 @@ public class HomeActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        //Toast.makeText(this, ""+ manager.getSingleField(SessionManager.KEY_ID), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, ""+ manager.getSingleField(SessionManager.KEY_ID), Toast.LENGTH_SHORT).show();
 //         int no_count= manager.getNotification();
 //         if(no_count==0){
 //             notification_count.setVisibility(View.GONE);
@@ -194,6 +202,48 @@ public class HomeActivity extends BaseActivity
 //        client = new GoogleApiClient.Builder(this)
 //                .addApi(LocationServices.API)
 //                .build();
+        try {
+             packageName = getApplicationContext().getPackageName();
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+             version = pInfo.versionName;
+           // showToast(version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if(!version.equals("1.0.8"))
+        {
+            final android.app.AlertDialog dialogBuilder = new android.app.AlertDialog.Builder(this).create();
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.app_update, null);
+            Button update = (Button) dialogView.findViewById(R.id.buttonSubmit);
+            Button cancel = (Button) dialogView.findViewById(R.id.buttonCancel);
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogBuilder.dismiss();
+                }
+            });
+            update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // DO SOMETHINGS
+                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
+                }
+            });
+
+            dialogBuilder.setView(dialogView);
+            dialogBuilder.show();
+
+        }
+
+
 
         checkPermissions();
         hamberger = findViewById(R.id.hamberger);
@@ -219,38 +269,50 @@ public class HomeActivity extends BaseActivity
         profileSettings.setOnClickListener(this);
         open_op_appointment.setOnClickListener(this);
         lab_card.setOnClickListener(this);
-        find_doc.setOnClickListener(this);
+        med_icash_card.setOnClickListener(this);
+
         pharmacy.setOnClickListener(this);
         camera_open.setOnClickListener(this);
         profile_pic.setOnClickListener(this);
-        maps.setOnClickListener(this);
+        campnotification.setOnClickListener(this);
+
         navigationView.setNavigationItemSelectedListener(this);
         updateProfile();
 
         disableNavigationViewScrollbars(navigationView);
         String profile = manager.getSingleField(SessionManager.PROFILE_IMG_URL) + manager.getSingleField(SessionManager.PROFILE_IMG_PATH);
-        if(profile.equals("https://ehealthinfra.com/assets/adminprofilepic/"))
-        {
-        Glide.with(this)
-                .load(R.drawable.dummy_user)
-                .into(profile_pic);}
-                else {Glide.with(this)
-                .load(profile)
-                .into(profile_pic);}
+         if (profile.equals("http://staging.ehealthinfra.com/assets/adminprofilepic/")||profile.equals("https://ehealthinfra.com/assets/adminprofilepic/")) {
+            Glide.with(this)
+                    .load(R.drawable.dummy_user)
+                    .into(profile_pic);
+        } else {
+            Glide.with(this)
+                    .load(profile)
+                    .into(profile_pic);
+        }
 
-        getAllCards();
+        if(manager.getSingleField(SessionManager.KEY_ID)!=null) {
+            new Timer().scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    getHealthCampCount();
 
+                }
+            }, 0, 10000);//put here time 1000 milliseconds=1 second
+            getAllCards();
+        }
     }
 
-    private void getAllCards() {
-        if(isConnected())
-        {
-        pg_bar.setVisibility(View.VISIBLE);
+
+
+    private void getHealthCampCount() {
+
+
         String json = "";
         JSONObject jsonObject = new JSONObject();
+        String UID = manager.getSingleField(SessionManager.KEY_ID);
         try {
-            jsonObject.put("a_u_id", manager.getSingleField(SessionManager.KEY_ID));
-
+            jsonObject.put("user_id", UID);
         } catch (JSONException e) {
             e.printStackTrace();
 
@@ -262,82 +324,141 @@ public class HomeActivity extends BaseActivity
         try {
 
             jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    ApiUrl.BaseUrl + ApiUrl.allcards, new JSONObject(json),
+                    ApiUrl.HEALTHCAMPS_BASE_URL + ApiUrl.get_health_camps_notifi, new JSONObject(json),
                     new com.android.volley.Response.Listener<JSONObject>() {
-
                         @Override
                         public void onResponse(JSONObject response) {
-                            pg_bar.setVisibility(View.GONE);
-                            three_dot_ll.setVisibility(View.VISIBLE);
-                            allCardList = new ArrayList();
-                            try {
-                                JSONObject job = new JSONObject(String.valueOf(response));
 
-                                String status = job.getString("status");
+                            Gson gson = new Gson();
+                            HealthCampNotification noti = gson.fromJson(response.toString(), HealthCampNotification.class);
+                          try {
 
-                                if (status.equals("1")) {
+                            if(noti.list.size()!=0)
+                          {
+                              badge_home.setText(""+noti.list.size());
+                              badge_home.setVisibility(View.VISIBLE);
 
-                                    no_card_text.setVisibility(View.GONE);
-                                    cardPager.setVisibility(View.VISIBLE);
-
-
-                                    JSONArray jsonArray = job.getJSONArray("details");
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject js = jsonArray.getJSONObject(i);
-                                        String card_number = js.getString("card_number");
-                                        String mobile_num = js.getString("mobile_num");
-                                        String name = js.getString("name");
-                                        AllCardPJ acp = new AllCardPJ(card_number, mobile_num, name);
-                                        allCardList.add(acp);
-                                    }
-
-                                    adapter = new MyAllCardAdapter(HomeActivity.this, allCardList);
-                                    cardPager.setAdapter(adapter);
-                                } else {
-                                    no_card_text.setVisibility(View.VISIBLE);
-                                    cardPager.setVisibility(View.GONE);
-                                    pg_bar.setVisibility(View.GONE);
-                                    three_dot_ll.setVisibility(View.GONE);
-                                    no_card_text.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            startActivity(new Intent(HomeActivity.this, Get_Health_Card.class));
-                                        }
-                                    });
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                          }
+                          else {
+                              badge_home.setVisibility(View.GONE);
+                          }}catch (Exception e)
+                          {}
 
                         }
                     }, new com.android.volley.Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    hideDialog();
+
 
                 }
             });
-            RequestQueue queue = Volley.newRequestQueue(this);
+            RequestQueue queue = Volley.newRequestQueue(HomeActivity.this);
             queue.add(jsonObjReq);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    private void getAllCards() {
+        if (isConnected()) {
+            pg_bar.setVisibility(View.VISIBLE);
+            String json = "";
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("a_u_id", manager.getSingleField(SessionManager.KEY_ID));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+            }
+
+            json = jsonObject.toString();
+            JsonObjectRequest jsonObjReq = null;
+
+            try {
+
+                jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                        ApiUrl.BaseUrl + ApiUrl.allcards, new JSONObject(json),
+                        new com.android.volley.Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                pg_bar.setVisibility(View.GONE);
+                                three_dot_ll.setVisibility(View.VISIBLE);
+                                allCardList = new ArrayList();
+                                try {
+                                    JSONObject job = new JSONObject(String.valueOf(response));
+
+                                    String status = job.getString("status");
+
+                                    if (status.equals("1")) {
+
+                                        no_card_text.setVisibility(View.GONE);
+                                        cardPager.setVisibility(View.VISIBLE);
+
+
+                                        JSONArray jsonArray = job.getJSONArray("details");
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            JSONObject js = jsonArray.getJSONObject(i);
+                                            String card_number = js.getString("card_number");
+                                            String mobile_num = js.getString("mobile_num");
+                                            String name = js.getString("name");
+                                            AllCardPJ acp = new AllCardPJ(card_number, mobile_num, name);
+                                            allCardList.add(acp);
+                                        }
+
+                                        adapter = new MyAllCardAdapter(HomeActivity.this, allCardList);
+                                        cardPager.setAdapter(adapter);
+                                    } else {
+                                        no_card_text.setVisibility(View.VISIBLE);
+                                        cardPager.setVisibility(View.GONE);
+                                        pg_bar.setVisibility(View.GONE);
+                                        three_dot_ll.setVisibility(View.GONE);
+                                        no_card_text.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                startActivity(new Intent(HomeActivity.this, Get_Health_Card.class));
+                                            }
+                                        });
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideDialog();
+
+                    }
+                });
+                RequestQueue queue = Volley.newRequestQueue(this);
+                queue.add(jsonObjReq);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-      //  client.connect();
+        //  client.connect();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateProfile();
-        getAllCards();
+        if(manager.getSingleField(SessionManager.KEY_ID)!=null) {
+
+                    getHealthCampCount();
+
+                getAllCards();
+        }
     }
 
     @Override
@@ -439,7 +560,7 @@ public class HomeActivity extends BaseActivity
         } else if (id == R.id.lab_app) {
             startActivity(new Intent(HomeActivity.this, Lab.class));
         } else if (id == R.id.pharmacy) {
-            startActivity(new Intent(HomeActivity.this, ComingSoon.class));
+            startActivity(new Intent(HomeActivity.this, Pharmacy.class));
         } else if (id == R.id.healthcard) {
             startActivity(new Intent(HomeActivity.this, Get_Health_Card.class));
         } else if (id == R.id.healthreport) {
@@ -447,22 +568,19 @@ public class HomeActivity extends BaseActivity
         } else if (id == R.id.status) {
             Intent intent = new Intent(HomeActivity.this, StatusActivity.class);
             startActivity(intent);
-        } else if (id == R.id.history) {
-            Intent intent = new Intent(HomeActivity.this, StatusActivity.class);
-            intent.putExtra("title", "History");
+
+        } else if (id == R.id.customer) {
+            Intent intent = new Intent(HomeActivity.this, CustomerService.class);
             startActivity(intent);
-
-    } else if (id == R.id.customer) {
-        Intent intent = new Intent(HomeActivity.this, CustomerService.class);
-        startActivity(intent);
-    }
-
-        else if (id == R.id.signout) {
+        } else if (id == R.id.signout) {
             manager.logoutUser();
             Toast.makeText(this, "Sign Out Successfully", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             startActivity(intent);
+            this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
             finish();
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -479,16 +597,16 @@ public class HomeActivity extends BaseActivity
                 startActivity(new Intent(HomeActivity.this, OpRegistrationActivity.class));
                 break;
             case R.id.pharamcy_card:
-//                startActivity(new Intent(HomeActivity.this, PharmacyActivity.class));
-//                break;
-            case R.id.find_doc_card:
-                startActivity(new Intent(HomeActivity.this, ComingSoon.class));
+                startActivity(new Intent(HomeActivity.this, Pharmacy.class));
+                break;
+            case R.id.med_icash_card:
+                startActivity(new Intent(HomeActivity.this, MedICashHomeActivity.class));
                 break;
             case R.id.lab_app_card:
                 startActivity(new Intent(HomeActivity.this, Lab.class));
                 break;
-            case R.id.maps:
-                startActivity(new Intent(HomeActivity.this, ComingSoon.class));
+            case R.id.campnotification:
+                startActivity(new Intent(HomeActivity.this, HealthNotification.class));
                 break;
             case R.id.notification_lay:
                 startActivity(new Intent(HomeActivity.this, StatusActivity.class));
@@ -504,11 +622,12 @@ public class HomeActivity extends BaseActivity
                 openProfilesettingDialog(v);
                 break;
             case R.id.profile_pic:
-                if(checkPermissions()) {
+                if (checkPermissions()) {
                     selectImage();
-                }else {
+                } else {
                     checkPermissions();
-                }break;
+                }
+                break;
 
         }
 
@@ -542,13 +661,13 @@ public class HomeActivity extends BaseActivity
 
 
     private void hambergerAction() {
-        handler=new Handler();
-       // hamberger.setRotation(hamberger.getRotation() + 90);
+        handler = new Handler();
+        // hamberger.setRotation(hamberger.getRotation() + 90);
         handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                  Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
+                                    Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
                                     hamberger.startAnimation(animation);
                                 }
                             }
@@ -567,12 +686,13 @@ public class HomeActivity extends BaseActivity
         if (username != null && !username.isEmpty()) {
             user_name.setText(username);
             title_home.setText("Hello " + username);
+            Log.e("===id==",manager.getSingleField(SessionManager.KEY_ID));
 
         }
     }
 
     private void selectImage() {
-        final CharSequence[] items = {"take Photos", "Gallery", "Cancel"};
+        final CharSequence[] items = {"Take Photo", "Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
         builder.setTitle("Add photos !");
         builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -791,6 +911,7 @@ public class HomeActivity extends BaseActivity
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
     private void disableNavigationViewScrollbars(NavigationView navigationView) {
         if (navigationView != null) {
             NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
@@ -799,4 +920,8 @@ public class HomeActivity extends BaseActivity
             }
         }
     }
+
+
+
+
 }

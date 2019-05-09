@@ -248,20 +248,25 @@ public class AppStatus implements Comparable<AppStatus>{
         this.doctor_name = doctor_name;
     }
 
-    public String getAddress()
-    {
-        StringBuilder builder=
-                new StringBuilder(getAddline1())
-                        .append(',')
-                        .append(getAddline2())
-                        .append(',')
-                        .append(getAddCity())
-                        .append(',')
-                        .append(getState())
-                        .append(',')
-                        .append(getZipcode());
+    public String getAddress() {
+        try {
 
-        return builder.toString();
+
+            StringBuilder builder =
+                    new StringBuilder(getAddline1())
+                            .append(',')
+                            .append(getAddline2())
+                            .append(',')
+                            .append(getAddCity())
+                            .append(',')
+                            .append(getState())
+                            .append(',')
+                            .append(getZipcode());
+            return builder.toString();
+
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     @Override

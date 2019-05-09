@@ -59,7 +59,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/dummy_user"
+            android:background="@drawable/dummy_user"
             app:civ_border_color="@color/colorPrimary"
             app:civ_border_width="2dp"
             android:contentDescription="@string/update"

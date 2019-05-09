@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -38,7 +39,7 @@ SessionManager manager;
     public void onCreate() {
         super.onCreate();
         manager=new SessionManager(getApplicationContext());
-    }
+}
 
     /**
      * Called when message is received.
@@ -107,9 +108,16 @@ SessionManager manager;
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
+        if( manager.getSingleField(SessionManager.KEY_ID)==""||manager.getSingleField(SessionManager.KEY_ID)==null)
+        {
+
+        }
+    else {
             storeRegIdInPref(token);
-        sendRegistrationToServer(token);
-    }
+            sendRegistrationToServer(token);
+           // Toast.makeText(this, manager.getSingleField(SessionManager.KEY_ID), Toast.LENGTH_SHORT).show();
+
+        }}
 
     private void storeRegIdInPref(String token) {
         manager.storeToken(token);

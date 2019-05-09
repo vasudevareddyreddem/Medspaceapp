@@ -60,11 +60,12 @@ public class StatusActivity extends BaseActivity implements StatusAdapter.Status
             //TODO:remoce comment for history
             //fetchAppList(historyListApi);
         } else {
-if(isConnected()) {
-    fetchAppList(stausListApi);
-}else {
-    showToast("No Internet");
-}       }
+            if (isConnected()) {
+                fetchAppList(stausListApi);
+            } else {
+                showToast("No Internet");
+            }
+        }
     }
 
     @Override
@@ -88,7 +89,7 @@ if(isConnected()) {
             @Override
             public void onResponse(Call<StatusData> call, Response<StatusData> response) {
                 hideDialog();
-                Log.e("data888",response.toString());
+                Log.e("data888", response.toString());
                 StatusData data = response.body();
 
 

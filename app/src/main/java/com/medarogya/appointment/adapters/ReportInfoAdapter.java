@@ -47,7 +47,7 @@ public class ReportInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public ReportInfoAdapter(MyReports context, ViewAllMyOrdersPojo data, String UID) {
         this.context = context;
         this.UID = UID;
-        list.addAll(data.list);
+            list.addAll(data.list);
 
     }
 

@@ -58,8 +58,9 @@ public class PickUpAddress extends BaseActivity {
 
     @BindView(R.id.et_pincode)
     EditText et_pincode;
-@BindView(R.id.qqqqq)
-TextView qqqqq;
+
+    @BindView(R.id.qqqqq)
+    TextView qqqqq;
 
 
     @BindView(R.id.btn_next_c)

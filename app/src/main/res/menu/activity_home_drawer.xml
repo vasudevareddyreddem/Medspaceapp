@@ -61,14 +61,7 @@
             android:icon="@drawable/reportnew"
             android:title="My health reports" />
     </group>
-    <group
-        android:id="@+id/group6"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/history"
-            android:icon="@drawable/histroy"
-            android:title="History" />
-    </group>
+
 
     <group
         android:id="@+id/group18"

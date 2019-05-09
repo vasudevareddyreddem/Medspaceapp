@@ -3,6 +3,7 @@ package com.medarogya.appointment.activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -21,6 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.medarogya.appointment.R;
 import com.medarogya.appointment.adapters.TagsAdapter;
@@ -35,6 +42,7 @@ import com.medarogya.appointment.model.Doctorlists;
 import com.medarogya.appointment.model.Formatter;
 import com.medarogya.appointment.model.Hospital;
 import com.medarogya.appointment.model.HospitalList;
+import com.medarogya.appointment.model.DoctorConsultFeePojo;
 import com.medarogya.appointment.model.RegResult;
 import com.medarogya.appointment.model.Specialist;
 import com.medarogya.appointment.model.Specialists;
@@ -42,6 +50,9 @@ import com.medarogya.appointment.model.TimeSlot;
 import com.medarogya.appointment.model.TimeSlotlists;
 import com.medarogya.appointment.utils.MessageToast;
 import com.medarogya.appointment.utils.SessionManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,6 +123,13 @@ public class OpRegistrationActivity extends BaseActivity  {
     String city, dept, spl, doct, time, hospital, hos_id, dept_id, spl_id, doct_id;
     TagsAdapter tagsAdapter;
 
+    int precitypos=-1;
+    int prehospos=-1;
+    int predepartpos=-1;
+    int prespecpos=-1;
+    int predoctpos=-1;
+    int pretimepos=-1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +197,12 @@ public class OpRegistrationActivity extends BaseActivity  {
             case 1:
                 city = cities.get(position).getValue();
                 city_txt.setText(city);
+                precitypos=position;
+                prehospos=-1;
+                predepartpos=-1;
+                prespecpos=-1;
+                predoctpos=-1;
+                pretimepos=-1;
                 FetchHospitals(city);
                 dept = null;
 
@@ -202,17 +226,14 @@ public class OpRegistrationActivity extends BaseActivity  {
             case 2:
                 hospital = hospitals.get(position).getValue();
                 hos_id = hospitals.get(position).getId();
+                prehospos=position;
+                predepartpos=-1;
+                prespecpos=-1;
+                predoctpos=-1;
+                pretimepos=-1;
                 hos_txt.setText(hospital);
-                if(hospitals.get(position).getConsultationfee()==null)
-                {
-                    txt_consultationfee.setText("Consultation fee : nill" );
-
-                }
-                else {
-
-                    txt_consultationfee.setText("Consultation fee :" + hospitals.get(position).getConsultationfee());
-                }
                 FetchDepatments(hos_id);
+
                 departments=null;
                 specialists = null;
                 doctorlists = null;
@@ -233,6 +254,11 @@ public class OpRegistrationActivity extends BaseActivity  {
             case 3:
                 dept = departments.get(position).getValue();
                 dept_txt.setText(dept);
+                predepartpos=position;
+
+                prespecpos=-1;
+                predoctpos=-1;
+                pretimepos=-1;
                 dept_id = departments.get(position).getDepartment_id();
                 FetchSpecialists(hos_id, dept_id);
                 specialists = null;
@@ -250,6 +276,9 @@ public class OpRegistrationActivity extends BaseActivity  {
                 break;
             case 4:
                 spl = specialists.get(position).getValue();
+                prespecpos=position;
+                predoctpos=-1;
+                pretimepos=-1;
                 spl_id = specialists.get(position).getSpecialist_id();
                 spl_txt.setText(spl);
                 doctorlists = null;
@@ -267,9 +296,13 @@ public class OpRegistrationActivity extends BaseActivity  {
                 break;
             case 5:
                 doct = doctorlists.get(position).getValue();
+                predoctpos=position;
+
+                pretimepos=-1;
                 doct_id = doctorlists.get(position).getDoctor_id();
                 doctor_txt.setText(doct);
-               FetchDoctorTimeSlot(hos_id, doct_id);
+                FetchDoctorConsultFee(doct_id);
+                FetchDoctorTimeSlot(hos_id, doct_id);
                 checkboxfee.setEnabled(true);
                 timeSlots = null;
                 time = null;
@@ -278,9 +311,67 @@ public class OpRegistrationActivity extends BaseActivity  {
 
             case 6:
                 time = timeSlots.get(position).getStime();
+                pretimepos=position;
+
                 time_txt.setText(time.toString());
 
 
+        }
+
+    }
+
+    private void FetchDoctorConsultFee(final String doct_id) {
+
+
+
+        showDialog();
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("doctor_id", doct_id);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.BaseUrl + ApiUrl.doctors_consultation_fee, new JSONObject(json),
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            hideDialog();
+                            Gson gson = new Gson();
+
+                            DoctorConsultFeePojo fee = gson.fromJson(response.toString(), DoctorConsultFeePojo.class);
+                            if (fee.status == 1) {
+                                if(fee.consultationFee==null) {
+                                    txt_consultationfee.setText("Consultation fee : nill");
+                                }else {
+                                    txt_consultationfee.setText("Consultation fee: ₹" + fee.consultationFee);
+                                }
+
+                            } else {
+                                    showToast(fee.message);
+
+                            }
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    hideDialog();
+
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(OpRegistrationActivity.this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
     }
@@ -592,6 +683,7 @@ public class OpRegistrationActivity extends BaseActivity  {
         appointment.setDate(dateOfReg.getText().toString());
         appointment.setTime(time);
 
+
         Call<RegResult> call = service.addAppointments(appointment, ApiUrl.content_type);
         showDialog();
         call.enqueue(new Callback<RegResult>() {
@@ -736,17 +828,86 @@ public class OpRegistrationActivity extends BaseActivity  {
             View view1 = getLayoutInflater().inflate(R.layout.spinner_item, null);
             TextView mTitle = view1.findViewById(R.id.txt_item);
             mTitle.setText(title);
-            builder.setCustomTitle(view1)
-                    .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            fetchData(data_type, which);
-                            data_type = 0;
+            switch (data_type){
+                case 1:
+                    builder.setCustomTitle(view1)
+                            .setSingleChoiceItems(items, precitypos, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    fetchData(data_type, which);
+                                    data_type = 0;
 
 
-                        }
-                    });
+                                }
+                            });
+                    break;
+                    case 2:
+                    builder.setCustomTitle(view1)
+                            .setSingleChoiceItems(items, prehospos, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    fetchData(data_type, which);
+                                    data_type = 0;
+
+
+                                }
+                            });
+                    break;
+                    case 3:
+                    builder.setCustomTitle(view1)
+                            .setSingleChoiceItems(items, predepartpos, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    fetchData(data_type, which);
+                                    data_type = 0;
+
+
+                                }
+                            });
+                    break;
+                    case 4:
+                    builder.setCustomTitle(view1)
+                            .setSingleChoiceItems(items, prespecpos, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    fetchData(data_type, which);
+                                    data_type = 0;
+
+
+                                }
+                            });
+                    break; case 5:
+                    builder.setCustomTitle(view1)
+                            .setSingleChoiceItems(items, predoctpos, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    fetchData(data_type, which);
+                                    data_type = 0;
+
+
+                                }
+                            });
+                    break;
+                    case 6:
+                    builder.setCustomTitle(view1)
+                            .setSingleChoiceItems(items, pretimepos, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    fetchData(data_type, which);
+                                    data_type = 0;
+
+
+                                }
+                            });
+                    break;
+            }
+
             builder.create().show();
         }
     }

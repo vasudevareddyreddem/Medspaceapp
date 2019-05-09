@@ -109,7 +109,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         if(mobile_number.length()<10){
-            edt_mobile_num.setError("number have 10 numbers");
+            edt_mobile_num.setError("Mobile number should be 10 digits");
             return;
         }
 
@@ -131,11 +131,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         if(!password.equals(conform_password)){
-            edt_conform_password.setError("password and conform password are not same");
+            edt_conform_password.setError("password and confirm password are not same");
             return;
         }
         else {
-
 
         final Registration registration=new Registration();
         registration.setName(user_name);
