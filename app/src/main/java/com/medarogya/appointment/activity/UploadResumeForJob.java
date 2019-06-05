@@ -229,9 +229,18 @@ public class UploadResumeForJob extends  BaseActivity {
 
     private void galleryIntent() {
         Intent intent = new Intent();
-        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+
+        intent.setType("*/*");
+        String[] extraMimeTypes = {"application/pdf", "application/doc","image/*"};
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, extraMimeTypes);
+
+        startActivityForResult(intent, SELECT_FILE);
+
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
     @Override

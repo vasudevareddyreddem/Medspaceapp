@@ -33,6 +33,10 @@ public class MedICashHomeActivity extends BaseActivity {
     @BindView(R.id.freehealthcamp_card)
     CardView freehealthcamp_card;
     String UID;
+    @BindView(R.id.lab_app_card)
+    CardView lab_card;
+    @BindView(R.id.pharamcy_card)
+    CardView pharmacy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,10 @@ public class MedICashHomeActivity extends BaseActivity {
         freehealthcamp_card.setOnClickListener(this);
         carriers_jobsearch_card.setOnClickListener(this);
         UID = manager.getSingleField(SessionManager.KEY_ID);
+        lab_card.setOnClickListener(this);
+        pharmacy.setOnClickListener(this);
+
+
 
     }
 
@@ -77,6 +85,12 @@ public class MedICashHomeActivity extends BaseActivity {
                 Intent intent = new Intent(this, WalletHistory.class);
                 intent.putExtra("UID", UID);
                 startActivity(intent);
+                break;
+            case R.id.lab_app_card:
+                startActivity(new Intent(MedICashHomeActivity.this, Lab.class));
+                break;
+            case R.id.pharamcy_card:
+                startActivity(new Intent(MedICashHomeActivity.this, Pharmacy.class));
                 break;
         }
     }

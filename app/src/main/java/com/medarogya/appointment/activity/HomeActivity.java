@@ -146,11 +146,9 @@ public class HomeActivity extends BaseActivity
     @BindView(R.id.med_icash_card)
     CardView med_icash_card;
 
-    @BindView(R.id.pharamcy_card)
-    CardView pharmacy;
 
-    @BindView(R.id.lab_app_card)
-    CardView lab_card;
+
+
 
 
     @BindView(R.id.title_home)
@@ -211,7 +209,7 @@ public class HomeActivity extends BaseActivity
             e.printStackTrace();
         }
 
-        if(!version.equals("1.0.8"))
+        if(!version.equals("1.0.9"))
         {
             final android.app.AlertDialog dialogBuilder = new android.app.AlertDialog.Builder(this).create();
             LayoutInflater inflater = getLayoutInflater();
@@ -243,8 +241,6 @@ public class HomeActivity extends BaseActivity
 
         }
 
-
-
         checkPermissions();
         hamberger = findViewById(R.id.hamberger);
         drawer = findViewById(R.id.drawer_layout);
@@ -268,10 +264,9 @@ public class HomeActivity extends BaseActivity
         profile_settings_lay.setOnClickListener(this);
         profileSettings.setOnClickListener(this);
         open_op_appointment.setOnClickListener(this);
-        lab_card.setOnClickListener(this);
+
         med_icash_card.setOnClickListener(this);
 
-        pharmacy.setOnClickListener(this);
         camera_open.setOnClickListener(this);
         profile_pic.setOnClickListener(this);
         campnotification.setOnClickListener(this);
@@ -596,15 +591,11 @@ public class HomeActivity extends BaseActivity
             case R.id.op_app_card:
                 startActivity(new Intent(HomeActivity.this, OpRegistrationActivity.class));
                 break;
-            case R.id.pharamcy_card:
-                startActivity(new Intent(HomeActivity.this, Pharmacy.class));
-                break;
+
             case R.id.med_icash_card:
                 startActivity(new Intent(HomeActivity.this, MedICashHomeActivity.class));
                 break;
-            case R.id.lab_app_card:
-                startActivity(new Intent(HomeActivity.this, Lab.class));
-                break;
+
             case R.id.campnotification:
                 startActivity(new Intent(HomeActivity.this, HealthNotification.class));
                 break;
