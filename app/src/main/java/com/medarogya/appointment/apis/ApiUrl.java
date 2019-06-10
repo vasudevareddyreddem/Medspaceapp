@@ -8,19 +8,19 @@ public class ApiUrl {
 
     //TODO:for testing
 //
-    public static String BaseUrl = "http://staging.ehealthinfra.com/api/Appointment/";
-    public static String PHARMACYUrl = "http://appointment.ehealthinfra.com/api/user/";
-    public static String WalletBaseUrl = "http://staging.ehealthinfra.com/api/wallet/";
-    public static String DIAGONOSTIC_BASE_URL="http://appointment.ehealthinfra.com/api/diagnostic/";
-    public static String HEALTHCAMPS_BASE_URL="http://staging.ehealthinfra.com/api/user_health_camps/";
+//    public static String BaseUrl = "http://staging.ehealthinfra.com/api/Appointment/";
+//    public static String PHARMACYUrl = "http://appointment.ehealthinfra.com/api/user/";
+//    public static String WalletBaseUrl = "http://staging.ehealthinfra.com/api/wallet/";
+//    public static String DIAGONOSTIC_BASE_URL="http://appointment.ehealthinfra.com/api/diagnostic/";
+//    public static String HEALTHCAMPS_BASE_URL="http://staging.ehealthinfra.com/api/user_health_camps/";
 
 
     //TODO: for live
-//    public static String PHARMACYUrl = "https://medarogya.com/api/user/";
-//    public static String BaseUrl = "https://ehealthinfra.com/api/Appointment/";
-//    public static String WalletBaseUrl = "https://ehealthinfra.com/api/wallet/";
-//    public static String DIAGONOSTIC_BASE_URL = "https://medarogya.com/api/diagnostic/";
-//    public static String HEALTHCAMPS_BASE_URL = "https://ehealthinfra.com/api/user_health_camps/";
+    public static String PHARMACYUrl = "https://medarogya.com/api/user/";
+    public static String BaseUrl = "https://ehealthinfra.com/api/Appointment/";
+    public static String WalletBaseUrl = "https://ehealthinfra.com/api/wallet/";
+    public static String DIAGONOSTIC_BASE_URL = "https://medarogya.com/api/diagnostic/";
+    public static String HEALTHCAMPS_BASE_URL = "https://ehealthinfra.com/api/user_health_camps/";
 
 
     final public static String userLogin = "login";

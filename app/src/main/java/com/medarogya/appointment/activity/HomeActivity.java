@@ -209,37 +209,37 @@ public class HomeActivity extends BaseActivity
             e.printStackTrace();
         }
 
-        if(!version.equals("1.0.9"))
-        {
-            final android.app.AlertDialog dialogBuilder = new android.app.AlertDialog.Builder(this).create();
-            LayoutInflater inflater = getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.app_update, null);
-            Button update = (Button) dialogView.findViewById(R.id.buttonSubmit);
-            Button cancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialogBuilder.dismiss();
-                }
-            });
-            update.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // DO SOMETHINGS
-                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                    } catch (android.content.ActivityNotFoundException anfe) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                    }
-                }
-            });
-
-            dialogBuilder.setView(dialogView);
-            dialogBuilder.show();
-
-        }
+//        if(!version.equals("1.0.9"))
+//        {
+//            final android.app.AlertDialog dialogBuilder = new android.app.AlertDialog.Builder(this).create();
+//            LayoutInflater inflater = getLayoutInflater();
+//            View dialogView = inflater.inflate(R.layout.app_update, null);
+//            Button update = (Button) dialogView.findViewById(R.id.buttonSubmit);
+//            Button cancel = (Button) dialogView.findViewById(R.id.buttonCancel);
+//
+//            cancel.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    dialogBuilder.dismiss();
+//                }
+//            });
+//            update.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    // DO SOMETHINGS
+//                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+//                    try {
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+//                    } catch (android.content.ActivityNotFoundException anfe) {
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+//                    }
+//                }
+//            });
+//
+//            dialogBuilder.setView(dialogView);
+//            dialogBuilder.show();
+//
+//        }
 
         checkPermissions();
         hamberger = findViewById(R.id.hamberger);
