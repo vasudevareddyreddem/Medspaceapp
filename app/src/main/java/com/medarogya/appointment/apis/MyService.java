@@ -58,9 +58,7 @@ public interface MyService {
 
     @POST(ApiUrl.userReg)
     Call<RegResult> registration(@Body Registration registration, @Header("content-type") String contenttype);
-    @POST(ApiUrl.userLogin)
-    Call<LoginResult> login(@Body Login login, @Header("content-type") String contenttype);
-    @POST(ApiUrl.changePsw)
+      @POST(ApiUrl.changePsw)
     Call<RegResult> pswChange(@Body PswChange change, @Header("content-type") String contenttype);
     @POST(ApiUrl.forgetPsw)
     Call<RegResult> forgetPsw(@Body JsonObject s, @Header("content-type") String contenttype);

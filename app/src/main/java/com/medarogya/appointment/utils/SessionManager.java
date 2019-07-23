@@ -8,6 +8,7 @@ import android.util.Log;
 import com.medarogya.appointment.model.Details;
 import com.medarogya.appointment.model.Login;
 import com.medarogya.appointment.model.LoginResult;
+import com.medarogya.appointment.model.OtpResult;
 import com.medarogya.appointment.model.Profile;
 import com.medarogya.appointment.model.RegResult;
 import com.medarogya.appointment.model.Registration;
@@ -66,20 +67,18 @@ public class SessionManager {
 
     // TODO  pack_detaill_status =1 => upgrade package,pack_detaill_status = 2 => package details
 
-    public void createSigninSession(Login login, LoginResult result, boolean rememberme) {
-        if(rememberme){
-            editor.putString(KEY_PASSWORD,login.getPassword());
-        }
-        Details details=result.getDetails();
-        editor.putString(KEY_ID,details.getAUId());
-        editor.putString(KEY_NUMBER,details.getMobile());
-        editor.putString(KEY_EMAIL,details.getEmail());
-        editor.putString(KEY_NAME,details.getName());
+    public void createSigninSession(OtpResult data, boolean rememberme) {
+
+
+        editor.putString(KEY_ID,data.details.aUId);
+        editor.putString(KEY_NUMBER,data.details.mobile);
+        editor.putString(KEY_EMAIL,data.details.email);
+        editor.putString(KEY_NAME,data.details.name);
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN,true);
         editor.putBoolean(KEY_REMEMBER_ME,rememberme);
-        editor.putString(PROFILE_IMG_PATH,details.getPicPath());
-        editor.putString(PROFILE_IMG_URL,result.getPicPath());
+        editor.putString(PROFILE_IMG_PATH,data.picPath);
+        editor.putString(PROFILE_IMG_URL,data.details.profilePic);
         editor.commit();
     }
     public void createSignUpSession(Registration registration, RegResult regResult) {

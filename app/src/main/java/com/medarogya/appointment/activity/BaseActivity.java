@@ -13,8 +13,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.medarogya.appointment.apis.MyService;
 import com.medarogya.appointment.apis.MyServiceDG;
+import com.medarogya.appointment.apis.MyServiceNewLogin;
 import com.medarogya.appointment.apis.MyServicePharmacy;
 import com.medarogya.appointment.utils.DialogsUtils;
 import com.medarogya.appointment.utils.NetworkConnection;
@@ -27,6 +29,7 @@ NetworkConnection connection;
 MyService service;
 MyServiceDG servicedg;
 MyServicePharmacy serviceph;
+MyServiceNewLogin newloginservice;
 ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ ProgressDialog dialog;
         service= MyService.Factory.create(getApplicationContext());
         servicedg= MyServiceDG.Factory.create(getApplicationContext());
         serviceph= MyServicePharmacy.Factorys.create(getApplicationContext());
+        newloginservice= MyServiceNewLogin.Factoryes.create(getApplicationContext());
     }
     public void showDialog(){
         if(dialog==null){
@@ -67,22 +71,22 @@ ProgressDialog dialog;
     String token=null;
     public String getToken() {
         // Get token
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
+
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (!task.isSuccessful()) {
-//                            Log.w(TAG, "getInstanceId failed", task.getException());
                             return;
                         }
 
                         // Get new Instance ID token
-                         token = task.getResult().getToken();
-
+                        token = task.getResult().getToken();
+                        manager.storeToken(token);
+                        Log.e("======  ", token);
                         // Log and toast
-//                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, ""+token);
-//                        Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(HomeActivity.this, token, Toast.LENGTH_SHORT).show();
                     }
                 });
 
