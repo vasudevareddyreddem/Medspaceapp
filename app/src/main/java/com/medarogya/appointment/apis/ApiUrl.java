@@ -30,6 +30,7 @@ public class ApiUrl {
     final public static String resend_otp = "resend_otp";
     final public static String userReg = "register";
     final public static String forgetPsw = "forgotpassword";
+    final public static String coupons = "coupons";
     final public static String citys = "citys";
     final public static String cities = "cities";
     final public static String depts = "department_list";

@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.medarogya.appointment.model.CitiesList;
 import com.medarogya.appointment.model.Login;
 import com.medarogya.appointment.model.LoginResult;
+import com.medarogya.appointment.model.RegResult;
+import com.medarogya.appointment.model.Registration;
 import com.medarogya.appointment.model.TimePickerList;
 
 import java.util.concurrent.TimeUnit;
@@ -40,7 +42,7 @@ public interface MyServiceNewLogin {
         }
     }
 
-    @POST(ApiUrl.login)
-    Call<LoginResult> login(@Body Login login, @Header("content-type") String contenttype);
+    @POST(ApiUrl.userReg)
+    Call<RegResult> registration(@Body Registration registration, @Header("content-type") String contenttype);
 
 }

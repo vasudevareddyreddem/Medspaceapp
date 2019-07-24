@@ -216,6 +216,7 @@ String userId="";
 
                             if(data.status.equals(1))
                             {
+                                showToast(data.message);
                                 manager.createSigninSession(data,true);
                                 startActivity(new Intent(SignInActivity.this, HomeActivity.class));
                                 finish();

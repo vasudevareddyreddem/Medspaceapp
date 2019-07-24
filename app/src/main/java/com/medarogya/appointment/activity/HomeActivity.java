@@ -104,8 +104,7 @@ import retrofit2.Response;
 
 public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    static int SELECT_FILE = 1;
-    static int REQUEST_CAMERA = 2;
+
 
     @BindView(R.id.campnotification)
     ImageView campnotification;
@@ -172,12 +171,13 @@ public class HomeActivity extends BaseActivity
     private int delay = 5000; //milliseconds
     private int page = 0;
     MyAllCardAdapter adapter;
+        static int SELECT_FILE = 1;
+        static int REQUEST_CAMERA = 2;
+        String[] permissions = new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA};
 
-    String[] permissions = new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA};
-
-    public static final int MULTIPLE_PERMISSIONS = 10;
+        public static final int MULTIPLE_PERMISSIONS = 10;
     String  version=null,packageName=null;
     Dialog dialog;
 

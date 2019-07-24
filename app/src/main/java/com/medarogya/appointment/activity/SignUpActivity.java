@@ -37,18 +37,15 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.cardno)
     EditText edt_cardno;
 
-    @BindView(R.id.password)
-    EditText edt_password;
-
-    @BindView(R.id.repassword)
-    EditText edt_conform_password;
+    @BindView(R.id.user_city)
+    EditText user_city;
 
     @BindView(R.id.signup)
     Button signup;
     @BindView(R.id.txt_sign_in)
     TextView sign_in;
     static final Pattern CODE_PATTERN = Pattern.compile("([0-9]{0,4})|([0-9]{4}-)+|([0-9]{4}-[0-9]{0,4})+");
-
+String  token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,17 +74,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private void signUpUser() {
 
 
-
-//        String cardNo=edt_cardno.getText().toString();
-//        if(cardNo==null||cardNo.isEmpty()){
-//            edt_cardno.setError("Plase enter cardNo");
-//            return;
-//        }
-//        if(cardNo.length()<12) {
-//            edt_cardno.setError("Plase enter valid card no.");
-//            return;
-//        }
-
         String user_name=edt_user_name.getText().toString();
         if(user_name==null||user_name.isEmpty()){
             edt_user_name.setError("Please Enter username");
@@ -115,23 +101,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
 
 
-        String password=edt_password.getText().toString();
-        String conform_password=edt_conform_password.getText().toString();
-        if(password==null||password.isEmpty()){
-            edt_password.setError("enter password");
-            return;
-        }
-        if(password.length()<6){
-            edt_password.setError("password must be  mininum 6 charecters");
-            return;
-        }
-
-        if(conform_password==null||conform_password.isEmpty()){
-            edt_conform_password.setError("re-enter password");
-            return;
-        }
-        if(!password.equals(conform_password)){
-            edt_conform_password.setError("password and confirm password are not same");
+        String city=user_city.getText().toString();
+        if(city==null||city.isEmpty()){
+            user_city.setError("enter password");
             return;
         }
         else {
@@ -140,10 +112,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         registration.setName(user_name);
         registration.setEmail(user_email);
         registration.setMobile(mobile_number);
-       // registration.setCardno(cardNo);
-        registration.setPassword(password);
-        registration.setConfirmpassword(conform_password);
-        String token=getToken();
+        registration.setCity(city);
+         token=getToken();
       //  Log.e("token====",token);
         if(token==null)
             token=manager.getSingleField(SessionManager.Token);
@@ -152,7 +122,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         registration.setToken(token);
 //        MyService service=MyService.Factory.create(getApplication());
         if(isConnected()) {
-            Call<RegResult> call=service.registration(registration, ApiUrl.content_type);
+            Call<RegResult> call=newloginservice.registration(registration, ApiUrl.content_type);
             showDialog();
             call.enqueue(new Callback<RegResult>() {
                 @Override

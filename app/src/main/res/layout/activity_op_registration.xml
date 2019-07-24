@@ -317,6 +317,40 @@
                     android:padding="8dp"
                     android:src="@drawable/dropdown_icon" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="2"
+                android:layout_marginTop="5dp"
+                >
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_margin="5dp"
+                    android:id="@+id/radioGroup"
+                    >
+                    <RadioButton
+                        android:id="@+id/radio_hospital"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="pay at hospital"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        />
+                    <RadioButton
+                        android:id="@+id/radio_online"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:layout_margin="5dp"
+                        android:text="online payment" />
+                </RadioGroup>
+            </LinearLayout>
 
 
             <CheckBox

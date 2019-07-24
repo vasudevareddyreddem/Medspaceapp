@@ -18,12 +18,9 @@ public class Registration{
     @SerializedName("mobile")
     @Expose
     private String mobile;
-    @SerializedName("password")
+    @SerializedName("city")
     @Expose
-    private String password;
-    @SerializedName("confirmpassword")
-    @Expose
-    private String confirmpassword;
+    private String city;
 
     @SerializedName("token")
     @Expose
@@ -59,22 +56,13 @@ public class Registration{
         this.mobile = mobile;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCity() {
+        return city;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCity(String city) {
+        this.city = city;
     }
-
-    public String getConfirmpassword() {
-        return confirmpassword;
-    }
-
-    public void setConfirmpassword(String confirmpassword) {
-        this.confirmpassword = confirmpassword;
-    }
-
 //    public String getCardno() {
 //        return cardno;
 //    }

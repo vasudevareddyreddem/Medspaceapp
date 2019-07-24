@@ -56,9 +56,7 @@ public interface MyService {
         }
     }
 
-    @POST(ApiUrl.userReg)
-    Call<RegResult> registration(@Body Registration registration, @Header("content-type") String contenttype);
-      @POST(ApiUrl.changePsw)
+       @POST(ApiUrl.changePsw)
     Call<RegResult> pswChange(@Body PswChange change, @Header("content-type") String contenttype);
     @POST(ApiUrl.forgetPsw)
     Call<RegResult> forgetPsw(@Body JsonObject s, @Header("content-type") String contenttype);
@@ -96,7 +94,7 @@ public interface MyService {
     @POST(ApiUrl.cardgenerator)
     Call<String> cardgenerator(@Body String body,@Header("content-type") String contenttype);
 
-
+    @Multipart
     @POST(ApiUrl.uploadprescription)
     Call<RegResult> uploadPrescription(@Part MultipartBody.Part file, @Part("a_u_id") RequestBody id,@Part("hos_id") RequestBody hos_id);
 

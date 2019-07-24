@@ -86,6 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
+                android:textCursorDrawable="@color/colorPrimary"
+                android:focusableInTouchMode="true"
                 android:background="@color/colorWhite"
                 android:hint="@string/user_name"
                 android:inputType="textEmailAddress"
@@ -115,6 +117,8 @@
                 android:layout_marginStart="5dp"
                 android:background="@color/colorWhite"
                 android:hint="@string/user_email"
+                android:textCursorDrawable="@color/colorPrimary"
+                android:focusableInTouchMode="true"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -142,6 +146,8 @@
                 android:hint="@string/user_number"
                 android:inputType="number"
                 android:maxLines="1"
+                android:textCursorDrawable="@color/colorPrimary"
+                android:focusableInTouchMode="true"
                 android:maxLength="10"
                 android:singleLine="true" />
 
@@ -152,57 +158,33 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/sign_text_shape"
-            android:orientation="horizontal"
+            android:gravity="center"
             android:padding="10dp">
 
             <ImageView
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
-                android:layout_gravity="center"
-
-                android:src="@drawable/password" />
+                android:src="@drawable/city" />
 
             <EditText
-                android:id="@+id/password"
+
+                android:id="@+id/user_city"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
                 android:layout_marginStart="5dp"
                 android:background="@color/colorWhite"
-                android:hint="@string/password"
-                android:inputType="textPassword"
+                android:hint="@string/user_city"
+                android:textCursorDrawable="@color/colorPrimary"
+                android:focusableInTouchMode="true"
+                android:inputType="text"
                 android:maxLines="1"
+
                 android:singleLine="true" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/sign_text_shape"
-            android:orientation="horizontal"
-            android:padding="10dp">
 
-            <ImageView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_gravity="center"
-                android:src="@drawable/password" />
 
-            <EditText
-                android:id="@+id/repassword"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:background="@color/colorWhite"
-                android:hint="@string/conform_password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -18,6 +18,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +124,10 @@ public class OpRegistrationActivity extends BaseActivity  {
     List<TimeSlot> timeSlots = null;
     String city, dept, spl, doct, time, hospital, hos_id, dept_id, spl_id, doct_id;
     TagsAdapter tagsAdapter;
+    @BindView(R.id.radio_online)
+    RadioButton radio_online;
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
 
     int precitypos=-1;
     int prehospos=-1;
@@ -138,6 +144,7 @@ public class OpRegistrationActivity extends BaseActivity  {
         back.setOnClickListener(this);
         addOp.setOnClickListener(this);
         dateOfReg.setOnClickListener(this);
+        radioGroup.setOnClickListener(this);
         edt_cardNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
             private boolean backspacingFlag = false;
             private boolean editedFlag = false;
@@ -180,6 +187,17 @@ public class OpRegistrationActivity extends BaseActivity  {
                     }
                 } else {
                     editedFlag = false;
+                }
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==R.id.radio_online){
+                    Intent intent=new Intent(OpRegistrationActivity.this,NewCouponActivity.class);
+                    startActivity(intent);
                 }
             }
         });

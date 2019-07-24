@@ -60,8 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
-            android:cursorVisible="false"
-
+            android:textCursorDrawable="@color/colorPrimary"
+            android:focusableInTouchMode="true"
             android:background="@color/colorWhite"
             android:hint="@string/user_number"
             android:inputType="number"
@@ -176,8 +176,8 @@
                 android:layout_marginStart="5dp"
                 android:background="@color/colorWhite"
                 android:hint="Enter OTP"
-                android:cursorVisible="false"
-                android:inputType="number"
+                android:textCursorDrawable="@color/colorPrimary"
+                android:focusableInTouchMode="true"                android:inputType="number"
                 android:maxLines="1"
                 android:maxLength="6"
                 android:singleLine="true" />

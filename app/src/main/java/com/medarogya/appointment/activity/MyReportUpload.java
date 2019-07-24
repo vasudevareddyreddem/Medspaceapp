@@ -48,6 +48,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyReportUpload extends BaseActivity {
 
@@ -285,7 +286,7 @@ public class MyReportUpload extends BaseActivity {
 
                 call.enqueue(new Callback<RegResult>() {
                     @Override
-                    public void onResponse(Call<RegResult> call, retrofit2.Response<RegResult> response) {
+                    public void onResponse(Call<RegResult> call, Response<RegResult> response) {
 
                         if (!response.isSuccessful()) {
 
