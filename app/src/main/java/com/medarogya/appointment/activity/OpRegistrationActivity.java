@@ -68,7 +68,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OpRegistrationActivity extends BaseActivity  {
+public class OpRegistrationActivity extends BaseActivity {
     @BindView(R.id.date_of_reg)
     EditText dateOfReg;
 
@@ -78,7 +78,7 @@ public class OpRegistrationActivity extends BaseActivity  {
     @BindView(R.id.name)
     EditText edt_name;
 
-   @BindView(R.id.cardNum)
+    @BindView(R.id.cardNum)
     EditText edt_cardNum;
 
 
@@ -114,27 +114,29 @@ public class OpRegistrationActivity extends BaseActivity  {
     LinearLayout layout;
 
     @BindView(R.id.btn_add_op)
-    Button addOp;
+    Button btn_addOp;
 
+    @BindView(R.id.btn_pay_online)
+    Button btn_paynow;
+    @BindView(R.id.edt_coupon_enter)
+    TextView edt_coupon_enter;
+    DoctorConsultFeePojo fee;
     List<City> cities = null;
     List<Department> departments = null;
     List<Specialist> specialists = null;
     List<Doctorlist> doctorlists = null;
     List<Hospital> hospitals = null;
     List<TimeSlot> timeSlots = null;
-    String city, dept, spl, doct, time, hospital, hos_id, dept_id, spl_id, doct_id;
-    TagsAdapter tagsAdapter;
+    String city, dept, spl, doct, time, hospital, hos_id, dept_id, spl_id, doct_id, cAmount, cName;
     @BindView(R.id.radio_online)
     RadioButton radio_online;
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
+    @BindView(R.id.ll_radiobutton)
+    LinearLayout ll_radiobutton;
 
-    int precitypos=-1;
-    int prehospos=-1;
-    int predepartpos=-1;
-    int prespecpos=-1;
-    int predoctpos=-1;
-    int pretimepos=-1;
+    int precitypos = -1,prehospos = -1,predepartpos = -1,prespecpos = -1,predoctpos = -1,pretimepos = -1,amt;
+    private int request_code = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +144,8 @@ public class OpRegistrationActivity extends BaseActivity  {
         setContentView(R.layout.activity_op_registration);
         ButterKnife.bind(this);
         back.setOnClickListener(this);
-        addOp.setOnClickListener(this);
+        btn_addOp.setOnClickListener(this);
+        btn_paynow.setOnClickListener(this);
         dateOfReg.setOnClickListener(this);
         radioGroup.setOnClickListener(this);
         edt_cardNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
@@ -191,16 +194,26 @@ public class OpRegistrationActivity extends BaseActivity  {
             }
         });
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.radio_online){
-                    Intent intent=new Intent(OpRegistrationActivity.this,NewCouponActivity.class);
-                    startActivity(intent);
+                if (checkedId == R.id.radio_online) {
+                    btn_paynow.setVisibility(View.VISIBLE);
+                    edt_coupon_enter.setVisibility(View.VISIBLE);
+                    btn_addOp.setVisibility(View.GONE);
+                    Intent intent = new Intent(OpRegistrationActivity.this, NewCouponActivity.class);
+                    startActivityForResult(intent, request_code);
+
+                }
+                if (checkedId == R.id.radio_hospital) {
+                    btn_paynow.setVisibility(View.GONE);
+                    edt_coupon_enter.setVisibility(View.GONE);
+                    btn_addOp.setVisibility(View.VISIBLE);
+                    txt_consultationfee.setText("Consultation fee: ₹" +Integer.parseInt(fee.consultationFee));
                 }
             }
         });
+
 
         if (isConnected()) {
             FeatchCity();
@@ -210,17 +223,30 @@ public class OpRegistrationActivity extends BaseActivity  {
 
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == request_code && resultCode == RESULT_OK){
+                cName = data.getStringExtra("cName");
+                cAmount = data.getStringExtra("cAmount");
+            Toast.makeText(this, cAmount, Toast.LENGTH_SHORT).show();
+                edt_coupon_enter.setText(cName);
+                amt=Integer.parseInt(fee.consultationFee)-Integer.parseInt(cAmount);
+                txt_consultationfee.setText("Consultation fee: ₹" + amt);
+
+        }
+    }
+
     private void fetchData(int data_type, int position) {
         switch (data_type) {
             case 1:
                 city = cities.get(position).getValue();
                 city_txt.setText(city);
-                precitypos=position;
-                prehospos=-1;
-                predepartpos=-1;
-                prespecpos=-1;
-                predoctpos=-1;
-                pretimepos=-1;
+                precitypos = position;
+                prehospos = -1;
+                predepartpos = -1;
+                prespecpos = -1;
+                predoctpos = -1;
+                pretimepos = -1;
                 FetchHospitals(city);
                 dept = null;
 
@@ -230,8 +256,8 @@ public class OpRegistrationActivity extends BaseActivity  {
                 specialists = null;
                 hospitals = null;
                 doctorlists = null;
-                departments=null;
-                timeSlots=null;
+                departments = null;
+                timeSlots = null;
                 hos_txt.setText("Select Hospital");
                 doct = null;
                 doctor_txt.setText("Select Doctor");
@@ -240,19 +266,20 @@ public class OpRegistrationActivity extends BaseActivity  {
                 checkboxfee.setEnabled(false);
 
                 txt_consultationfee.setVisibility(View.INVISIBLE);
+                ll_radiobutton.setVisibility(View.GONE);
                 break;
             case 2:
                 hospital = hospitals.get(position).getValue();
                 hos_id = hospitals.get(position).getId();
-                prehospos=position;
-                predepartpos=-1;
-                prespecpos=-1;
-                predoctpos=-1;
-                pretimepos=-1;
+                prehospos = position;
+                predepartpos = -1;
+                prespecpos = -1;
+                predoctpos = -1;
+                pretimepos = -1;
                 hos_txt.setText(hospital);
                 FetchDepatments(hos_id);
 
-                departments=null;
+                departments = null;
                 specialists = null;
                 doctorlists = null;
                 timeSlots = null;
@@ -268,15 +295,16 @@ public class OpRegistrationActivity extends BaseActivity  {
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
                 txt_consultationfee.setVisibility(View.INVISIBLE);
+                ll_radiobutton.setVisibility(View.GONE);
                 break;
             case 3:
                 dept = departments.get(position).getValue();
                 dept_txt.setText(dept);
-                predepartpos=position;
+                predepartpos = position;
 
-                prespecpos=-1;
-                predoctpos=-1;
-                pretimepos=-1;
+                prespecpos = -1;
+                predoctpos = -1;
+                pretimepos = -1;
                 dept_id = departments.get(position).getDepartment_id();
                 FetchSpecialists(hos_id, dept_id);
                 specialists = null;
@@ -291,12 +319,14 @@ public class OpRegistrationActivity extends BaseActivity  {
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
                 txt_consultationfee.setVisibility(View.INVISIBLE);
+                ll_radiobutton.setVisibility(View.GONE);
+
                 break;
             case 4:
                 spl = specialists.get(position).getValue();
-                prespecpos=position;
-                predoctpos=-1;
-                pretimepos=-1;
+                prespecpos = position;
+                predoctpos = -1;
+                pretimepos = -1;
                 spl_id = specialists.get(position).getSpecialist_id();
                 spl_txt.setText(spl);
                 doctorlists = null;
@@ -310,13 +340,15 @@ public class OpRegistrationActivity extends BaseActivity  {
                 checkboxfee.setEnabled(false);
                 checkboxfee.setChecked(false);
                 txt_consultationfee.setVisibility(View.INVISIBLE);
+                ll_radiobutton.setVisibility(View.GONE);
+
 
                 break;
             case 5:
                 doct = doctorlists.get(position).getValue();
-                predoctpos=position;
+                predoctpos = position;
 
-                pretimepos=-1;
+                pretimepos = -1;
                 doct_id = doctorlists.get(position).getDoctor_id();
                 doctor_txt.setText(doct);
                 FetchDoctorConsultFee(doct_id);
@@ -329,7 +361,7 @@ public class OpRegistrationActivity extends BaseActivity  {
 
             case 6:
                 time = timeSlots.get(position).getStime();
-                pretimepos=position;
+                pretimepos = position;
 
                 time_txt.setText(time.toString());
 
@@ -339,7 +371,6 @@ public class OpRegistrationActivity extends BaseActivity  {
     }
 
     private void FetchDoctorConsultFee(final String doct_id) {
-
 
 
         showDialog();
@@ -366,16 +397,17 @@ public class OpRegistrationActivity extends BaseActivity  {
                             hideDialog();
                             Gson gson = new Gson();
 
-                            DoctorConsultFeePojo fee = gson.fromJson(response.toString(), DoctorConsultFeePojo.class);
+                             fee = gson.fromJson(response.toString(), DoctorConsultFeePojo.class);
                             if (fee.status == 1) {
-                                if(fee.consultationFee==null) {
+                                if (fee.consultationFee == null) {
                                     txt_consultationfee.setText("Consultation fee : nill");
-                                }else {
+                                } else {
                                     txt_consultationfee.setText("Consultation fee: ₹" + fee.consultationFee);
+
                                 }
 
                             } else {
-                                    showToast(fee.message);
+                                showToast(fee.message);
 
                             }
                         }
@@ -715,9 +747,7 @@ public class OpRegistrationActivity extends BaseActivity  {
 
 
                 RegResult regResult = response.body();
-                if (regResult.getStatus() == 1)
-
-                {
+                if (regResult.getStatus() == 1) {
                     Toast.makeText(OpRegistrationActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
 
                     finish();
@@ -846,7 +876,7 @@ public class OpRegistrationActivity extends BaseActivity  {
             View view1 = getLayoutInflater().inflate(R.layout.spinner_item, null);
             TextView mTitle = view1.findViewById(R.id.txt_item);
             mTitle.setText(title);
-            switch (data_type){
+            switch (data_type) {
                 case 1:
                     builder.setCustomTitle(view1)
                             .setSingleChoiceItems(items, precitypos, new DialogInterface.OnClickListener() {
@@ -860,7 +890,7 @@ public class OpRegistrationActivity extends BaseActivity  {
                                 }
                             });
                     break;
-                    case 2:
+                case 2:
                     builder.setCustomTitle(view1)
                             .setSingleChoiceItems(items, prehospos, new DialogInterface.OnClickListener() {
                                 @Override
@@ -873,7 +903,7 @@ public class OpRegistrationActivity extends BaseActivity  {
                                 }
                             });
                     break;
-                    case 3:
+                case 3:
                     builder.setCustomTitle(view1)
                             .setSingleChoiceItems(items, predepartpos, new DialogInterface.OnClickListener() {
                                 @Override
@@ -886,7 +916,7 @@ public class OpRegistrationActivity extends BaseActivity  {
                                 }
                             });
                     break;
-                    case 4:
+                case 4:
                     builder.setCustomTitle(view1)
                             .setSingleChoiceItems(items, prespecpos, new DialogInterface.OnClickListener() {
                                 @Override
@@ -898,7 +928,8 @@ public class OpRegistrationActivity extends BaseActivity  {
 
                                 }
                             });
-                    break; case 5:
+                    break;
+                case 5:
                     builder.setCustomTitle(view1)
                             .setSingleChoiceItems(items, predoctpos, new DialogInterface.OnClickListener() {
                                 @Override
@@ -911,7 +942,7 @@ public class OpRegistrationActivity extends BaseActivity  {
                                 }
                             });
                     break;
-                    case 6:
+                case 6:
                     builder.setCustomTitle(view1)
                             .setSingleChoiceItems(items, pretimepos, new DialogInterface.OnClickListener() {
                                 @Override
@@ -933,7 +964,6 @@ public class OpRegistrationActivity extends BaseActivity  {
     ArrayList<Hospital> out = new ArrayList<>();
 
 
-
     private String[] getStringArray(List formatters) {
         String[] strings = new String[formatters.size()];
         for (int i = 0; i < formatters.size(); i++) {
@@ -943,22 +973,27 @@ public class OpRegistrationActivity extends BaseActivity  {
     }
 
 
-
-
-
     public void showConsultationFee(View view) {
         if (checkboxfee.isChecked()) {
             txt_consultationfee.setVisibility(View.VISIBLE);
-            addOp.setBackgroundResource(R.drawable.sign_button_shape);
-            addOp.setEnabled(true);
+            ll_radiobutton.setVisibility(View.VISIBLE);
+            btn_addOp.setBackgroundResource(R.drawable.sign_button_shape);
+            btn_addOp.setEnabled(true);
+            btn_paynow.setBackgroundResource(R.drawable.sign_button_shape);
+            btn_paynow.setEnabled(true);
         } else {
             txt_consultationfee.setVisibility(View.INVISIBLE);
-            addOp.setBackgroundResource(R.drawable.disable_burtton_shape);
-            addOp.setEnabled(false);
+            ll_radiobutton.setVisibility(View.GONE);
+
+            btn_addOp.setBackgroundResource(R.drawable.disable_burtton_shape);
+            btn_addOp.setEnabled(false);
+            btn_paynow.setBackgroundResource(R.drawable.disable_burtton_shape);
+            btn_paynow.setEnabled(false);
         }
     }
+
     public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
+        if (getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }

@@ -25,7 +25,7 @@ android:orientation="vertical"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="Available Coupons"
+            android:text="Select Coupon"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorWhite" />
 

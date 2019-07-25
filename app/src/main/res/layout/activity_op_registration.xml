@@ -322,6 +322,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:weightSum="2"
+                android:visibility="gone"
+                android:id="@+id/ll_radiobutton"
                 android:layout_marginTop="5dp"
                 >
                 <RadioGroup
@@ -372,6 +374,18 @@
          android:textColor="#111"
          android:visibility="invisible"
          android:id="@+id/txt_consultationfee"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:background="@drawable/boxborder_shape"
+                android:layout_margin="@dimen/margin_space"
+                android:padding="10dp"
+                android:textColor="#111"
+                android:hint="Enter Coupen here"
+                android:id="@+id/edt_coupon_enter"/>
         </LinearLayout>
 
 
@@ -392,7 +406,20 @@
             android:enabled="false"
             android:background="@drawable/disable_burtton_shape"
             android:gravity="center"
+            android:visibility="gone"
             android:text="@string/add_op"
+            android:textAllCaps="false"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textColor="@color/colorWhite" />
+ <Button
+            android:id="@+id/btn_pay_online"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:enabled="false"
+            android:background="@drawable/disable_burtton_shape"
+            android:gravity="center"
+     android:visibility="gone"
+            android:text="Pay Now"
             android:textAllCaps="false"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             android:textColor="@color/colorWhite" />
