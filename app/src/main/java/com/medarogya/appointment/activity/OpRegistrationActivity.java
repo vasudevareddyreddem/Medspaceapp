@@ -1,5 +1,6 @@
 package com.medarogya.appointment.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -45,6 +46,7 @@ import com.medarogya.appointment.model.Formatter;
 import com.medarogya.appointment.model.Hospital;
 import com.medarogya.appointment.model.HospitalList;
 import com.medarogya.appointment.model.DoctorConsultFeePojo;
+import com.medarogya.appointment.model.OnlinePaymentPojo;
 import com.medarogya.appointment.model.RegResult;
 import com.medarogya.appointment.model.Specialist;
 import com.medarogya.appointment.model.Specialists;
@@ -52,6 +54,8 @@ import com.medarogya.appointment.model.TimeSlot;
 import com.medarogya.appointment.model.TimeSlotlists;
 import com.medarogya.appointment.utils.MessageToast;
 import com.medarogya.appointment.utils.SessionManager;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +72,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OpRegistrationActivity extends BaseActivity {
+public class OpRegistrationActivity extends BaseActivity implements PaymentResultListener {
     @BindView(R.id.date_of_reg)
     EditText dateOfReg;
 
@@ -117,7 +121,7 @@ public class OpRegistrationActivity extends BaseActivity {
     Button btn_addOp;
 
     @BindView(R.id.btn_pay_online)
-    Button btn_paynow;
+    Button btn_paynows;
     @BindView(R.id.edt_coupon_enter)
     TextView edt_coupon_enter;
     DoctorConsultFeePojo fee;
@@ -127,7 +131,7 @@ public class OpRegistrationActivity extends BaseActivity {
     List<Doctorlist> doctorlists = null;
     List<Hospital> hospitals = null;
     List<TimeSlot> timeSlots = null;
-    String city, dept, spl, doct, time, hospital, hos_id, dept_id, spl_id, doct_id, cAmount, cName;
+    String city, dept, spl, doct, time, hospital, hos_id, dept_id, spl_id, doct_id,cp_id, cAmount, cName;
     @BindView(R.id.radio_online)
     RadioButton radio_online;
     @BindView(R.id.radioGroup)
@@ -137,6 +141,8 @@ public class OpRegistrationActivity extends BaseActivity {
 
     int precitypos = -1,prehospos = -1,predepartpos = -1,prespecpos = -1,predoctpos = -1,pretimepos = -1,amt;
     private int request_code = 100;
+    double total;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +151,7 @@ public class OpRegistrationActivity extends BaseActivity {
         ButterKnife.bind(this);
         back.setOnClickListener(this);
         btn_addOp.setOnClickListener(this);
-        btn_paynow.setOnClickListener(this);
+        btn_paynows.setOnClickListener(this);
         dateOfReg.setOnClickListener(this);
         radioGroup.setOnClickListener(this);
         edt_cardNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
@@ -198,7 +204,7 @@ public class OpRegistrationActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radio_online) {
-                    btn_paynow.setVisibility(View.VISIBLE);
+                    btn_paynows.setVisibility(View.VISIBLE);
                     edt_coupon_enter.setVisibility(View.VISIBLE);
                     btn_addOp.setVisibility(View.GONE);
                     Intent intent = new Intent(OpRegistrationActivity.this, NewCouponActivity.class);
@@ -206,7 +212,7 @@ public class OpRegistrationActivity extends BaseActivity {
 
                 }
                 if (checkedId == R.id.radio_hospital) {
-                    btn_paynow.setVisibility(View.GONE);
+                    btn_paynows.setVisibility(View.GONE);
                     edt_coupon_enter.setVisibility(View.GONE);
                     btn_addOp.setVisibility(View.VISIBLE);
                     txt_consultationfee.setText("Consultation fee: ₹" +Integer.parseInt(fee.consultationFee));
@@ -228,6 +234,7 @@ public class OpRegistrationActivity extends BaseActivity {
         if(requestCode == request_code && resultCode == RESULT_OK){
                 cName = data.getStringExtra("cName");
                 cAmount = data.getStringExtra("cAmount");
+                cp_id = data.getStringExtra("cp_id");
             Toast.makeText(this, cAmount, Toast.LENGTH_SHORT).show();
                 edt_coupon_enter.setText(cName);
                 amt=Integer.parseInt(fee.consultationFee)-Integer.parseInt(cAmount);
@@ -778,6 +785,9 @@ public class OpRegistrationActivity extends BaseActivity {
             case R.id.date_of_reg:
                 showDatePicker();
                 break;
+                case R.id.btn_pay_online:
+                    callOnlinePayment();
+                    break;
 
         }
     }
@@ -979,16 +989,16 @@ public class OpRegistrationActivity extends BaseActivity {
             ll_radiobutton.setVisibility(View.VISIBLE);
             btn_addOp.setBackgroundResource(R.drawable.sign_button_shape);
             btn_addOp.setEnabled(true);
-            btn_paynow.setBackgroundResource(R.drawable.sign_button_shape);
-            btn_paynow.setEnabled(true);
+            btn_paynows.setBackgroundResource(R.drawable.sign_button_shape);
+            btn_paynows.setEnabled(true);
         } else {
             txt_consultationfee.setVisibility(View.INVISIBLE);
             ll_radiobutton.setVisibility(View.GONE);
 
             btn_addOp.setBackgroundResource(R.drawable.disable_burtton_shape);
             btn_addOp.setEnabled(false);
-            btn_paynow.setBackgroundResource(R.drawable.disable_burtton_shape);
-            btn_paynow.setEnabled(false);
+            btn_paynows.setBackgroundResource(R.drawable.disable_burtton_shape);
+            btn_paynows.setEnabled(false);
         }
     }
 
@@ -998,4 +1008,132 @@ public class OpRegistrationActivity extends BaseActivity {
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+    public void callOnlinePayment() {
+        /**
+         * You need to pass current activity in order to let Razorpay create CheckoutActivity
+         */
+        final Activity activity = this;
+
+        final Checkout co = new Checkout();
+
+        try {
+            JSONObject options = new JSONObject();
+            options.put("name", manager.getSingleField(SessionManager.KEY_NAME));
+            options.put("description", "Payment");
+            //You can omit the image option to fetch the image from dashboard
+            options.put("image", "https://rzp-mobile.s3.amazonaws.com/images/rzp.png");
+            options.put("currency", "INR");
+            total = Double.parseDouble(String.valueOf(amt));
+            total = total * 100;
+
+            options.put("amount", total);
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", manager.getSingleField(SessionManager.KEY_EMAIL));
+            preFill.put("contact", manager.getSingleField(SessionManager.KEY_NUMBER));
+
+            options.put("prefill", preFill);
+
+            co.open(activity, options);
+        } catch (Exception e) {
+            total = 0;
+            Toast.makeText(activity, "Error in payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onPaymentSuccess(String razorpayPaymentID) {
+
+
+        CallApi(razorpayPaymentID);
+    }
+
+    private void CallApi(String razorpayPaymentID) {
+
+        showDialog();
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        final String UID = manager.getSingleField(SessionManager.KEY_ID);
+
+        try {
+            jsonObject.put("a_u_id", UID);
+            jsonObject.put("cp_id", cp_id);
+            jsonObject.put("payment_type", "1");
+            jsonObject.put("payment_id", "");
+            jsonObject.put("coupon", cName);
+            jsonObject.put("t_amount", fee.consultationFee.toString());
+            jsonObject.put("paid_amount", amt);
+            jsonObject.put("coupon_amount", cAmount);
+
+            jsonObject.put("razorpay_payment_id", razorpayPaymentID);
+            jsonObject.put("razorpay_order_id", "");
+            jsonObject.put("razorpay_signature", "");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.NewLoginBaseUrl + ApiUrl.appoinmentpayments, new JSONObject(json),
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            hideDialog();
+
+                            Gson gson = new Gson();
+
+                            OnlinePaymentPojo codData = gson.fromJson(response.toString(), OnlinePaymentPojo.class);
+                            if (codData.status == 1) {
+                                finish();
+
+                                showToast("Successfully Order");
+                                amt = 0;
+                            } else {
+                                showToast("UnSuccessful Order");
+                                amt = 0;
+                            }
+                        }
+
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    amt=0;
+                    showToast(getResources().getString(R.string.serverproblem));
+
+                }
+            });
+
+            RequestQueue queue = Volley.newRequestQueue(OpRegistrationActivity.this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            hideDialog();
+            amt = 0;
+            showToast(getResources().getString(R.string.serverproblem));
+
+        }
+
+
+    }
+
+    @Override
+    public void onPaymentError(int code, String response) {
+        total = 0;
+        try {
+            Toast.makeText(this, "Payment error please try again", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("OnPaymentError", "Exception in onPaymentError", e);
+        }
+    }
+
+
 }

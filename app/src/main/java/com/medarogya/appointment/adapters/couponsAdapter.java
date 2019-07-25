@@ -54,6 +54,7 @@ public class couponsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Intent intent = new Intent();
                     intent.putExtra("cName", callintlist.get(position).cName);
                     intent.putExtra("cAmount", callintlist.get(position).cAmount);
+                    intent.putExtra("cp_id", callintlist.get(position).cpId);
                     context.setResult(RESULT_OK, intent);
                     context.finish();
                 }

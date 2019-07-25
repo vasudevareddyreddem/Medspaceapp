@@ -98,7 +98,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_live_8oTwGtVqjBWSSb" /> <!-- android:value="rzp_test_FMROR38S2ObKGw" /> -->
+            android:value="rzp_test_1CSnweG2HOTawb" /> <!-- android:value="rzp_live_8oTwGtVqjBWSSb" /> -->
         <!-- [START fcm_default_icon] -->
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
