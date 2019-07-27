@@ -32,6 +32,7 @@ public class ApiUrl {
     final public static String forgetPsw = "forgotpassword";
     final public static String coupons = "coupons";
     final public static String appoinmentpayments = "appoinmentpayments";
+    final public static String details = "details";
     final public static String citys = "citys";
     final public static String cities = "cities";
     final public static String depts = "department_list";

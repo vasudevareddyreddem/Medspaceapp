@@ -199,15 +199,15 @@
                     android:padding="8dp"
                     android:src="@drawable/dropdown_icon" />
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_space"
                 android:background="@drawable/sign_text_shape"
                 android:padding="12dp">
-
-                <EditText
-                    android:id="@+id/name"
+                <AutoCompleteTextView
+                    android:id="@+id/ac_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -218,11 +218,35 @@
                     android:background="@color/colorWhite"
                     android:gravity="left"
                     android:maxLength="30"
-                    android:hint="Patient Name"
+                    android:hint="Name"
                     android:inputType="textPersonName"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_space"
+                android:background="@drawable/sign_text_shape"
+                android:padding="12dp">
+                <AutoCompleteTextView
+                    android:id="@+id/ac_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:textCursorDrawable="@color/colorPrimary"
+                    android:background="@color/colorWhite"
+                    android:gravity="left"
+                    android:maxLength="10"
+                    android:hint="Mobile"
+                    android:inputType="number"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
 
             </RelativeLayout>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -264,8 +288,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:textCursorDrawable="@color/colorPrimary"
-                    android:focusableInTouchMode="true"
-                    android:background="@color/colorWhite"                    android:gravity="left"
+                    android:background="@color/colorWhite"
+                    android:gravity="left"
                     android:maxLength="2"
                     android:hint="Age"
                     android:inputType="number"

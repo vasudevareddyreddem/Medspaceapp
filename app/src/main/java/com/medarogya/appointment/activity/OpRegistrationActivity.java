@@ -13,6 +13,8 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -46,6 +48,7 @@ import com.medarogya.appointment.model.Formatter;
 import com.medarogya.appointment.model.Hospital;
 import com.medarogya.appointment.model.HospitalList;
 import com.medarogya.appointment.model.DoctorConsultFeePojo;
+import com.medarogya.appointment.model.NewPatientDetailsPojo;
 import com.medarogya.appointment.model.OnlinePaymentPojo;
 import com.medarogya.appointment.model.RegResult;
 import com.medarogya.appointment.model.Specialist;
@@ -79,8 +82,10 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
     @BindView(R.id.age)
     EditText edt_age;
 
-    @BindView(R.id.name)
-    EditText edt_name;
+    @BindView(R.id.ac_name)
+    AutoCompleteTextView ac_name;
+    @BindView(R.id.ac_mobile)
+    AutoCompleteTextView ac_mobile;
 
     @BindView(R.id.cardNum)
     EditText edt_cardNum;
@@ -154,6 +159,8 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
         btn_paynows.setOnClickListener(this);
         dateOfReg.setOnClickListener(this);
         radioGroup.setOnClickListener(this);
+        ac_name.setOnClickListener(this);
+        ac_mobile.setOnClickListener(this);
         edt_cardNum.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
             private boolean backspacingFlag = false;
             private boolean editedFlag = false;
@@ -222,11 +229,72 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
 
 
         if (isConnected()) {
+            FeatchUserDetails();
             FeatchCity();
         } else
             showToast(getString(R.string.nointernet));
 
 
+    }
+
+    private void FeatchUserDetails() {
+        String a_u_id=manager.getSingleField(SessionManager.KEY_ID);
+        Toast.makeText(this, a_u_id, Toast.LENGTH_SHORT).show();
+        String json="";
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("a_u_id",57);
+            json=jsonObject.toString();
+           } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest=null;
+        try {
+            jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, ApiUrl.NewLoginBaseUrl + ApiUrl.details, new JSONObject(json), new com.android.volley.Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Gson gson=new Gson();
+                    NewPatientDetailsPojo data=gson.fromJson(String.valueOf(response),NewPatientDetailsPojo.class);
+                    if(data.status==1)
+                    {
+                        List<String> namelist=new ArrayList<>();
+                        List<String> moblist=new ArrayList<>();
+
+
+                        for (int i = 0; i <data.details.size() ; i++) {
+                            namelist.add(data.details.get(i).patientName);
+                            moblist.add(data.details.get(i).mobileNum);
+
+                        }
+                        String[] item = namelist.toArray(new String[namelist.size()]);
+
+                        ArrayAdapter<String> adapter3 = new ArrayAdapter<String>
+                                (OpRegistrationActivity.this,android.R.layout.select_dialog_item,item);
+                        ac_name.setThreshold(1);//will start working from first character
+                        ac_name.setAdapter(adapter3);
+
+
+                        String[] item1 = moblist.toArray(new String[moblist.size()]);
+
+                        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>
+                                (OpRegistrationActivity.this,android.R.layout.select_dialog_item,item1);
+                        ac_mobile.setThreshold(1);//will start working from first character
+                        ac_mobile.setAdapter(adapter1);
+                    }
+                    else {
+                        showToast(data.message);
+                    }
+
+
+                }
+            }, error -> {
+
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestQueue queue=Volley.newRequestQueue(this);
+        queue.add(jsonObjectRequest);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -235,7 +303,7 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
                 cName = data.getStringExtra("cName");
                 cAmount = data.getStringExtra("cAmount");
                 cp_id = data.getStringExtra("cp_id");
-            Toast.makeText(this, cAmount, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, cAmount, Toast.LENGTH_SHORT).show();
                 edt_coupon_enter.setText(cName);
                 amt=Integer.parseInt(fee.consultationFee)-Integer.parseInt(cAmount);
                 txt_consultationfee.setText("Consultation fee: ₹" + amt);
@@ -693,9 +761,18 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
             showToast("no Doctor is selcted");
             return;
         }
-        String name = edt_name.getText().toString();
+        String name = ac_name.getText().toString();
         if (name == null || name.isEmpty()) {
-            edt_name.setError("Please enter Name");
+            ac_name.setError("Please enter Name");
+            return;
+        }
+        String mob = ac_mobile.getText().toString();
+        if (mob == null || mob.isEmpty()) {
+            ac_mobile.setError("Please enter Mobile No");
+            return;
+        }
+        if (mob.length()<10) {
+            ac_mobile.setError("Please enter valid Mobile No");
             return;
         }
 
@@ -735,7 +812,8 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
         appointment.setSpecialistName(spl_id);
         appointment.setDoctorName(doct_id);
 
-        appointment.setName(edt_name.getText().toString());
+        appointment.setName(ac_name.getText().toString());
+        appointment.setMobile(ac_mobile.getText().toString());
         appointment.setPatientAge(edt_age.getText().toString());
         appointment.setDate(dateOfReg.getText().toString());
         appointment.setTime(time);
