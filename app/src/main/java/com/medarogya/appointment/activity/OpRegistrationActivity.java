@@ -6,8 +6,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.util.Log;
@@ -23,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +32,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.medarogya.appointment.R;
-import com.medarogya.appointment.adapters.TagsAdapter;
 import com.medarogya.appointment.apis.ApiUrl;
 import com.medarogya.appointment.model.Appointment;
 import com.medarogya.appointment.model.City;
@@ -55,7 +51,6 @@ import com.medarogya.appointment.model.Specialist;
 import com.medarogya.appointment.model.Specialists;
 import com.medarogya.appointment.model.TimeSlot;
 import com.medarogya.appointment.model.TimeSlotlists;
-import com.medarogya.appointment.utils.MessageToast;
 import com.medarogya.appointment.utils.SessionManager;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
@@ -76,6 +71,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OpRegistrationActivity extends BaseActivity implements PaymentResultListener {
+   int b_id;
     @BindView(R.id.date_of_reg)
     EditText dateOfReg;
 
@@ -243,7 +239,7 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
         String json="";
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("a_u_id",57);
+            jsonObject.put("a_u_id",a_u_id);
             json=jsonObject.toString();
            } catch (JSONException e) {
             e.printStackTrace();
@@ -740,7 +736,7 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
     }
 
 
-    private void addAppointmentApi() {
+    private void addAppointmentApi(String onoffstatus) {
         if (city == null || city.isEmpty()) {
             showToast("no city is selected");
             return;
@@ -817,6 +813,17 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
         appointment.setPatientAge(edt_age.getText().toString());
         appointment.setDate(dateOfReg.getText().toString());
         appointment.setTime(time);
+        Log.e("==@@--",manager.getSingleField(SessionManager.KEY_ID));
+        Log.e("==@@--",city);
+        Log.e("==@@--",hos_id);
+        Log.e("==@@--",dept_id);
+        Log.e("==@@--",spl_id);
+        Log.e("==@@--",doct_id);
+        Log.e("==@@--",ac_name.getText().toString());
+        Log.e("==@@--",ac_mobile.getText().toString());
+        Log.e("==@@--",edt_age.getText().toString());
+        Log.e("==@@--",dateOfReg.getText().toString());
+        Log.e("==@@--",time);
 
 
         Call<RegResult> call = service.addAppointments(appointment, ApiUrl.content_type);
@@ -834,8 +841,13 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
                 RegResult regResult = response.body();
                 if (regResult.getStatus() == 1) {
                     Toast.makeText(OpRegistrationActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
-
-                    finish();
+                    if(onoffstatus.equals("online"))
+                    {
+                        callOnlinePayment(regResult.getB_id());}
+                    else if(onoffstatus.equals("offline"))
+                    {
+                        CallofflineApi(regResult.getB_id());
+                    }
                 } else
                     showToast(regResult.getMessage());
             }
@@ -858,13 +870,21 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
                 hideSoftKeyboard();
                 break;
             case R.id.btn_add_op:
-                addAppointment();
+                addAppointment("offline");
                 break;
             case R.id.date_of_reg:
                 showDatePicker();
                 break;
                 case R.id.btn_pay_online:
-                    callOnlinePayment();
+                    if(edt_coupon_enter.getText().equals(""))
+                    {
+                    showToast("Please select coupon");
+                    }
+                    else
+                    {
+                  //  callOnlinePayment();
+                        addAppointment("online");
+                    }
                     break;
 
         }
@@ -910,9 +930,9 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
         mDatePicker.show();
     }
 
-    private void addAppointment() {
+    private void addAppointment(String onoffstatus) {
         if (isConnected()) {
-            addAppointmentApi();
+            addAppointmentApi(onoffstatus);
         } else {
             showToast(getString(R.string.nointernet));
 
@@ -1086,7 +1106,7 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
-    public void callOnlinePayment() {
+    public void callOnlinePayment(Integer bid) {
         /**
          * You need to pass current activity in order to let Razorpay create CheckoutActivity
          */
@@ -1111,6 +1131,7 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
             preFill.put("contact", manager.getSingleField(SessionManager.KEY_NUMBER));
 
             options.put("prefill", preFill);
+            b_id=bid;
 
             co.open(activity, options);
         } catch (Exception e) {
@@ -1128,6 +1149,81 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
         CallApi(razorpayPaymentID);
     }
 
+    private void CallofflineApi(Integer b_id) {
+
+        showDialog();
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        final String UID = manager.getSingleField(SessionManager.KEY_ID);
+
+        try {
+            jsonObject.put("a_u_id", UID);
+            jsonObject.put("cp_id", "");
+            jsonObject.put("payment_type", "0");
+            jsonObject.put("payment_id", "");
+            jsonObject.put("coupon", "");
+            jsonObject.put("b_id", b_id);
+            jsonObject.put("t_amount", fee.consultationFee.toString());
+            jsonObject.put("paid_amount", "");
+            jsonObject.put("coupon_amount", "");
+
+            jsonObject.put("razorpay_payment_id", "");
+            jsonObject.put("razorpay_order_id", "");
+            jsonObject.put("razorpay_signature", "");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+        json = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = null;
+
+        try {
+
+            jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                    ApiUrl.NewLoginBaseUrl + ApiUrl.appoinmentpayments, new JSONObject(json),
+                    new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            hideDialog();
+
+                            Gson gson = new Gson();
+
+                            OnlinePaymentPojo codData = gson.fromJson(response.toString(), OnlinePaymentPojo.class);
+                            if (codData.status == 1) {
+                                finish();
+
+                                showToast("Successfully Order");
+                                amt = 0;
+                            } else {
+                                showToast("UnSuccessful Order");
+                                amt = 0;
+                            }
+                        }
+
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    amt=0;
+                    showToast(getResources().getString(R.string.serverproblem));
+
+                }
+            });
+
+            RequestQueue queue = Volley.newRequestQueue(OpRegistrationActivity.this);
+            queue.add(jsonObjReq);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            hideDialog();
+            amt = 0;
+            showToast(getResources().getString(R.string.serverproblem));
+
+        }
+
+
+    }
     private void CallApi(String razorpayPaymentID) {
 
         showDialog();
@@ -1144,6 +1240,7 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
             jsonObject.put("t_amount", fee.consultationFee.toString());
             jsonObject.put("paid_amount", amt);
             jsonObject.put("coupon_amount", cAmount);
+            jsonObject.put("b_id", b_id);
 
             jsonObject.put("razorpay_payment_id", razorpayPaymentID);
             jsonObject.put("razorpay_order_id", "");
@@ -1202,6 +1299,7 @@ public class OpRegistrationActivity extends BaseActivity implements PaymentResul
 
 
     }
+
 
     @Override
     public void onPaymentError(int code, String response) {

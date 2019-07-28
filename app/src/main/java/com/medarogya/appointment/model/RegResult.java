@@ -7,6 +7,9 @@ public class RegResult {
     @SerializedName("status")
     @Expose
     private Integer status;
+    @SerializedName("b_id")
+    @Expose
+    private Integer b_id;
     @SerializedName("a_u_id")
     @Expose
     private Integer aUId;
@@ -38,4 +41,11 @@ public class RegResult {
         this.message = message;
     }
 
+    public Integer getB_id() {
+        return b_id;
+    }
+
+    public void setB_id(Integer b_id) {
+        this.b_id = b_id;
+    }
 }

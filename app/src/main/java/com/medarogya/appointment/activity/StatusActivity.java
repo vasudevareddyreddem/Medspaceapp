@@ -75,7 +75,7 @@ public class StatusActivity extends BaseActivity implements StatusAdapter.Status
 
     private void fetchAppList(final int types) {
         JsonObject object = new JsonObject();
-        object.addProperty("a_u_id", manager.getSingleField(SessionManager.KEY_ID));
+        object.addProperty("a_u_id", 57);
         Call<StatusData> call = null;
         if (types == stausListApi) {
             call = service.appList(object, ApiUrl.content_type);

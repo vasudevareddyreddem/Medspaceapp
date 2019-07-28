@@ -29,9 +29,6 @@ public class MedICashActivity extends BaseActivity {
     @BindView(R.id.rb_lab)
     RadioButton rb_lab;
 
-
-
-
     @BindView(R.id.rb_IP)
     RadioButton rb_IP;
 
